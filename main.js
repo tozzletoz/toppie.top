@@ -102,6 +102,7 @@ for (let i = 0; i < shopitems.length; i++) {
             buysound.play()
             shopitems[i].amount+=1
             newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
+            newbutton.appendChild(icon)
             counter-=shopitems[i].price
             eval(shopitems[i].reward)
             updatediamonds()
