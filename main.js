@@ -42,18 +42,31 @@ function upddpc(){
 function updatediamonds(){
     counterdisplay.textContent = `diamonds: ${counter}`
     counterdisplay.style.fontSize = "30px"
+    counterdisplay.style.filter = "blur(3px)"
+    diamond.style.width = "180px"
 
     setTimeout(function() {
         counterdisplay.style.fontSize = "25px"
+        counterdisplay.style.filter = ""
+        diamond.style.width = "220px"
     }, 50)
 }
 
 diamond.addEventListener("click", function () {
+    clicksound.currentTime = 0
     clicksound.play()
     counter+=dpc;
     updatediamonds()
-});
+})
+
+diamond.addEventListener("mouseout", function () {
+    counterdisplay.style.fontSize = ""
+    counterdisplay.style.filter = ""
+    diamond.style.width = ""
+})
+
 function toggleshop(){
+    shopsound.currentTime = 0
     shopsound.play()
     const opacity = window.getComputedStyle(shopwindow).opacity
     const shopbtn = document.getElementById("shop")
@@ -99,6 +112,7 @@ for (let i = 0; i < shopitems.length; i++) {
     newbutton.appendChild(icon)
     newbutton.addEventListener("click", function(){
         if (counter>shopitems[i].price-1){
+            buysound.currentTime = 0
             buysound.play()
             shopitems[i].amount+=1
             newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
@@ -112,6 +126,7 @@ for (let i = 0; i < shopitems.length; i++) {
                 upddps()
             }
         } else{
+            cantbuy.currentTime = 0
             cantbuy.play()
             msg(`You need ${shopitems[i].price - counter} more diamonds.`)
         }
