@@ -48,18 +48,18 @@ body {
 }
 
 #shop {
-    width: 100px;
-    position: absolute;
-    bottom: 5px;
-    margin-bottom: 5px;
-    font-size: 24px;
-    color: #5b0000;
-    background-color: rgb(255, 84, 84);
+    color: #ffffff;
+    width: 90px;
     font-family: Arial, sans-serif;
-    border: solid 3px;
+    position: absolute;
+    background-color: rgb(255, 134, 134);
+    right: 60px;
+    top: 12px;
+    margin: 0;
     border-radius: 6px;
+    font-size: 24px;
+    border: solid 2px rgb(116, 0, 0);
     transition: all 0.3s ease;
-    box-shadow: rgba(0, 0, 0, 0.279) 0px 6px;
 }
 
 #shop:hover {
@@ -138,8 +138,16 @@ background: #b3b3b3;
   margin: 0;
   border-radius: 6px;
   font-size: 24px;
-  transition: all 0.3s ease;
   border: solid 2px rgb(116, 0, 0);
+  width: 40px;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+#mute:hover{
+  width: 48.8888888888px;
+  background-color: rgb(213, 68, 68);
+  transform: translateY(10%);
 }
 
 .shopbutton {
