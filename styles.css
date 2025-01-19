@@ -63,7 +63,7 @@ body {
   color: #ffffff;
   width: 90px;
   top: 12px;
-  right: 2.5%;
+  margin-right: -1700px;
   transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
 }
 
@@ -74,8 +74,8 @@ body {
 }
 
 #mute {
-  right: 0;
   top: 12px;
+  margin-right: -1850px;
   width: 40px;
 }
 
