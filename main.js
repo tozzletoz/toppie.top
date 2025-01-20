@@ -56,6 +56,7 @@ diamond.addEventListener("click", function () {
     clicksound.play()
     counter+=dpc;
     updatediamonds()
+    save()
 })
 
 diamond.addEventListener("mouseout", function () {
@@ -83,55 +84,6 @@ function toggleshop(){
         shopwindow.style.visibility="hidden"
         shopbtn.textContent = "shop"
     }
-}
-shopitems = [
-    {img: "assets/icons/pickaxe.png", desc: "+1 diamond per click", price: 50, reward: "dpc+=1", amount: 0, type: 0},
-    {img: "assets/icons/minecart.png", desc: "+1 diamond per second", price: 100, reward: "dps+=1", amount: 0, type: 1},
-    {img: "assets/icons/drill.png", desc: "+5 diamonds per click", price: 200, reward: "dpc+=5", amount: 0, type: 0},
-    {img: "assets/icons/excavator.webp", desc: "+5 diamonds per second", price: 450, reward: "dps+=5", amount: 0, type: 1},
-    {img: "assets/icons/chest.png", desc: "+25 diamonds per click", price: 1100, reward: "dpc+=25", amount: 0, type: 0},
-    {img: "assets/icons/rain.png", desc: "+25 diamonds per second", price: 2300, reward: "dps+=25", amount: 0, type: 1},
-    {img: "assets/icons/ship.png", desc: "+100 diamonds per click", price: 4500, reward: "dpc+=100", amount: 0, type: 0},
-    {img: "assets/icons/mine.png", desc: "+100 diamonds per second", price: 9000, reward: "dps+=100", amount: 0, type: 1},
-    {img: "assets/icons/planet.png", desc: "+1000 diamonds per click", price: 45000, reward: "dpc+=1000", amount: 0, type: 0}
-]
-
-for (let i = 0; i < shopitems.length; i++) {
-    let newbutton = document.createElement("div")
-    if (shopitems[i].type==0){
-        newbutton.style.backgroundColor = "rgb(255, 84, 84)"
-    } else{
-        newbutton.style.backgroundColor = "rgb(84, 127, 255)"
-    }
-    newbutton.className = "shopbutton"
-    newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
-    let icon = document.createElement("img")
-    icon.src = shopitems[i].img
-    icon.className = "shopicons"
-    newbutton.appendChild(icon)
-    newbutton.addEventListener("click", function(){
-        if (counter>shopitems[i].price-1){
-            buysound.currentTime = 0
-            buysound.play()
-            shopitems[i].amount+=1
-            newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
-            newbutton.appendChild(icon)
-            counter-=shopitems[i].price
-            eval(shopitems[i].reward)
-            updatediamonds()
-            if (shopitems[i].type == 0){
-                upddpc()
-            } else {
-                upddps()
-            }
-        } else{
-            cantbuy.currentTime = 0
-            cantbuy.play()
-            msg(`You need ${shopitems[i].price - counter} more diamonds.`)
-        }
-    })
-
-    shopwindow.appendChild(newbutton)
 }
 
 setInterval(adddps, 1000)
@@ -216,3 +168,60 @@ mutebtn.addEventListener("click", function(){
         muted = false
     }
 })
+
+function save() {
+    localStorage.setItem("counter", counter)
+    localStorage.setItem("dps", dps)
+    localStorage.setItem("dpc", dpc)
+    localStorage.setItem("shopitems", JSON.stringify(shopitems))
+}
+
+function init(){
+    counter = parseInt(localStorage.getItem("counter")) || 0
+    dps = parseInt(localStorage.getItem("dps")) || 0
+    dpc = parseInt(localStorage.getItem("dpc")) || 1
+
+    shopitems = JSON.parse(localStorage.getItem("shopitems")) || [{img: "assets/icons/pickaxe.png", desc: "+1 diamond per click", price: 50, reward: "dpc+=1", amount: 0, type: 0},{img: "assets/icons/minecart.png", desc: "+1 diamond per second", price: 100, reward: "dps+=1", amount: 0, type: 1},{img: "assets/icons/drill.png", desc: "+5 diamonds per click", price: 200, reward: "dpc+=5", amount: 0, type: 0},{img: "assets/icons/excavator.webp", desc: "+5 diamonds per second", price: 450, reward: "dps+=5", amount: 0, type: 1},{img: "assets/icons/chest.png", desc: "+25 diamonds per click", price: 1100, reward: "dpc+=25", amount: 0, type: 0},{img: "assets/icons/rain.png", desc: "+25 diamonds per second", price: 2300, reward: "dps+=25", amount: 0, type: 1},{img: "assets/icons/ship.png", desc: "+100 diamonds per click", price: 4500, reward: "dpc+=100", amount: 0, type: 0},{img: "assets/icons/mine.png", desc: "+100 diamonds per second", price: 9000, reward: "dps+=100", amount: 0, type: 1},{img: "assets/icons/planet.png", desc: "+1000 diamonds per click", price: 45000, reward: "dpc+=1000", amount: 0, type: 0}]
+    updatediamonds(); upddpc(); upddps()
+
+    for (let i = 0; i < shopitems.length; i++) {
+        let newbutton = document.createElement("div")
+        if (shopitems[i].type==0){
+            newbutton.style.backgroundColor = "rgb(255, 84, 84)"
+        } else{
+            newbutton.style.backgroundColor = "rgb(84, 127, 255)"
+        }
+        newbutton.className = "shopbutton"
+        newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
+        let icon = document.createElement("img")
+        icon.src = shopitems[i].img
+        icon.className = "shopicons"
+        newbutton.appendChild(icon)
+        newbutton.addEventListener("click", function(){
+            if (counter>shopitems[i].price-1){
+                buysound.currentTime = 0
+                buysound.play()
+                shopitems[i].amount+=1
+                newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
+                newbutton.appendChild(icon)
+                counter-=shopitems[i].price
+                eval(shopitems[i].reward)
+                updatediamonds()
+                if (shopitems[i].type == 0){
+                    upddpc()
+                } else {
+                    upddps()
+                }
+                save()
+            } else{
+                cantbuy.currentTime = 0
+                cantbuy.play()
+                msg(`You need ${shopitems[i].price - counter} more diamonds.`)
+            }
+        })
+
+        shopwindow.appendChild(newbutton)
+    }
+}
+
+init()
