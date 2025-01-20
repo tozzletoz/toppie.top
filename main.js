@@ -42,7 +42,6 @@ function upddpc(){
 function updatediamonds(){
     counterdisplay.textContent = `diamonds: ${counter}`
     counterdisplay.style.fontSize = "30px"
-    counterdisplay.style.filter = "blur(3px)"
     diamond.style.width = "180px"
 
     setTimeout(function() {
