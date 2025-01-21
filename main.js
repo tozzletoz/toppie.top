@@ -2,17 +2,68 @@ let counter = 0
 const counterdisplay = document.getElementById("h1counter")
 const diamond = document.getElementById("diamond")
 const shopwindow = document.getElementById("shopwindow")
+const rebirthwind = document.getElementById("rebirthwind")
+const y_nwindow = document.getElementById("y_nwindow")
+
+let rebirths = parseInt(localStorage.getItem("rebirths") || 0)
+let rebcounter = document.getElementById("rebdisplay")
+rebcounter.textContent = `rebirths: ${rebirths}`
+
+const rebnow = document.createElement("button")
+rebnow.id = "rebnow"
+rebnow.style.backgroundColor = "rgb(255, 252, 84)"
+rebnow.textContent = `rebirth now (costs 💎${(rebirths*500000)+500000})`
+
+let multiplier = (rebirths/2)+1
+
+let multiplierdisplay = document.getElementById("multiplier")
+multiplierdisplay.textContent = `multiplier: ${multiplier}.0`
+console.log(rebirths)
+
+const rebtxt = document.createElement("span")
+rebtxt.textContent = "Rebirthing resets your progress but grants nice bonuses, like a diamond multiplier. This helps you progress faster in future runs, making each rebirth a step toward greater strength."
+rebtxt.id = "rebtxt"
+rebirthwind.appendChild(rebtxt)
+rebirthwind.appendChild(rebnow)
+
+const yes = document.createElement("button")
+yes.textContent = "yes"
+yes.id = "yes"
+yes.style.backgroundColor = "rgb(175, 253, 73)"
+
+const no = document.createElement("button")
+no.textContent = "no"
+no.id = "no"
+no.style.backgroundColor = "rgb(253, 100, 73)"
+
+const resettxt = document.createElement("span")
+resettxt.textContent = "This will delete all of your progress, are you sure?"
+resettxt.id = "resettxt"
+
+y_nwindow.appendChild(resettxt)
+y_nwindow.appendChild(no)
+y_nwindow.appendChild(yes)
+
+let price = parseInt(10 * Math.pow(2, rebirths));
+
+rebnow.textContent = `rebirth now (costs 💎${price})`
+
 var dpc = 1
 var dps = 0
+
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault()
+  })
 
 const clicksound = new Audio("assets/sounds/click.wav")
 const buysound = new Audio("assets/sounds/buy.wav")
 const shopsound = new Audio("assets/sounds/shop.wav")
 const cantbuy = new Audio("assets/sounds/nobuy.wav")
 const goldenfx = new Audio("assets/sounds/golden.wav")
-const bgm = new Audio("assets/sounds/bgm.mp3")
+const bgm = new Audio("assets/sounds/bgm2.mp3")
 bgm.volume = 0.7
 bgm.loop = true
+var shopopen = false
 
 function msg(message){
     alert(message)
@@ -40,9 +91,10 @@ function upddpc(){
 }
 
 function updatediamonds(){
-    counterdisplay.textContent = `diamonds: ${counter}`
+    counterdisplay.textContent = `diamonds: ${Math.round(counter)}`
     counterdisplay.style.fontSize = "30px"
     diamond.style.width = "180px"
+    save()
 
     setTimeout(function() {
         counterdisplay.style.fontSize = "25px"
@@ -54,9 +106,8 @@ function updatediamonds(){
 diamond.addEventListener("click", function () {
     clicksound.currentTime = 0
     clicksound.play()
-    counter+=dpc;
+    counter+=dpc*multiplier;
     updatediamonds()
-    save()
 })
 
 diamond.addEventListener("mouseout", function () {
@@ -68,9 +119,16 @@ diamond.addEventListener("mouseout", function () {
 function toggleshop(){
     shopsound.currentTime = 0
     shopsound.play()
+    if (rebopen==true){
+        openrebs()
+    }
+    if (ynopen==true){
+        resetyn()
+    }
     const opacity = window.getComputedStyle(shopwindow).opacity
     const shopbtn = document.getElementById("shop")
     if (opacity=="0"){
+        shopopen = true
         shopwindow.style.transform= "translate(-50%, -50%) scale(1)"
         shopwindow.style.opacity="1"
         shopwindow.style.pointerEvents="auto"
@@ -78,6 +136,7 @@ function toggleshop(){
         shopbtn.textContent = "×"
     }
     else if (opacity=="1"){
+        shopopen = false
         shopwindow.style.transform= "translate(-50%, -50%) scale(0.75)"
         shopwindow.style.pointerEvents="none"
         shopwindow.style.opacity="0"
@@ -90,7 +149,7 @@ setInterval(adddps, 1000)
 
 function adddps() {
     const oldcounter = counter
-    counter += dps
+    counter += dps*multiplier
     if (oldcounter!==counter) {
         updatediamonds()
     }
@@ -140,7 +199,6 @@ function spawngoldendiamond() {
 
 function generateinterval() {
     let randomnumb = Math.floor(Math.random() * (240000 - 180000 + 1)) + 180000
-    console.log(randomnumb)
     
     setTimeout(function() {
         generateinterval()
@@ -152,9 +210,10 @@ generateinterval()
 
 const mutebtn = document.getElementById("mute")
 
-var muted = true
+let muted = localStorage.getItem("muted") || true
+console.log(muted)
 
-mutebtn.addEventListener("click", function(){
+function playbgm(){
     bgm.play()
     img = mutebtn.querySelector("img")
 
@@ -167,13 +226,22 @@ mutebtn.addEventListener("click", function(){
         img.src = "assets/icons/unmute.svg"
         muted = false
     }
+}
+
+mutebtn.addEventListener("click", function(){
+    playbgm()
+    save()
 })
 
 function save() {
+    localStorage.setItem("muted", muted)
+    localStorage.setItem("multiplier", multiplier)
+    localStorage.setItem("rebirths", rebirths)
     localStorage.setItem("counter", counter)
     localStorage.setItem("dps", dps)
     localStorage.setItem("dpc", dpc)
     localStorage.setItem("shopitems", JSON.stringify(shopitems))
+    console.log(localStorage.getItem("muted"))
 }
 
 function init(){
@@ -225,3 +293,102 @@ function init(){
 }
 
 init()
+
+var rebopen = false
+//rebirths
+function openrebs(){
+    let price = parseInt(10 * Math.pow(2, rebirths));
+    console.log(price)
+    rebnow.textContent = `rebirth now (costs 💎${price})`
+    if (shopopen==true){
+        toggleshop()
+    }
+    if (ynopen==true){
+        resetyn()
+    }
+    shopsound.currentTime = 0
+    shopsound.play()
+    const opacity = window.getComputedStyle(rebirthwind).opacity
+    const rebbtn = document.getElementById("rebirth")
+    if (opacity=="0"){
+        rebopen = true
+        rebirthwind.style.transform= "translate(-50%, -50%) scale(1)"
+        rebirthwind.style.opacity="1"
+        rebirthwind.style.pointerEvents="auto"
+        rebirthwind.style.visibility="visible"
+        rebbtn.textContent = "×"
+    }
+    else if (opacity=="1"){
+        rebopen = false
+        rebirthwind.style.transform= "translate(-50%, -50%) scale(0.75)"
+        rebirthwind.style.pointerEvents="none"
+        rebirthwind.style.opacity="0"
+        rebirthwind.style.visibility="hidden"
+        rebbtn.textContent = "rebirth"
+    }
+}
+
+
+rebnow.addEventListener("click", function(){
+    let price = parseInt(10 * Math.pow(2, rebirths));
+    rebnow.textContent = `rebirth now (costs 💎${price})`
+
+    if (counter >= price){
+        openrebs()
+        dpc = 1
+        dps = 0
+        counter = 0 
+        rebirths+=1
+        multiplier=(rebirths/2)+1
+        multipliercounter = multiplier.toFixed(1)
+        rebnow.textContent = `rebirth now (costs 💎${price})`
+        rebcounter.textContent = `rebirths: ${rebirths}`
+        multiplierdisplay.textContent = `multiplier: ${multipliercounter}`
+        updatediamonds()
+        upddpc()
+        upddps()
+        save()
+    }else{
+        msg(`You need ${price - Math.round(counter)} more diamonds.`)
+    }
+})
+
+let ynopen = false
+
+function resetyn(){
+    if (shopopen==true){
+        toggleshop()
+    }
+    if (rebopen==true){
+        openrebs()
+    }
+    shopsound.currentTime = 0
+    shopsound.play()
+    const opacity = window.getComputedStyle(y_nwindow).opacity
+    const resetbtn = document.getElementById("reset")
+    if (opacity=="0"){
+        ynopen = true
+        y_nwindow.style.transform= "translate(-50%, -50%) scale(1)"
+        y_nwindow.style.opacity="1"
+        y_nwindow.style.pointerEvents="auto"
+        y_nwindow.style.visibility="visible"
+        resetbtn.textContent = "×"
+    }
+    else if (opacity=="1"){
+        ynopen = false
+        y_nwindow.style.transform= "translate(-50%, -50%) scale(0.75)"
+        y_nwindow.style.pointerEvents="none"
+        y_nwindow.style.opacity="0"
+        y_nwindow.style.visibility="hidden"
+        resetbtn.textContent = "delete data"
+    }
+}
+
+yes.addEventListener("click", function(){
+    localStorage.clear()
+    window.location.reload(true)
+})
+
+no.addEventListener("click", function() {
+    resetyn()
+})
