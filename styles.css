@@ -1,174 +1,263 @@
 body {
-  background-color: rgb(252, 184, 184);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  overflow: hidden;
-  user-select: none;
-  font-family: Arial, sans-serif;
-}
-
-#diamond {
-  width: 220px;
-  margin-top: 20px;
-  transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
-  animation: womp 3s infinite alternate;
-  z-index: 9999;
-  -webkit-user-drag: none;
-}
-
-#diamond:hover {
-  width: 230px;
-  filter: brightness(1.5);
-}
-
-#h1counter,
-#dpcdisplay,
-#dpsdisplay {
-  position: absolute;
-  left: 10px;
-  margin: 0;
-  font-size: 24px;
-  color: #5b0000;
-  text-shadow: rgba(0, 0, 0, 0.15) 2px 2px;
-}
-
-#h1counter {
-  top: 10px;
-}
-
-#dpcdisplay {
-  top: 40px;
-}
-
-#dpsdisplay {
-  top: 70px;
-}
-
-#h1counter,
-#dpcdisplay,
-#dpsdisplay {
-  transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
-}
-
-#shop,
-#mute {
-  position: absolute;
-  bottom: 20px;
-  padding: 0.5em;
-  border-radius: 6px;
-  font-size: 24px;
-  background-color: rgb(255, 134, 134);
-  border: 2px solid rgb(116, 0, 0);
-  transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
-}
-
-#shop {
-  color: #ffffff;
-  width: 90px;
-  right: 60px;
-}
-
-#mute {
-  width: 40px;
-  right: 10px;
-}
-
-#shop:hover,
-#mute:hover {
-  background-color: rgb(213, 68, 68);
-  transform: scale(1.1);
-}
-
-#shopwindow {
-  background-color: white;
-  width: 300px;
-  height: 200px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  visibility: hidden;
-  transform: translate(-50%, -50%) scale(0);
-  z-index: 99999;
-  box-shadow: rgba(0, 0, 0, 0.3) 5px 5px;
-  border: solid 3px;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
-  opacity: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  overflow-y: auto;
-}
-
-.shopbutton {
-  width: 95%;
-  height: 55px;
-  font-size: 15px;
-  color: #000000;
-  font-family: Arial, sans-serif;
-  border: solid 3px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  margin-bottom: 10px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px;
-  display: flex;
-  align-items: center;
-  text-align: left;
-  padding-left: 5px;
-}
-
-.shopbutton:hover {
-  transform: translateY(5%);
-}
-
-.shopbutton .shopicons {
-  width: 40px;
-  margin-right: 5px;
-}
-
-#pin {
-  width: 1500px;
-  position: fixed;
-  animation: spin 7s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+    background-color: rgb(252, 184, 184);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    user-select: none;
   }
 
-  to {
-    transform: rotate(360deg);
+  #diamond {
+    width: 220px;
+    height: auto;
+    margin-top: 20px;
+    transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
+    animation: womp 3s infinite alternate;
+    z-index: 9999;
+    -webkit-user-drag: none;
   }
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #dddddd;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgb(205, 205, 205);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #b3b3b3;
-}
-
-@keyframes womp {
-  from {
-    transform: rotate(-10deg);
+  
+  #diamond:hover {
+    width: 230px;
+    filter: brightness(1.5);
+  }
+  
+  #h1counter,
+  #dpcdisplay,
+  #dpsdisplay,
+  #rebdisplay,
+  #multiplier {
+    position: absolute;
+    left: 10px;
+    margin: 0;
+    font-size: 24px;
+    color: #5b0000;
+    text-shadow: rgba(0, 0, 0, 0.15) 2px 2px;
+  }
+  
+  #h1counter {
+    top: 10px;
+  }
+  
+  #dpcdisplay {
+    top: 40px;
+  }
+  
+  #dpsdisplay {
+    top: 70px;
   }
 
-  to {
-    transform: rotate(10deg);
+  #rebdisplay {
+    top: 100px;
   }
+
+  #multiplier {
+    top: 130px;
+  }
+  
+  #h1counter,
+  #dpcdisplay,
+  #dpsdisplay
+  #rebdisplay,
+  #multiplier {
+    transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
+  }
+  
+  #reset,
+  #rebirth,
+  #shop,
+  #mute {
+    position: absolute;
+    bottom: 10px;
+    height: 7.5vh;
+    border-radius: 6px;
+    font-size: 24px;
+    background-color: rgb(255, 134, 134);
+    border: 2px solid rgb(116, 0, 0);
+    transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
+  }
+  
+  #reset{
+    color: #ffffff;
+    width: 140px;
+    left: 10px;
+  }
+
+  #rebirth{
+    color: #ffffff;
+    width: 90px;
+    right: 160px;
+  }
+
+  #shop  {
+    color: #ffffff;
+    width: 90px;
+    right: 60px;
+  }
+  
+  #mute {
+    width: 40px;
+    right: 10px;
+  }
+  
+  #yes {
+    color: #ffffff;
+    width: 40px;
+    right: 10px;
+  }
+
+  #no {
+    color: #ffffff;
+    width: 40px;
+    right: 10px;
+  }
+  
+  #reset:hover,
+  #rebirth:hover,
+  #shop:hover,
+  #mute:hover {
+    background-color: rgb(213, 68, 68);
+    transform: scale(1.1);
+  }
+  
+  #y_nwindow,
+  #rebirthwind,
+  #shopwindow {
+    background-color: white;
+    width: 300px;
+    height: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 99999;
+    box-shadow: rgba(0, 0, 0, 0.3) 5px 5px;
+    border: solid 3px;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  
+  #no,
+  #yes,
+  #rebnow,
+  .shopbutton {
+    width: 95%;
+    height: 55px;
+    font-size: 15px;
+    color: #000000;
+    border: solid 3px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding-left: 5px;
+  }
+    .shopbutton:hover,
+    #rebnow:hover,
+    #no:hover,
+    #yes:hover {
+    transform: translateY(5%);
+  }
+  
+  .shopbutton .shopicons {
+    width: 40px;
+    margin-right: 5px;
+  }
+  
+  #pin {
+    width: 1500px;
+    position: fixed;
+    -webkit-user-drag: none;
+    animation: spin 7s linear infinite;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #dddddd;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgb(205, 205, 205);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+  }
+  
+  @keyframes womp {
+    from {
+      transform: rotate(-10deg);
+    }
+  
+    to {
+      transform: rotate(10deg);
+    }
+  }
+  
+*{
+    font-family: "Lilita One", serif;
+  }
+
+  #rebnow {
+    position: fixed;
+    bottom: 5px;
+    justify-content: center;
+}
+
+#rebtxt #resettxt{
+    background-color: rgb(238, 238, 238);
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+#no {
+    position: fixed;
+    bottom: 5px;
+    justify-content: center;
+}
+
+#yes {
+    position: fixed;
+    bottom: 70px;
+    justify-content: center;
+}
+
+#reset{
+    background-color: rgba(0, 0, 0, 0.169);
+    border: solid 2px rgba(0, 0, 0, 0.151);
+    color: rgba(255, 255, 255, 0.235)
+}
+
+#reset:hover{
+    transform: translateY(5%);
+    background-color: rgba(0, 0, 0, 0.317);
 }
