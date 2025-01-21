@@ -17,7 +17,7 @@ rebnow.textContent = `rebirth now (costs 💎${(rebirths*500000)+500000})`
 let multiplier = (rebirths/2)+1
 
 let multiplierdisplay = document.getElementById("multiplier")
-multiplierdisplay.textContent = `multiplier: ${multiplier}.0`
+multiplierdisplay.textContent = `multiplier: ${multiplier}`
 console.log(rebirths)
 
 const rebtxt = document.createElement("span")
