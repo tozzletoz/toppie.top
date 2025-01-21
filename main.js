@@ -44,7 +44,7 @@ y_nwindow.appendChild(resettxt)
 y_nwindow.appendChild(no)
 y_nwindow.appendChild(yes)
 
-let price = parseInt(10 * Math.pow(2, rebirths));
+let price = parseInt(1000000 * Math.pow(2, rebirths));
 
 rebnow.textContent = `rebirth now (costs 💎${price})`
 
@@ -297,7 +297,7 @@ init()
 var rebopen = false
 //rebirths
 function openrebs(){
-    let price = parseInt(10 * Math.pow(2, rebirths));
+    let price = parseInt(1000000 * Math.pow(2, rebirths));
     console.log(price)
     rebnow.textContent = `rebirth now (costs 💎${price})`
     if (shopopen==true){
@@ -330,7 +330,7 @@ function openrebs(){
 
 
 rebnow.addEventListener("click", function(){
-    let price = parseInt(10 * Math.pow(2, rebirths));
+    let price = parseInt(1000000 * Math.pow(2, rebirths));
     rebnow.textContent = `rebirth now (costs 💎${price})`
 
     if (counter >= price){
