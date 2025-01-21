@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles2.css">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diamond Clicker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Lilita+One&family=Macondo&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/icons/diamond.png" type="image/x-icon">
 </head>
 <body>
     <img id="pin" src="assets/icons/pin.svg" alt="">
@@ -12,9 +16,16 @@
     <h1 id="h1counter">diamonds: 0</h1>
     <h1 id="dpcdisplay">diamonds per click: 1</h1>
     <h1 id="dpsdisplay">diamonds per second: 0</h1>
+    <h1 id="rebdisplay">rebirths: 0</h1>
+    <h1 id="multiplier">multiplier: 1</h1>
     <button id="mute"><img src="assets/icons/mute.svg" /></button>
     <button onclick="toggleshop()" id="shop">shop</button>
+    <button id="rebirth" onclick="openrebs()">rebirth</button>
+    <button id="reset" onclick="resetyn()">delete data</button>
     <div id="shopwindow">
     </div>
-<script src="main.js"></script>
+    <div id="rebirthwind">
+    </div>
+    <div id="y_nwindow"></div>
+<script src="main2.js"></script>
 </body>
