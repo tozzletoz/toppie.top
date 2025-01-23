@@ -65,6 +65,8 @@ body {
     transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
   }
   
+  #usernameinp,
+  #leaderboard,
   #reset,
   #rebirth,
   #shop,
@@ -113,7 +115,26 @@ body {
     width: 40px;
     right: 10px;
   }
+
+  #leaderboard{
+    color: #ffffff;
+    width: 150px;
+    right: 260px;
+  }
+
+  #usernameinp{
+    color: #ffffff;
+    width: 150px;
+    height: 38px;
+    right: 420px;
+  }
+
+  #usernameinp::placeholder{
+    color: #ffffff84
+  }
   
+  #usernameinp:hover,
+  #leaderboard:hover,
   #reset:hover,
   #rebirth:hover,
   #shop:hover,
@@ -122,6 +143,7 @@ body {
     transform: scale(1.1);
   }
   
+  #leaderboardholder,
   #y_nwindow,
   #rebirthwind,
   #shopwindow {
@@ -258,6 +280,5 @@ body {
 }
 
 #reset:hover{
-    transform: translateY(5%);
     background-color: rgba(0, 0, 0, 0.317);
 }
