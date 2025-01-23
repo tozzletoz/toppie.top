@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles2.css">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,11 +21,16 @@
     <button id="mute"><img src="assets/icons/mute.svg" /></button>
     <button onclick="toggleshop()" id="shop">shop</button>
     <button id="rebirth" onclick="openrebs()">rebirth</button>
+    <button id="leaderboard" onclick="toggleleaderboard()">leaderboard</button>
     <button id="reset" onclick="resetyn()">delete data</button>
+    <input type="text" id="usernameinp" name="name" placeholder="username...">
     <div id="shopwindow">
     </div>
     <div id="rebirthwind">
     </div>
+    <div id="leaderboardholder">
+    </div>
     <div id="y_nwindow"></div>
-<script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="main2.js"></script>
 </body>
