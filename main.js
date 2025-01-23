@@ -1,9 +1,10 @@
-let counter = 0
 const counterdisplay = document.getElementById("h1counter")
 const diamond = document.getElementById("diamond")
 const shopwindow = document.getElementById("shopwindow")
 const rebirthwind = document.getElementById("rebirthwind")
 const y_nwindow = document.getElementById("y_nwindow")
+
+let username = (localStorage.getItem("username") || null)
 
 let rebirths = parseInt(localStorage.getItem("rebirths") || 0)
 let rebcounter = document.getElementById("rebdisplay")
@@ -17,8 +18,7 @@ rebnow.textContent = `rebirth now (costs 💎${(rebirths*500000)+500000})`
 let multiplier = (rebirths/2)+1
 
 let multiplierdisplay = document.getElementById("multiplier")
-multiplierdisplay.textContent = `multiplier: ${multiplier}`
-console.log(rebirths)
+multiplierdisplay.textContent = `multiplier: ${multiplier}.0`
 
 const rebtxt = document.createElement("span")
 rebtxt.textContent = "Rebirthing resets your progress but grants nice bonuses, like a diamond multiplier. This helps you progress faster in future runs, making each rebirth a step toward greater strength."
@@ -125,6 +125,9 @@ function toggleshop(){
     if (ynopen==true){
         resetyn()
     }
+    if (leaderboardopen==true){
+        toggleleaderboard()
+    }
     const opacity = window.getComputedStyle(shopwindow).opacity
     const shopbtn = document.getElementById("shop")
     if (opacity=="0"){
@@ -211,7 +214,6 @@ generateinterval()
 const mutebtn = document.getElementById("mute")
 
 let muted = localStorage.getItem("muted") || true
-console.log(muted)
 
 function playbgm(){
     bgm.play()
@@ -241,7 +243,6 @@ function save() {
     localStorage.setItem("dps", dps)
     localStorage.setItem("dpc", dpc)
     localStorage.setItem("shopitems", JSON.stringify(shopitems))
-    console.log(localStorage.getItem("muted"))
 }
 
 function init(){
@@ -298,13 +299,15 @@ var rebopen = false
 //rebirths
 function openrebs(){
     let price = parseInt(1000000 * Math.pow(2, rebirths));
-    console.log(price)
     rebnow.textContent = `rebirth now (costs 💎${price})`
     if (shopopen==true){
         toggleshop()
     }
     if (ynopen==true){
         resetyn()
+    }
+    if (leaderboardopen==true){
+        toggleleaderboard()
     }
     shopsound.currentTime = 0
     shopsound.play()
@@ -353,7 +356,7 @@ rebnow.addEventListener("click", function(){
     }
 })
 
-let ynopen = false
+var ynopen = false
 
 function resetyn(){
     if (shopopen==true){
@@ -361,6 +364,9 @@ function resetyn(){
     }
     if (rebopen==true){
         openrebs()
+    }
+    if (leaderboardopen==true){
+        toggleleaderboard()
     }
     shopsound.currentTime = 0
     shopsound.play()
@@ -392,3 +398,109 @@ yes.addEventListener("click", function(){
 no.addEventListener("click", function() {
     resetyn()
 })
+
+leaderboardopen = false
+const leaderboardholder = document.getElementById("leaderboardholder")
+
+async function load_lb() {
+    leaderboardholder.innerHTML = ""
+    const leaderboarddata = await get_lb()
+    let sorted = Object.entries(leaderboarddata)
+
+    sorted.sort((a, b) => b[1] - a[1])
+
+    if (leaderboarddata) {
+        sorted.forEach(([key, value]) => {
+            let leaderboard_i = document.createElement("button")
+            leaderboard_i.textContent = `${key}: ${value}`
+
+            leaderboardholder.appendChild(leaderboard_i)
+        })
+    } else {
+        let leaderboard_i = document.createElement("button")
+        leaderboard_i.textContent = "Loading..."
+        leaderboardholder.appendChild(leaderboard_i)
+    }
+}
+
+function toggleleaderboard(){
+    load_lb()
+    if (shopopen==true){
+        toggleshop()
+    }
+    if (rebopen==true){
+        openrebs()
+    }
+    if (ynopen==true){
+        resetyn()
+    }
+    shopsound.currentTime = 0
+    shopsound.play()
+    const opacity = window.getComputedStyle(leaderboardholder).opacity
+    const leaderboardbtn = document.getElementById("leaderboard")
+    if (opacity=="0"){
+        leaderboardopen = true
+        leaderboardholder.style.transform= "translate(-50%, -50%) scale(1)"
+        leaderboardholder.style.opacity="1"
+        leaderboardholder.style.pointerEvents="auto"
+        leaderboardholder.style.visibility="visible"
+        leaderboardbtn.textContent = "×"
+    }
+    else if (opacity=="1"){
+        leaderboardopen = false
+        leaderboardholder.style.transform= "translate(-50%, -50%) scale(0.75)"
+        leaderboardholder.style.pointerEvents="none"
+        leaderboardholder.style.opacity="0"
+        leaderboardholder.style.visibility="hidden"
+        leaderboardbtn.textContent = "leaderboard"
+    }
+}
+
+
+// LEADERBOARD
+const usernameinp = document.getElementById("usernameinp")
+if (username !== null){
+    usernameinp.remove()
+}
+
+usernameinp.addEventListener("change", function(event){
+    username = event.target.value
+    localStorage.setItem("username", username)
+    save()
+    usernameinp.remove()
+})
+
+function saveto_lb() {
+    const url = "https://api.npoint.io/5accda10b85caaa660a5"
+
+    get_lb().then(data => {
+        data[`${username}`] = rebirths
+
+        axios.post(url, data)
+            .then(response => {
+            })
+            .catch(error => {
+                console.error("Error posting data:", error)
+            })
+    }).catch(error => {
+        console.error("Error fetching data:", error)
+    })
+}
+
+async function get_lb() {
+    const url = "https://api.npoint.io/5accda10b85caaa660a5"
+
+    try {
+        const response = await axios.get(url)
+        return response.data
+    } catch (error) {
+        console.error(error)
+        return null
+    }
+}
+
+setInterval(function() {
+    if (username !== null){
+        saveto_lb()
+    }
+}, 3000)
