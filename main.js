@@ -9,7 +9,6 @@ const displaysynced = document.getElementById("synced")
 displaysynced.textContent = `synced: ${synced}`
 
 let username = (localStorage.getItem("username") || null)
-console.log(username)
 
 const undisplay = document.getElementById("undisplay")
 
@@ -403,9 +402,13 @@ function resetyn(){
     }
 }
 
-yes.addEventListener("click", function(){
+function clearls(){
     localStorage.clear()
     window.location.reload(true)
+}
+
+yes.addEventListener("click", function(){
+    clearls()
 })
 
 no.addEventListener("click", function() {
@@ -480,7 +483,6 @@ function toggleleaderboard(){
 if (username == null) {
     getuser().then(userData => {
         username = userData
-        console.log(username)
         undisplay.textContent = `username: ${username}`
         save()
     })
@@ -511,7 +513,6 @@ async function get_lb() {
 }
 
 setInterval(function() {
-    console.log(username)
     if (username !== null){
         saveto_lb()
         synced = true
