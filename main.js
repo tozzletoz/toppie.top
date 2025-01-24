@@ -363,7 +363,7 @@ rebnow.addEventListener("click", function(){
     let price = parseInt(1000000 * Math.pow(2, rebirths));
     rebnow.textContent = `rebirth now (costs 💎${price})`
 
-    if (0==0){
+    if (counter >= price){
         shopsound.volume = 0
         openrebs()
         rebirthsound.currentTime = 0
