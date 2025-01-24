@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(252, 184, 184);
+    background-color: rgb(184, 211, 252);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,6 +24,7 @@ body {
     filter: brightness(1.5);
   }
   
+  #undisplay,
   #h1counter,
   #dpcdisplay,
   #dpsdisplay,
@@ -33,7 +34,7 @@ body {
     left: 10px;
     margin: 0;
     font-size: 24px;
-    color: #5b0000;
+    color: #002f5b;
     text-shadow: rgba(0, 0, 0, 0.15) 2px 2px;
   }
   
@@ -56,7 +57,12 @@ body {
   #multiplier {
     top: 130px;
   }
+
+  #undisplay {
+    top: 160px;
+  }
   
+  #undisplay,
   #h1counter,
   #dpcdisplay,
   #dpsdisplay
@@ -76,8 +82,8 @@ body {
     height: 7.5vh;
     border-radius: 6px;
     font-size: 24px;
-    background-color: rgb(255, 134, 134);
-    border: 2px solid rgb(116, 0, 0);
+    background-color: rgb(134, 164, 255);
+    border: 2px solid rgb(0, 10, 116);
     transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
   }
   
@@ -139,7 +145,7 @@ body {
   #rebirth:hover,
   #shop:hover,
   #mute:hover {
-    background-color: rgb(213, 68, 68);
+    background-color: rgb(68, 75, 213);
     transform: scale(1.1);
   }
   
@@ -281,4 +287,49 @@ body {
 
 #reset:hover{
     background-color: rgba(0, 0, 0, 0.317);
+}
+
+#leaderboardholder {
+  line-height: 1;
+}
+
+#datainlb {
+  color: rgb(0, 0, 0);
+  font-size: 15px;
+  background-color: rgb(243, 243, 243);
+  text-align: center;
+  width: 85%;
+  height: 18px;
+  line-height: 15px;
+  border-radius: 12px;
+  border: solid 2px rgb(220, 220, 220);
+  margin-bottom: 5px;
+}
+
+#title {
+  top: 5px;
+  color: rgb(0, 0, 0);
+  font-size: 22px;
+  background-color: rgb(238, 227, 127);
+  text-align: center;
+  width: 85%;
+  height: 50px;
+  line-height: 24px;
+  border-radius: 12px;
+  border: solid 2px rgb(209, 199, 112);
+  margin-bottom: 5px
+}
+
+#usernameinp {
+  transition: all 0.3s ease;
+}
+
+#synced {
+  position: absolute;
+  left: 10px;
+  margin: 0;
+  top: 565px;
+  font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #002f5b;
 }
