@@ -67,6 +67,8 @@ const shopsound = new Audio("assets/sounds/shop.wav")
 const cantbuy = new Audio("assets/sounds/nobuy.wav")
 const goldenfx = new Audio("assets/sounds/golden.wav")
 const bgm = new Audio("assets/sounds/bgm2.mp3")
+const rebirthsound = new Audio("assets/sounds/lvlup.mp3")
+
 bgm.volume = 0.7
 bgm.loop = true
 var shopopen = false
@@ -266,8 +268,24 @@ function init(){
         let newbutton = document.createElement("div")
         if (shopitems[i].type==0){
             newbutton.style.backgroundColor = "rgb(255, 84, 84)"
+            newbutton.addEventListener("mouseenter", () => {
+                newbutton.style.boxShadow = "0 0 15px 5px rgba(255, 47, 47, 0.35)";
+              });
+              
+              // Remove the shadow when the mouse leaves
+              newbutton.addEventListener("mouseleave", () => {
+                newbutton.style.boxShadow = "none";
+              });
         } else{
             newbutton.style.backgroundColor = "rgb(84, 127, 255)"
+            newbutton.addEventListener("mouseenter", () => {
+                newbutton.style.boxShadow = "0 0 15px 5px rgba(47, 82, 255, 0.35)";
+              });
+              
+              // Remove the shadow when the mouse leaves
+              newbutton.addEventListener("mouseleave", () => {
+                newbutton.style.boxShadow = "none";
+              });
         }
         newbutton.className = "shopbutton"
         newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
@@ -345,8 +363,11 @@ rebnow.addEventListener("click", function(){
     let price = parseInt(1000000 * Math.pow(2, rebirths));
     rebnow.textContent = `rebirth now (costs 💎${price})`
 
-    if (counter >= price){
+    if (0==0){
+        shopsound.volume = 0
         openrebs()
+        rebirthsound.currentTime = 0
+        rebirthsound.play()
         dpc = 1
         dps = 0
         counter = 0 
@@ -359,6 +380,10 @@ rebnow.addEventListener("click", function(){
         updatediamonds()
         upddpc()
         upddps()
+        setInterval(() => {
+            shopsound.volume = 1
+        }, 800);
+        console.log(shopsound.volume)
         if (username !== null){
             saveto_lb()
         }
@@ -507,7 +532,6 @@ async function get_lb() {
         const response = await axios.get(url)
         return response.data
     } catch (error) {
-        console.error(error)
         return null
     }
 }
