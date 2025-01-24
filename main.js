@@ -4,7 +4,14 @@ const shopwindow = document.getElementById("shopwindow")
 const rebirthwind = document.getElementById("rebirthwind")
 const y_nwindow = document.getElementById("y_nwindow")
 
+let synced = true
+const displaysynced = document.getElementById("synced")
+displaysynced.textContent = `synced: ${synced}`
+
 let username = (localStorage.getItem("username") || null)
+console.log(username)
+
+const undisplay = document.getElementById("undisplay")
 
 let rebirths = parseInt(localStorage.getItem("rebirths") || 0)
 let rebcounter = document.getElementById("rebdisplay")
@@ -18,7 +25,7 @@ rebnow.textContent = `rebirth now (costs 💎${(rebirths*500000)+500000})`
 let multiplier = (rebirths/2)+1
 
 let multiplierdisplay = document.getElementById("multiplier")
-multiplierdisplay.textContent = `multiplier: ${multiplier}.0`
+multiplierdisplay.textContent = `multiplier: ${multiplier}`
 
 const rebtxt = document.createElement("span")
 rebtxt.textContent = "Rebirthing resets your progress but grants nice bonuses, like a diamond multiplier. This helps you progress faster in future runs, making each rebirth a step toward greater strength."
@@ -66,7 +73,9 @@ bgm.loop = true
 var shopopen = false
 
 function msg(message){
-    alert(message)
+    cantbuy.currentTime = 0
+    cantbuy.play()
+    //alert(message)
 }
 
 const dpcdisplay = document.getElementById("dpcdisplay")
@@ -232,11 +241,12 @@ function playbgm(){
 
 mutebtn.addEventListener("click", function(){
     playbgm()
-    save()
 })
 
 function save() {
-    localStorage.setItem("muted", muted)
+    synced = false
+    displaysynced.textContent = `synced: ${synced}`
+    localStorage.setItem("username", username)
     localStorage.setItem("multiplier", multiplier)
     localStorage.setItem("rebirths", rebirths)
     localStorage.setItem("counter", counter)
@@ -350,6 +360,9 @@ rebnow.addEventListener("click", function(){
         updatediamonds()
         upddpc()
         upddps()
+        if (username !== null){
+            saveto_lb()
+        }
         save()
     }else{
         msg(`You need ${price - Math.round(counter)} more diamonds.`)
@@ -401,9 +414,14 @@ no.addEventListener("click", function() {
 
 leaderboardopen = false
 const leaderboardholder = document.getElementById("leaderboardholder")
+let title = document.createElement("div")
+title.innerHTML = "REBIRTHS<br>LEADERBOARD:"
+title.id="title"
+leaderboardholder.appendChild(title)
 
 async function load_lb() {
     leaderboardholder.innerHTML = ""
+    leaderboardholder.appendChild(title)
     const leaderboarddata = await get_lb()
     let sorted = Object.entries(leaderboarddata)
 
@@ -411,13 +429,15 @@ async function load_lb() {
 
     if (leaderboarddata) {
         sorted.forEach(([key, value]) => {
-            let leaderboard_i = document.createElement("button")
-            leaderboard_i.textContent = `${key}: ${value}`
+            let leaderboard_i = document.createElement("div")
+            leaderboard_i.innerHTML = `<i>${key}</i> - ${value} rebirths`
+            leaderboard_i.id = "datainlb"
 
             leaderboardholder.appendChild(leaderboard_i)
         })
     } else {
-        let leaderboard_i = document.createElement("button")
+        let leaderboard_i = document.createElement("div")
+        leaderboard_i.id = "datainlb"
         leaderboard_i.textContent = "Loading..."
         leaderboardholder.appendChild(leaderboard_i)
     }
@@ -456,19 +476,17 @@ function toggleleaderboard(){
     }
 }
 
-
 // LEADERBOARD
-const usernameinp = document.getElementById("usernameinp")
-if (username !== null){
-    usernameinp.remove()
+if (username == null) {
+    getuser().then(userData => {
+        username = userData
+        console.log(username)
+        undisplay.textContent = `username: ${username}`
+        save()
+    })
 }
 
-usernameinp.addEventListener("change", function(event){
-    username = event.target.value
-    localStorage.setItem("username", username)
-    save()
-    usernameinp.remove()
-})
+undisplay.textContent = `username: ${username}`
 
 function saveto_lb() {
     const url = "https://api.npoint.io/5accda10b85caaa660a5"
@@ -477,13 +495,6 @@ function saveto_lb() {
         data[`${username}`] = rebirths
 
         axios.post(url, data)
-            .then(response => {
-            })
-            .catch(error => {
-                console.error("Error posting data:", error)
-            })
-    }).catch(error => {
-        console.error("Error fetching data:", error)
     })
 }
 
@@ -500,7 +511,17 @@ async function get_lb() {
 }
 
 setInterval(function() {
+    console.log(username)
     if (username !== null){
         saveto_lb()
+        synced = true
+        displaysynced.textContent = `synced: ${synced}`
     }
-}, 3000)
+}, 10000)
+
+
+function getuser() {
+    return fetch("https://usernameapiv1.vercel.app/api/random-usernames")
+        .then(response => response.json())
+        .then(data => data.usernames[0])
+}
