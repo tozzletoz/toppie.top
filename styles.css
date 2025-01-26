@@ -327,6 +327,7 @@ body {
 }
 
 #synced {
+  visibility: hidden;
   position: absolute;
   left: 10px;
   margin: 0;
