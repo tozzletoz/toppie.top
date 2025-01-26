@@ -1,2 +1,2 @@
-# diamondclicker
+# Diamond Clicker
 A game I made.
