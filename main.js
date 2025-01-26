@@ -1,8 +1,16 @@
 const counterdisplay = document.getElementById("h1counter")
 const diamond = document.getElementById("diamond")
+diamond.style.filter = "drop-shadow(0 0 2rem rgba(0, 110, 255, 0.51))"
 const shopwindow = document.getElementById("shopwindow")
 const rebirthwind = document.getElementById("rebirthwind")
 const y_nwindow = document.getElementById("y_nwindow")
+
+setInterval(() => {
+    if (rebirths >= 1){diamond.style.filter = "hue-rotate(150deg) saturate(200%) brightness(0.9)"}
+    if (rebirths >= 5) {diamond.style.filter = "hue-rotate(-60deg)"}
+    if (rebirths >= 10) {diamond.style.filter = "brightness(170%) grayscale(100%)"}
+    if (rebirths >= 20) {diamond.style.filter = "hue-rotate(205deg) saturate(80%) brightness(130%)"}
+}, 100);
 
 let synced = true
 const displaysynced = document.getElementById("synced")
@@ -50,7 +58,7 @@ y_nwindow.appendChild(resettxt)
 y_nwindow.appendChild(no)
 y_nwindow.appendChild(yes)
 
-let price = parseInt(1000000 * Math.pow(2, rebirths));
+let price = parseInt(1000000 * Math.pow(rebirths, 3) + 1000000)
 
 rebnow.textContent = `rebirth now (costs 💎${price})`
 
@@ -66,7 +74,7 @@ const buysound = new Audio("assets/sounds/buy.wav")
 const shopsound = new Audio("assets/sounds/shop.wav")
 const cantbuy = new Audio("assets/sounds/nobuy.wav")
 const goldenfx = new Audio("assets/sounds/golden.wav")
-const bgm = new Audio("assets/sounds/bgm2.mp3")
+const bgm = new Audio("assets/sounds/msc.mp3")
 const rebirthsound = new Audio("assets/sounds/lvlup.mp3")
 
 bgm.volume = 0.7
@@ -112,13 +120,6 @@ function updatediamonds(){
         diamond.style.width = "220px"
     }, 50)
 }
-
-diamond.addEventListener("click", function () {
-    clicksound.currentTime = 0
-    clicksound.play()
-    counter+=dpc*multiplier;
-    updatediamonds()
-})
 
 diamond.addEventListener("mouseout", function () {
     counterdisplay.style.fontSize = ""
@@ -325,7 +326,7 @@ init()
 var rebopen = false
 //rebirths
 function openrebs(){
-    let price = parseInt(1000000 * Math.pow(2, rebirths));
+    let price = parseInt(1000000 * Math.pow(rebirths, 3) + 1000000)
     rebnow.textContent = `rebirth now (costs 💎${price})`
     if (shopopen==true){
         toggleshop()
@@ -360,10 +361,13 @@ function openrebs(){
 
 
 rebnow.addEventListener("click", function(){
-    let price = parseInt(1000000 * Math.pow(2, rebirths));
+    let price = parseInt(1000000 * Math.pow(rebirths, 3) + 1000000)
     rebnow.textContent = `rebirth now (costs 💎${price})`
 
     if (counter >= price){
+        if (username !== null){
+            saveto_lb()
+        }
         shopsound.volume = 0
         openrebs()
         rebirthsound.currentTime = 0
@@ -374,6 +378,7 @@ rebnow.addEventListener("click", function(){
         rebirths+=1
         multiplier=(rebirths/2)+1
         multipliercounter = multiplier.toFixed(1)
+        let price = parseInt(1000000 * Math.pow(rebirths, 3) + 1000000)
         rebnow.textContent = `rebirth now (costs 💎${price})`
         rebcounter.textContent = `rebirths: ${rebirths}`
         multiplierdisplay.textContent = `multiplier: ${multipliercounter}`
@@ -536,17 +541,30 @@ async function get_lb() {
     }
 }
 
-setInterval(function() {
-    if (username !== null){
-        saveto_lb()
-        synced = true
-        displaysynced.textContent = `synced: ${synced}`
-    }
-}, 10000)
-
-
 function getuser() {
+    console.log("343")
     return fetch("https://usernameapiv1.vercel.app/api/random-usernames")
         .then(response => response.json())
         .then(data => data.usernames[0])
 }
+
+console.log(username)
+
+//autoclicker detection
+
+let clicks = []
+
+diamond.addEventListener("click", function(){
+    timenow = Date.now()
+    clicks.push(timenow)
+    clicks = clicks.filter(time => timenow - time <= 50)
+
+    if (clicks.length/20 < 0.067){
+        clicksound.currentTime = 0
+        clicksound.play()
+        counter+=dpc*multiplier
+        updatediamonds()
+    }else{
+        console.log("possible autoclicker")
+    }
+})
