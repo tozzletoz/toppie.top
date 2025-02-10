@@ -153,7 +153,8 @@ body {
   #leaderboardholder,
   #y_nwindow,
   #rebirthwind,
-  #shopwindow {
+  #shopwindow,
+  #usernameScreen {
     background-color: white;
     width: 300px;
     height: 200px;
@@ -175,6 +176,8 @@ body {
     overflow-y: auto;
   }
   
+  #usernameApply,
+  #usernameInput,
   #no,
   #yes,
   #rebnow,
@@ -195,7 +198,9 @@ body {
     .shopbutton:hover,
     #rebnow:hover,
     #no:hover,
-    #yes:hover {
+    #yes:hover,
+    #usernameInput:hover,
+    #usernameApply:hover {
     transform: translateY(5%);
   }
   
@@ -341,4 +346,21 @@ body {
 
 #rebnow:hover {
   box-shadow: 0 0 15px 5px rgba(255, 234, 47, 0.507);
+}
+
+#usernameInfo{
+  font-weight: 400;
+}
+
+#usernameInput{
+  background-color: #e7e7e7;
+}
+
+#usernameApply {
+  width: 100%;
+  background-color: rgb(255, 238, 0);
+}
+
+#usernameScreen{
+  z-index: 1000000000000009;
 }
