@@ -14,14 +14,14 @@ body {
     height: auto;
     margin-top: 20px;
     transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
-    animation: womp 3s infinite alternate;
+    animation: womp 2s infinite alternate ease-in-out;
     z-index: 9999;
     -webkit-user-drag: none;
   }
-  
-  #diamond:hover {
+
+    #diamond:hover {
     width: 230px;
-    filter: brightness(1.5);
+    filter: brightness(1.2);
   }
   
   #undisplay,
@@ -83,7 +83,7 @@ body {
     height: 7.5vh;
     border-radius: 6px;
     font-size: 24px;
-    background-color: rgb(134, 164, 255);
+    background-color: rgb(59, 90, 182);
     border: 2px solid rgb(0, 10, 116);
     transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
   }
@@ -147,8 +147,7 @@ body {
   #shop:hover,
   #mute:hover {
     background-color: rgb(68, 75, 213);
-    box-shadow: 0 0 15px 5px rgba(47, 64, 255, 0.276);
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   
   #leaderboardholder,
@@ -247,6 +246,7 @@ body {
     to {
       transform: rotate(10deg);
     }
+
   }
   
 *{
