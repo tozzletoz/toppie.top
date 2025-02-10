@@ -37,7 +37,7 @@ if (username == null || undefined){
     usernameInput.placeholder = "Username..."
 
     usernameInfo = document.createElement("h4")
-    usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard when you have one or more rebirths."
+    usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard."
     usernameInfo.id = "usernameInfo"
 
     function setUser(){
