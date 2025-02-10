@@ -364,3 +364,9 @@ body {
 #usernameScreen{
   z-index: 1000000000000009;
 }
+
+#usernameApply:disabled {
+  background-color: rgb(211, 211, 211);
+  color: rgb(170, 170, 170);
+  cursor: not-allowed;
+}
