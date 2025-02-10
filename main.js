@@ -1,8 +1,16 @@
 const counterdisplay = document.getElementById("h1counter")
 const diamond = document.getElementById("diamond")
+diamond.style.filter = "drop-shadow(0 0 2rem rgba(0, 110, 255, 0.51))"
 const shopwindow = document.getElementById("shopwindow")
 const rebirthwind = document.getElementById("rebirthwind")
 const y_nwindow = document.getElementById("y_nwindow")
+
+setInterval(() => {
+    if (rebirths >= 1){diamond.style.filter = "hue-rotate(150deg) saturate(200%) brightness(0.9)"}
+    if (rebirths >= 5) {diamond.style.filter = "hue-rotate(-60deg)"}
+    if (rebirths >= 10) {diamond.style.filter = "brightness(170%) grayscale(100%)"}
+    if (rebirths >= 20) {diamond.style.filter = "hue-rotate(205deg) saturate(80%) brightness(130%)"}
+}, 100);
 
 let synced = true
 const displaysynced = document.getElementById("synced")
