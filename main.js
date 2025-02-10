@@ -90,6 +90,7 @@ setInterval(() => {
 const undisplay = document.getElementById("undisplay")
 
 let rebirths = parseInt(localStorage.getItem("rebirths") || 0)
+let shopitems = parseInt(localStorage.getItem("shopitems") || 0)
 let rebcounter = document.getElementById("rebdisplay")
 rebcounter.textContent = `rebirths: ${rebirths}`
 
@@ -313,8 +314,7 @@ function playbgm(){
 mutebtn.addEventListener("click", function(){
     playbgm()
 })
-
-function save() {
+function save(saveCount=true) {
     synced = false
     displaysynced.textContent = `synced: ${synced}`
     localStorage.setItem("multiplier", multiplier)
@@ -322,7 +322,15 @@ function save() {
     localStorage.setItem("counter", counter)
     localStorage.setItem("dps", dps)
     localStorage.setItem("dpc", dpc)
-    localStorage.setItem("shopitems", JSON.stringify(shopitems))
+    if (saveCount == true){
+        localStorage.setItem("shopitems", JSON.stringify(shopitems))
+        console.log("h9e89qwye89yqw VAPEa")
+    }else{
+        localStorage.setItem("shopitems", null)
+        console.log(localStorage.getItem("shopitems"))
+        shopwindow.innerHTML = ""
+        init()
+    }
 }
 
 function init(){
@@ -338,10 +346,9 @@ function init(){
         if (shopitems[i].type==0){
             newbutton.style.backgroundColor = "rgb(255, 84, 84)"
             newbutton.addEventListener("mouseenter", () => {
-                newbutton.style.boxShadow = "0 0 15px 5px rgba(255, 47, 47, 0.35)";
+                newbutton.style.boxShadow = "0 0 15px 5px rgba(255, 47, 47, 0.35)";shopitems
               });
               
-              // Remove the shadow when the mouse leaves
               newbutton.addEventListener("mouseleave", () => {
                 newbutton.style.boxShadow = "none";
               });
@@ -351,7 +358,6 @@ function init(){
                 newbutton.style.boxShadow = "0 0 15px 5px rgba(47, 82, 255, 0.35)";
               });
               
-              // Remove the shadow when the mouse leaves
               newbutton.addEventListener("mouseleave", () => {
                 newbutton.style.boxShadow = "none";
               });
@@ -459,7 +465,7 @@ rebnow.addEventListener("click", function(){
         if (username !== null){
             saveto_lb()
         }
-        save()
+        save(saveCount=false)
     }else{
         msg(`You need ${price - Math.round(counter)} more diamonds.`)
     }
