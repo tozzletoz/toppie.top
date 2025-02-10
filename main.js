@@ -47,7 +47,7 @@ if (username == null || undefined){
             const content = await get_lb()
             exists = content.hasOwnProperty(preUser)
             
-            if (preUser.length >= 3 && preUser != null && exists == false){
+            if (preUser.length >= 3 && preUser != null && exists == false && preUser.length <= 15 && preUser.includes(" ") != true){
                 username = String(usernameInput.value)
                 undisplay.textContent = `username: ${username}`
                 save()
