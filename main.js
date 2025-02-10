@@ -5,18 +5,87 @@ const shopwindow = document.getElementById("shopwindow")
 const rebirthwind = document.getElementById("rebirthwind")
 const y_nwindow = document.getElementById("y_nwindow")
 
-setInterval(() => {
-    if (rebirths >= 1){diamond.style.filter = "hue-rotate(150deg) saturate(200%) brightness(0.9)"}
-    if (rebirths >= 5) {diamond.style.filter = "hue-rotate(-60deg)"}
-    if (rebirths >= 10) {diamond.style.filter = "brightness(170%) grayscale(100%)"}
-    if (rebirths >= 20) {diamond.style.filter = "hue-rotate(205deg) saturate(80%) brightness(130%)"}
-}, 100);
-
 let synced = true
 const displaysynced = document.getElementById("synced")
 displaysynced.textContent = `synced: ${synced}`
 
 let username = (localStorage.getItem("username") || null)
+
+if (username == null || undefined){
+    const overlay = document.createElement("div")
+    overlay.style.position = "fixed"
+    overlay.style.top = "0"
+    overlay.style.left = "0"
+    overlay.style.width = "100vw"
+    overlay.style.height = "100vh"
+    overlay.style.background = "rgba(0, 0, 0, 0.17)"
+    overlay.style.display = "flex"
+    overlay.style.justifyContent = "center"
+    overlay.style.alignItems = "center"
+    overlay.style.zIndex = "999999"
+    document.body.appendChild(overlay)
+    
+    usernameScreen = document.getElementById("usernameScreen")
+    usernameScreen.style.transform= "translate(-50%, -50%) scale(1)"
+    usernameScreen.style.opacity="1"
+    usernameScreen.style.pointerEvents="auto"
+    usernameScreen.style.visibility="visible"
+
+    usernameInput = document.createElement("input")
+    usernameInput.type = "text"
+    usernameInput.id = "usernameInput"
+    usernameInput.placeholder = "Username..."
+
+    usernameInfo = document.createElement("h4")
+    usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard when you have one or more rebirths."
+    usernameInfo.id = "usernameInfo"
+
+    function setUser(){
+        preUser = String(usernameInput.value)
+
+        async function fetchContent() {
+            const content = await get_lb()
+            exists = content.hasOwnProperty(preUser)
+            
+            if (preUser.length >= 3 && preUser != null && exists == false){
+                username = String(usernameInput.value)
+                undisplay.textContent = `username: ${username}`
+                save()
+                document.body.removeChild(overlay)
+                localStorage.setItem("username", username)
+                usernameScreen.style.transform= "translate(-50%, -50%) scale(1)"
+                usernameScreen.style.opacity="0"
+                usernameScreen.style.pointerEvents="none"
+                usernameScreen.style.visibility="hidden"
+                document.body.removeChild(usernameScreen)
+                saveto_lb()
+        }else{
+            usernameInput.value = ""
+            usernameInput.placeholder = "There's an error with the given username."
+        }
+
+        }
+        fetchContent()
+    }
+
+    usernameApply = document.createElement("button")
+    usernameApply.textContent = "Confirm"
+    usernameApply.id = "usernameApply"
+    usernameApply.onclick = setUser
+
+    usernameScreen.appendChild(usernameInfo)
+    usernameScreen.appendChild(usernameInput)
+    usernameScreen.appendChild(usernameApply)
+}else{
+    saveto_lb()
+}
+
+setInterval(() => {
+    if (rebirths >= 1){diamond.style.filter = "hue-rotate(150deg) saturate(200%) brightness(0.9)"}
+    if (rebirths >= 5) {diamond.style.filter = "hue-rotate(-60deg)"}
+    if (rebirths >= 10) {diamond.style.filter = "brightness(170%) grayscale(100%)"}
+    if (rebirths >= 20) {diamond.style.filter = "hue-rotate(205deg) saturate(80%) brightness(130%)"}
+}, 100)
 
 const undisplay = document.getElementById("undisplay")
 
@@ -248,7 +317,6 @@ mutebtn.addEventListener("click", function(){
 function save() {
     synced = false
     displaysynced.textContent = `synced: ${synced}`
-    localStorage.setItem("username", username)
     localStorage.setItem("multiplier", multiplier)
     localStorage.setItem("rebirths", rebirths)
     localStorage.setItem("counter", counter)
@@ -388,7 +456,6 @@ rebnow.addEventListener("click", function(){
         setInterval(() => {
             shopsound.volume = 1
         }, 800);
-        console.log(shopsound.volume)
         if (username !== null){
             saveto_lb()
         }
@@ -510,15 +577,11 @@ function toggleleaderboard(){
 }
 
 // LEADERBOARD
-if (username == null) {
-    getuser().then(userData => {
-        username = userData
-        undisplay.textContent = `username: ${username}`
-        save()
-    })
+if (username != null){
+    undisplay.textContent = `username: ${username}`
+}else{
+    undisplay.textContent = `username: not given`
 }
-
-undisplay.textContent = `username: ${username}`
 
 function saveto_lb() {
     const url = "https://api.npoint.io/5accda10b85caaa660a5"
@@ -541,15 +604,6 @@ async function get_lb() {
     }
 }
 
-function getuser() {
-    console.log("343")
-    return fetch("https://usernameapiv1.vercel.app/api/random-usernames")
-        .then(response => response.json())
-        .then(data => data.usernames[0])
-}
-
-console.log(username)
-
 //autoclicker detection
 
 let clicks = []
@@ -565,6 +619,6 @@ diamond.addEventListener("click", function(){
         counter+=dpc*multiplier
         updatediamonds()
     }else{
-        console.log("possible autoclicker")
+        null
     }
 })
