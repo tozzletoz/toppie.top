@@ -36,16 +36,36 @@ if (username == null || undefined){
     usernameInput.id = "usernameInput"
     usernameInput.placeholder = "Username..."
 
+    usernameInput.addEventListener("input", function(){
+        usernameInput.placeholder = "Username..."
+        try{
+            placeholderStyle.remove()
+        }catch{
+            null
+        }
+        const placeholderStyle = document.createElement("style")
+        placeholderStyle.innerHTML = `
+            #usernameInput::placeholder {
+                color: #bfbfbf;
+            }`
+        document.head.appendChild(placeholderStyle)
+    })
+
     usernameInfo = document.createElement("h4")
     usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard."
     usernameInfo.id = "usernameInfo"
 
     function setUser(){
+        usernameApply.disabled = true
+        usernameApply.textContent = "Loading..."
         preUser = String(usernameInput.value)
 
         async function fetchContent() {
+
             const content = await get_lb()
             exists = content.hasOwnProperty(preUser)
+            usernameApply.disabled = false
+            usernameApply.textContent = "Confirm"
             
             if (preUser.length >= 3 && preUser != null && exists == false && preUser.length <= 15 && preUser.includes(" ") != true){
                 username = String(usernameInput.value)
@@ -60,15 +80,30 @@ if (username == null || undefined){
                 document.body.removeChild(usernameScreen)
                 saveto_lb()
         }else{
+            try{
+                placeholderStyle.remove()
+            }catch{
+                null
+            }
+            const placeholderStyle = document.createElement("style")
             usernameInput.value = ""
+            placeholderStyle.innerHTML = `
+                #usernameInput::placeholder {
+                    color:rgb(255, 0, 0);
+                }`
+            document.head.appendChild(placeholderStyle)
+            if (exists == true){
+            usernameInput.placeholder = "Username already in use."
+        }else{
             usernameInput.placeholder = "There's an error with the given username."
         }
+    }
 
         }
         fetchContent()
     }
 
-    usernameApply = document.createElement("button")
+    const usernameApply = document.createElement("button")
     usernameApply.textContent = "Confirm"
     usernameApply.id = "usernameApply"
     usernameApply.onclick = setUser
@@ -324,10 +359,8 @@ function save(saveCount=true) {
     localStorage.setItem("dpc", dpc)
     if (saveCount == true){
         localStorage.setItem("shopitems", JSON.stringify(shopitems))
-        console.log("h9e89qwye89yqw VAPEa")
     }else{
         localStorage.setItem("shopitems", null)
-        console.log(localStorage.getItem("shopitems"))
         shopwindow.innerHTML = ""
         init()
     }
