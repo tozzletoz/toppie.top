@@ -228,12 +228,12 @@ const dpsdisplay = document.getElementById("dpsdisplay")
 
 function updatediamonds(){
     counterdisplay.textContent = `diamonds: ${Math.round(counter)}`
-    counterdisplay.style.fontSize = "45px"
+    counterdisplay.style.fontSize = "35px"
     diamond.style.width = "180px"
     save()
 
     setTimeout(function() {
-        counterdisplay.style.fontSize = "50px"
+        counterdisplay.style.fontSize = "40px"
         counterdisplay.style.filter = ""
         diamond.style.width = "220px"
     }, 50)
