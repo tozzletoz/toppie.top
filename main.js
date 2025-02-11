@@ -227,7 +227,7 @@ const dpcdisplay = document.getElementById("dpcdisplay")
 const dpsdisplay = document.getElementById("dpsdisplay")
 
 function updatediamonds(){
-    counterdisplay.textContent = `diamonds: ${Math.round(counter)}`
+    counterdisplay.textContent = Math.round(counter)
     counterdisplay.style.fontSize = "35px"
     diamond.style.width = "180px"
     save()
