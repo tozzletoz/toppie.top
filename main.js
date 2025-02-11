@@ -5,26 +5,55 @@ const shopwindow = document.getElementById("shopwindow")
 const rebirthwind = document.getElementById("rebirthwind")
 const y_nwindow = document.getElementById("y_nwindow")
 
+let totalClicks = (localStorage.getItem("totalClicks") || 0)
+
+let totalTimeSeconds = (localStorage.getItem("totalTimeSeconds") || 0)
+const totalTimeDisplay = document.getElementById("totalTime")
+
+setInterval(function(){
+	totalTimeSeconds++
+	let days = Math.floor(totalTimeSeconds/86400)
+	let hours = Math.floor(totalTimeSeconds/3600)
+	let minutes = Math.floor(totalTimeSeconds/60)
+
+	totalTimeDisplay.textContent = `${days} days, ${hours} hours, ${minutes} minutes`
+	dpcdisplay.textContent = `diamonds per click: ${dpc}`
+	dpsdisplay.textContent = `diamonds per second: ${dps}`
+
+	localStorage.setItem("totalTimeSeconds", totalTimeSeconds)
+}, 1000)
+
 let synced = true
 const displaysynced = document.getElementById("synced")
 displaysynced.textContent = `synced: ${synced}`
 
 let username = (localStorage.getItem("username") || null)
 
+const overlay = document.createElement("div")
+overlay.style.position = "fixed"
+overlay.style.top = "0"
+overlay.style.left = "0"
+overlay.style.width = "100vw"
+overlay.style.height = "100vh"
+overlay.style.background = "rgba(0, 0, 0, 0.17)"
+overlay.style.display = "flex"
+overlay.style.justifyContent = "center"
+overlay.style.alignItems = "center"
+overlay.style.zIndex = "999999"
+overlay.style.visibility = "hidden"
+document.body.appendChild(overlay)
+
+function toggleOverlay(){
+	let visibility = window.getComputedStyle(overlay).visibility
+	if (visibility == "hidden"){
+		overlay.style.visibility = "visible"
+	}else{
+		overlay.style.visibility = "hidden"
+	}
+}
+
 if (username == null || undefined){
-    const overlay = document.createElement("div")
-    overlay.style.position = "fixed"
-    overlay.style.top = "0"
-    overlay.style.left = "0"
-    overlay.style.width = "100vw"
-    overlay.style.height = "100vh"
-    overlay.style.background = "rgba(0, 0, 0, 0.17)"
-    overlay.style.display = "flex"
-    overlay.style.justifyContent = "center"
-    overlay.style.alignItems = "center"
-    overlay.style.zIndex = "999999"
-    document.body.appendChild(overlay)
-    
+	toggleOverlay()
     usernameScreen = document.getElementById("usernameScreen")
     usernameScreen.style.transform= "translate(-50%, -50%) scale(1)"
     usernameScreen.style.opacity="1"
@@ -111,6 +140,7 @@ if (username == null || undefined){
     usernameScreen.appendChild(usernameInfo)
     usernameScreen.appendChild(usernameInput)
     usernameScreen.appendChild(usernameApply)
+	toggleOverlay
 }else{
     saveto_lb()
 }
@@ -123,6 +153,7 @@ setInterval(() => {
 }, 100)
 
 const undisplay = document.getElementById("undisplay")
+const totalDisplay = document.getElementById("totalDisplay")
 
 let rebirths = parseInt(localStorage.getItem("rebirths") || 0)
 let shopitems = parseInt(localStorage.getItem("shopitems") || 0)
@@ -195,24 +226,6 @@ function msg(message){
 const dpcdisplay = document.getElementById("dpcdisplay")
 const dpsdisplay = document.getElementById("dpsdisplay")
 
-function upddps(){
-    dpsdisplay.textContent = `diamonds per second: ${dps}`
-    dpsdisplay.style.fontSize = "30px"
-
-    setTimeout(function() {
-        dpsdisplay.style.fontSize = "25px"
-    }, 50)
-}
-
-function upddpc(){
-    dpcdisplay.textContent = `diamonds per click: ${dpc}`
-    dpcdisplay.style.fontSize = "30px"
-
-    setTimeout(function() {
-        dpcdisplay.style.fontSize = "25px"
-    }, 50)
-}
-
 function updatediamonds(){
     counterdisplay.textContent = `diamonds: ${Math.round(counter)}`
     counterdisplay.style.fontSize = "30px"
@@ -244,6 +257,9 @@ function toggleshop(){
     if (leaderboardopen==true){
         toggleleaderboard()
     }
+    if (statsOpen==true){
+        toggleStats()
+    }
     const opacity = window.getComputedStyle(shopwindow).opacity
     const shopbtn = document.getElementById("shop")
     if (opacity=="0"){
@@ -252,7 +268,7 @@ function toggleshop(){
         shopwindow.style.opacity="1"
         shopwindow.style.pointerEvents="auto"
         shopwindow.style.visibility="visible"
-        shopbtn.textContent = "×"
+        shopbtn.innerHTML = '<span class="material-symbols-outlined">close</span>'
     }
     else if (opacity=="1"){
         shopopen = false
@@ -260,7 +276,7 @@ function toggleshop(){
         shopwindow.style.pointerEvents="none"
         shopwindow.style.opacity="0"
         shopwindow.style.visibility="hidden"
-        shopbtn.textContent = "shop"
+        shopbtn.innerHTML = '<span class="material-symbols-outlined">storefront</span>'
     }
 }
 
@@ -328,27 +344,28 @@ function generateinterval() {
 generateinterval()
 
 const mutebtn = document.getElementById("mute")
-
-let muted = localStorage.getItem("muted") || true
-
-function playbgm(){
-    bgm.play()
-    img = mutebtn.querySelector("img")
-
+mutebtn.innerHTML = '<span class="material-symbols-outlined"> music_off </span>'
+let muted = true
+function toggleMusic(){
     if (muted == false){
         bgm.pause()
-        img.src = "assets/icons/mute.svg"
         muted = true
+        mutebtn.innerHTML = '<span class="material-symbols-outlined"> music_off </span>'
     }else{
         bgm.play()
-        img.src = "assets/icons/unmute.svg"
         muted = false
+        mutebtn.innerHTML = '<span class="material-symbols-outlined"> music_note </span>'
     }
 }
 
 mutebtn.addEventListener("click", function(){
     playbgm()
 })
+
+setInterval(function(){
+	localStorage.setItem("totalClicks", totalClicks)
+})
+
 function save(saveCount=true) {
     synced = false
     displaysynced.textContent = `synced: ${synced}`
@@ -357,6 +374,7 @@ function save(saveCount=true) {
     localStorage.setItem("counter", counter)
     localStorage.setItem("dps", dps)
     localStorage.setItem("dpc", dpc)
+	localStorage.setItem("totalClicks", totalClicks)
     if (saveCount == true){
         localStorage.setItem("shopitems", JSON.stringify(shopitems))
     }else{
@@ -371,8 +389,8 @@ function init(){
     dps = parseInt(localStorage.getItem("dps")) || 0
     dpc = parseInt(localStorage.getItem("dpc")) || 1
 
-    shopitems = JSON.parse(localStorage.getItem("shopitems")) || [{img: "assets/icons/pickaxe.png", desc: "+1 diamond per click", price: 50, reward: "dpc+=1", amount: 0, type: 0},{img: "assets/icons/minecart.png", desc: "+1 diamond per second", price: 100, reward: "dps+=1", amount: 0, type: 1},{img: "assets/icons/drill.png", desc: "+5 diamonds per click", price: 200, reward: "dpc+=5", amount: 0, type: 0},{img: "assets/icons/excavator.webp", desc: "+5 diamonds per second", price: 450, reward: "dps+=5", amount: 0, type: 1},{img: "assets/icons/chest.png", desc: "+25 diamonds per click", price: 1100, reward: "dpc+=25", amount: 0, type: 0},{img: "assets/icons/rain.png", desc: "+25 diamonds per second", price: 2300, reward: "dps+=25", amount: 0, type: 1},{img: "assets/icons/ship.png", desc: "+100 diamonds per click", price: 4500, reward: "dpc+=100", amount: 0, type: 0},{img: "assets/icons/mine.png", desc: "+100 diamonds per second", price: 9000, reward: "dps+=100", amount: 0, type: 1},{img: "assets/icons/planet.png", desc: "+1000 diamonds per click", price: 45000, reward: "dpc+=1000", amount: 0, type: 0}]
-    updatediamonds(); upddpc(); upddps()
+    shopitems = JSON.parse(localStorage.getItem("shopitems")) || [{img: "assets/icons/pickaxe.png", desc: "+1 diamond per click", price: 50, reward: "dpc+=1", amount: 0, type: 0},{img: "assets/icons/minecart.png", desc: "+1 diamond per second", price: 100, reward: "dps+=1", amount: 0, type: 1},{img: "assets/icons/drill.png", desc: "+5 diamonds per click", price: 200, reward: "dpc+=5", amount: 0, type: 0},{img: "assets/icons/excavator.webp", desc: "+5 diamonds per second", price: 450, reward: "dps+=5", amount: 0, type: 1},{img: "assets/icons/chest.png", desc: "+25 diamonds per click", price: 1100, reward: "dpc+=25", amount: 0, type: 0},{img: "assets/icons/rain.png", desc: "+25 diamonds per second", price: 2300, reward: "dps+=25", amount: 0, type: 1},{img: "assets/icons/ship.png", desc: "+100 diamonds per click", price: 4500, reward: "dpc+=100", amount: 0, type: 0},{img: "assets/icons/mine.png", desc: "+100 diamonds per second", price: 9000, reward: "dps+=100", amount: 0, type: 1},{img: "assets/icons/planet.png", desc: "+1000 diamonds per click", price: 45000, reward: "dpc+=1000", amount: 0, type: 0}, {img: "assets/icons/realm.png", desc: "+10000 diamonds per second", price: 1000000, reward: "dps+=10000", amount: 0, type: 1}, {img: "assets/icons/diamondGod.png", desc: "+100000 diamonds per click", price: 6000000, reward: "dpc+=100000", amount: 0, type: 0}]
+    updatediamonds()
 
     for (let i = 0; i < shopitems.length; i++) {
         let newbutton = document.createElement("div")
@@ -411,11 +429,6 @@ function init(){
                 counter-=shopitems[i].price
                 eval(shopitems[i].reward)
                 updatediamonds()
-                if (shopitems[i].type == 0){
-                    upddpc()
-                } else {
-                    upddps()
-                }
                 save()
             } else{
                 cantbuy.currentTime = 0
@@ -444,6 +457,9 @@ function openrebs(){
     if (leaderboardopen==true){
         toggleleaderboard()
     }
+    if (statsOpen==true){
+        toggleStats()
+    }
     shopsound.currentTime = 0
     shopsound.play()
     const opacity = window.getComputedStyle(rebirthwind).opacity
@@ -454,7 +470,7 @@ function openrebs(){
         rebirthwind.style.opacity="1"
         rebirthwind.style.pointerEvents="auto"
         rebirthwind.style.visibility="visible"
-        rebbtn.textContent = "×"
+        rebbtn.innerHTML = '<span class="material-symbols-outlined">close</span>'
     }
     else if (opacity=="1"){
         rebopen = false
@@ -462,7 +478,7 @@ function openrebs(){
         rebirthwind.style.pointerEvents="none"
         rebirthwind.style.opacity="0"
         rebirthwind.style.visibility="hidden"
-        rebbtn.textContent = "rebirth"
+        rebbtn.innerHTML = '<span class="material-symbols-outlined">restart_alt</span>'
     }
 }
 
@@ -490,8 +506,6 @@ rebnow.addEventListener("click", function(){
         rebcounter.textContent = `rebirths: ${rebirths}`
         multiplierdisplay.textContent = `multiplier: ${multipliercounter}`
         updatediamonds()
-        upddpc()
-        upddps()
         setInterval(() => {
             shopsound.volume = 1
         }, 800);
@@ -516,6 +530,9 @@ function resetyn(){
     if (leaderboardopen==true){
         toggleleaderboard()
     }
+    if (statsOpen==true){
+        toggleStats()
+    }
     shopsound.currentTime = 0
     shopsound.play()
     const opacity = window.getComputedStyle(y_nwindow).opacity
@@ -526,7 +543,7 @@ function resetyn(){
         y_nwindow.style.opacity="1"
         y_nwindow.style.pointerEvents="auto"
         y_nwindow.style.visibility="visible"
-        resetbtn.textContent = "×"
+        resetbtn.innerHTML = '<span class="material-symbols-outlined">close</span>'
     }
     else if (opacity=="1"){
         ynopen = false
@@ -540,6 +557,8 @@ function resetyn(){
 
 function clearls(){
     localStorage.clear()
+	totalClicks = 0
+	localStorage.setItem("totalClicks", totalClicks)
     window.location.reload(true)
 }
 
@@ -593,6 +612,9 @@ function toggleleaderboard(){
     if (ynopen==true){
         resetyn()
     }
+    if (statsOpen==true){
+        toggleStats()
+    }
     shopsound.currentTime = 0
     shopsound.play()
     const opacity = window.getComputedStyle(leaderboardholder).opacity
@@ -603,7 +625,7 @@ function toggleleaderboard(){
         leaderboardholder.style.opacity="1"
         leaderboardholder.style.pointerEvents="auto"
         leaderboardholder.style.visibility="visible"
-        leaderboardbtn.textContent = "×"
+        leaderboardbtn.innerHTML = '<span class="material-symbols-outlined">close</span>'
     }
     else if (opacity=="1"){
         leaderboardopen = false
@@ -611,7 +633,7 @@ function toggleleaderboard(){
         leaderboardholder.style.pointerEvents="none"
         leaderboardholder.style.opacity="0"
         leaderboardholder.style.visibility="hidden"
-        leaderboardbtn.textContent = "leaderboard"
+        leaderboardbtn.innerHTML = '<span class="material-symbols-outlined">leaderboard</span>'
     }
 }
 
@@ -648,6 +670,7 @@ async function get_lb() {
 let clicks = []
 
 diamond.addEventListener("click", function(){
+	totalClicks++
     timenow = Date.now()
     clicks.push(timenow)
     clicks = clicks.filter(time => timenow - time <= 50)
@@ -661,3 +684,56 @@ diamond.addEventListener("click", function(){
         null
     }
 })
+
+
+//STATS
+const stats = document.getElementById("stats")
+
+stats.appendChild(dpcdisplay)
+stats.appendChild(dpsdisplay)
+stats.appendChild(rebcounter)
+stats.appendChild(multiplierdisplay)
+stats.appendChild(undisplay)
+stats.appendChild(totalDisplay)
+stats.appendChild(totalTimeDisplay)
+
+setInterval(function(){
+	totalDisplay.textContent = `total clicks: ${totalClicks}`
+}, 100)
+
+const openStats = document.getElementById("openStats")
+statsOpen = false
+function toggleStats(){
+    if (shopopen==true){
+        toggleshop()
+    }
+    if (rebopen==true){
+        openrebs()
+    }
+    if (ynopen==true){
+        
+		resetyn()
+    }
+	if (leaderboardopen==true){
+        toggleleaderboard()
+    }
+    shopsound.currentTime = 0
+    shopsound.play()
+    const opacity = window.getComputedStyle(stats).opacity
+    if (opacity=="0"){
+        statsOpen = true
+        stats.style.transform= "translate(-50%, -50%) scale(1)"
+        stats.style.opacity="1"
+        stats.style.pointerEvents="auto"
+        stats.style.visibility="visible"
+        openStats.innerHTML = '<span class="material-symbols-outlined">close</span>'
+    }
+    else if (opacity=="1"){
+        statsOpen = false
+        stats.style.transform= "translate(-50%, -50%) scale(0.75)"
+        stats.style.pointerEvents="none"
+        stats.style.opacity="0"
+        stats.style.visibility="hidden"
+        openStats.innerHTML = '<span class="material-symbols-outlined">query_stats</span>'
+    }
+}
