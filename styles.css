@@ -84,13 +84,17 @@ body {
   #openStats {
     box-shadow: 0 0 0 rgba(165, 209, 255, 0.5);
     position: absolute;
-    bottom: 6.3vh;
+    bottom: 0.5vh;
     height: 5vh;
     border-radius: 6px;
     font-size: 20px;
     background-color: rgba(59, 90, 182, 0.801);
     border: 2px solid rgb(0, 10, 116);
     transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
   }
   
   #reset{
@@ -103,24 +107,22 @@ body {
 	  padding: 10px 10px 10px 10px;
     color: #ffffff;
     right: 105px;
-    bottom: 1vh;
   }
 
   #rebirth{
     color: #ffffff;
     padding: 10px 10px 10px 10px;
-    right: 5px;
+    right: 155px;
   }
 
   #shop  {
     color: #ffffff;
     padding: 10px 10px 10px 10px;
-    right: 55px;
+    right: 205px;
   }
   
   #mute {
     right: 5px;
-    bottom: 1vh;
 	  padding: 10px 10px 10px 10px;
   }
   
@@ -139,8 +141,7 @@ body {
   #leaderboard{
     color: #ffffff;
     right: 55px;
-    bottom: 1vh;
-	padding: 10px 10px 10px 10px;
+	  padding: 10px 10px 10px 10px;
   }
 
   #usernameinp{
