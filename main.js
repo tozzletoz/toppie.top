@@ -16,7 +16,7 @@ setInterval(function(){
 	let hours = Math.floor(totalTimeSeconds/3600)
 	let minutes = Math.floor(totalTimeSeconds/60)
 
-	totalTimeDisplay.textContent = `${days} days, ${hours} hours, ${minutes} minutes`
+	totalTimeDisplay.textContent = `playtime: ${minutes} minutes`
 	dpcdisplay.textContent = `diamonds per click: ${dpc}`
 	dpsdisplay.textContent = `diamonds per second: ${dps}`
 
