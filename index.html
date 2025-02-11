@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Lilita+One&family=Macondo&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link rel="icon" href="assets/icons/diamond.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close,leaderboard,music_note,music_off,query_stats,restart_alt,storefront" />
 </head>
 <body>
     <img id="pin" src="assets/icons/pin.svg" alt="">
@@ -19,14 +20,16 @@
     <h1 id="rebdisplay">rebirths: 0</h1>
     <h1 id="multiplier">multiplier: 1</h1>
     <h1 id="undisplay">username: </h1>
+	<h1 id="totalDisplay">total clicks: </h1>
+	<h1 id="totalTime">total play time: </h1>
     <h1 id="synced">synced: </h1>
     <div id="usernameScreen"></div>
-    <button id="mute"><img src="assets/icons/mute.svg" /></button>
-    <button onclick="toggleshop()" id="shop">shop</button>
-    <button id="rebirth" onclick="openrebs()">rebirth</button>
-    <button id="leaderboard" onclick="toggleleaderboard()">leaderboard</button>
-    <!-- <input type="text" id="usernameinp" name="name" placeholder="username..."> -->
-    <!-- <button id="reset" onclick="resetyn()">delete data</button> -->
+    <button id="mute" onclick="toggleMusic()"><span class="material-symbols-outlined">music_note</span></button>
+    <button onclick="toggleshop()" id="shop"><span class="material-symbols-outlined">storefront</span></button>
+    <button id="rebirth" onclick="openrebs()"><span class="material-symbols-outlined">restart_alt</span></button>
+    <button id="leaderboard" onclick="toggleleaderboard()"><span class="material-symbols-outlined">
+		leaderboard
+		</span></button>
     <div id="shopwindow">
     </div>
     <div id="rebirthwind">
@@ -34,6 +37,13 @@
     <div id="leaderboardholder">
     </div>
     <div id="y_nwindow"></div>
+    <div id="stats">
+		<h1 id="statsTitle">stats</h1>
+	</div>
+	<!-- <button id="reset" onclick="resetyn()">delete data</button> -->
+    <button onclick="toggleStats()" id="openStats"><span class="material-symbols-outlined">
+		query_stats
+		</span></button>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="main.js"></script>
 </body>
