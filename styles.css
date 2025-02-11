@@ -24,12 +24,7 @@ body {
     filter: brightness(1.2);
   }
   
-  #undisplay,
-  #h1counter,
-  #dpcdisplay,
-  #dpsdisplay,
-  #rebdisplay,
-  #multiplier {
+  #h1counter {
     position: absolute;
     left: 10px;
     margin: 0;
@@ -61,13 +56,23 @@ body {
   #undisplay {
     top: 160px;
   }
+
+  #totalDisplay {
+	top: 190px;
+  }
+
+  #totalTime {
+	top: 220px;
+  }
   
   #undisplay,
   #h1counter,
   #dpcdisplay,
   #dpsdisplay
   #rebdisplay,
-  #multiplier {
+  #multiplier,
+  #totalDisplay,
+  #totalTime {
     transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
   }
   
@@ -76,39 +81,48 @@ body {
   #reset,
   #rebirth,
   #shop,
-  #mute {
-    box-shadow: 0 0 0 rgba(0, 123, 255, 0.5);
+  #mute,
+  #openStats {
+    box-shadow: 0 0 0 rgba(165, 209, 255, 0.5);
     position: absolute;
-    bottom: 10px;
-    height: 7.5vh;
+    bottom: 6.3vh;
+    height: 5vh;
     border-radius: 6px;
-    font-size: 24px;
-    background-color: rgb(59, 90, 182);
+    font-size: 20px;
+    background-color: rgba(59, 90, 182, 0.801);
     border: 2px solid rgb(0, 10, 116);
     transition: all 0.3s cubic-bezier(0.25, 1.45, 0.75, 1.25);
   }
   
   #reset{
     color: #ffffff;
-    width: 140px;
+    width: 20px;
     left: 10px;
+  }
+
+  #openStats{
+	  padding: 10px 10px 10px 10px;
+    color: #ffffff;
+    right: 105px;
+    bottom: 1vh;
   }
 
   #rebirth{
     color: #ffffff;
-    width: 90px;
-    right: 160px;
+    padding: 10px 10px 10px 10px;
+    right: 5px;
   }
 
   #shop  {
     color: #ffffff;
-    width: 90px;
-    right: 60px;
+    padding: 10px 10px 10px 10px;
+    right: 55px;
   }
   
   #mute {
-    width: 40px;
-    right: 10px;
+    right: 5px;
+    bottom: 1vh;
+	  padding: 10px 10px 10px 10px;
   }
   
   #yes {
@@ -125,8 +139,9 @@ body {
 
   #leaderboard{
     color: #ffffff;
-    width: 150px;
-    right: 260px;
+    right: 55px;
+    bottom: 1vh;
+	padding: 10px 10px 10px 10px;
   }
 
   #usernameinp{
@@ -145,8 +160,9 @@ body {
   #reset:hover,
   #rebirth:hover,
   #shop:hover,
-  #mute:hover {
-    background-color: rgb(68, 75, 213);
+  #mute:hover,
+  #openStats:hover {
+    background-color: rgba(68, 75, 213, 0.87);
     transform: scale(1.05);
   }
   
@@ -154,7 +170,8 @@ body {
   #y_nwindow,
   #rebirthwind,
   #shopwindow,
-  #usernameScreen {
+  #usernameScreen,
+  #stats {
     background-color: white;
     width: 300px;
     height: 200px;
@@ -369,4 +386,61 @@ body {
   background-color: rgb(211, 211, 211);
   color: rgb(170, 170, 170);
   cursor: not-allowed;
+}
+
+#undisplay,
+#dpcdisplay,
+#dpsdisplay,
+#rebdisplay,
+#multiplier,
+#totalDisplay,
+#totalTime {
+	color: rgb(0, 0, 0);
+	font-size: 15px;
+	background-color: rgb(243, 243, 243);
+	text-align: center;
+	width: 85%;
+	height: 18px;
+	line-height: 15px;
+	border-radius: 12px;
+	border: solid 2px rgb(220, 220, 220);
+	margin-bottom: 5px;
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
+	font-weight: 300;
+}
+
+#totalDisplay,
+#totalTime {
+	font-weight: 100;
+}
+
+#statsTitle {
+	top: 5px;
+	color: rgb(0, 0, 0);
+	font-size: 40px;
+	background-color: rgb(238, 227, 127);
+	text-align: center;
+	width: 85%;
+	height: 50px;
+	line-height: 50px;
+	border-radius: 12px;
+	border: solid 2px rgb(209, 199, 112);
+	margin-bottom: 5px;
+}
+
+#stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#stats > * {
+    margin-top: 0;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.material-symbols-outlined {
+  color: #fff;
 }
