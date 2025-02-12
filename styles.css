@@ -419,6 +419,7 @@ body {
 	border-radius: 12px;
 	border: solid 2px rgb(209, 199, 112);
 	margin-bottom: 5px;
+  font-weight: 300;
 }
 
 #stats {
