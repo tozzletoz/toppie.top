@@ -272,7 +272,6 @@ setInterval(function(){
 function save(saveCount=true) {
     synced = false
     displaysynced.textContent = `synced: ${synced}`
-    localStorage.setItem("multiplier", multiplier)
     localStorage.setItem("rebirths", rebirths)
     localStorage.setItem("counter", counter)
     localStorage.setItem("dps", dps)
@@ -543,6 +542,7 @@ function toggleleaderboard(){
 // LEADERBOARD
 if (username != null){
     undisplay.textContent = `username: ${username}`
+    saveto_lb()
 }else{
     undisplay.textContent = `username: not given`
 }
@@ -566,6 +566,17 @@ async function get_lb() {
     } catch (error) {
         return null
     }
+}
+
+function remvUsername(oldUsername){
+    const url = "https://api.npoint.io/5accda10b85caaa660a5"
+
+    get_lb().then(data => {
+        delete data[oldUsername]
+        console.log(data)
+
+        axios.post(url, data)
+    })
 }
 
 //autoclicker detection
@@ -642,6 +653,7 @@ function toggleStats(){
 }
 
 if (username == null || undefined || JSON.stringify(shopitems).includes("realm.png") == false){
+    const oldUsername = username
     promtUsername()
     save()
     function promtUsername(){
@@ -676,6 +688,8 @@ if (username == null || undefined || JSON.stringify(shopitems).includes("realm.p
     if (JSON.stringify(shopitems).includes("realm.png") == false){
         usernameInfo.textContent = "You can now choose a new username."
         const reloadPage = true
+        console.log(oldUsername)
+        remvUsername(oldUsername)
     }else{
         usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard."
     }
