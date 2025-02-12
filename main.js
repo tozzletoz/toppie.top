@@ -12,11 +12,11 @@ const totalTimeDisplay = document.getElementById("totalTime")
 
 setInterval(function(){
 	totalTimeSeconds++
-	let days = Math.floor(totalTimeSeconds/86400)
-	let hours = Math.floor(totalTimeSeconds/3600)
-	let minutes = Math.floor(totalTimeSeconds/60)
+	const days = Math.floor(totalTimeSeconds / (24 * 3600))
+    const hours = Math.floor((totalTimeSeconds % (24 * 3600)) / 3600)
+    const minutes = Math.floor((totalTimeSeconds % 3600) / 60)
 
-	totalTimeDisplay.textContent = `playtime: ${minutes} minutes`
+	totalTimeDisplay.textContent = `playtime: ${days} days, ${hours} hours, ${minutes} minutes`
 	dpcdisplay.textContent = `diamonds per click: ${dpc}`
 	dpsdisplay.textContent = `diamonds per second: ${dps}`
 
