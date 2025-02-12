@@ -52,99 +52,6 @@ function toggleOverlay(){
 	}
 }
 
-if (username == null || undefined){
-	toggleOverlay()
-    usernameScreen = document.getElementById("usernameScreen")
-    usernameScreen.style.transform= "translate(-50%, -50%) scale(1)"
-    usernameScreen.style.opacity="1"
-    usernameScreen.style.pointerEvents="auto"
-    usernameScreen.style.visibility="visible"
-
-    usernameInput = document.createElement("input")
-    usernameInput.type = "text"
-    usernameInput.id = "usernameInput"
-    usernameInput.placeholder = "Username..."
-
-    usernameInput.addEventListener("input", function(){
-        usernameInput.placeholder = "Username..."
-        try{
-            placeholderStyle.remove()
-        }catch{
-            null
-        }
-        const placeholderStyle = document.createElement("style")
-        placeholderStyle.innerHTML = `
-            #usernameInput::placeholder {
-                color: #bfbfbf;
-            }`
-        document.head.appendChild(placeholderStyle)
-    })
-
-    usernameInfo = document.createElement("h4")
-    usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard."
-    usernameInfo.id = "usernameInfo"
-
-    function setUser(){
-        usernameApply.disabled = true
-        usernameApply.textContent = "Loading..."
-        preUser = String(usernameInput.value)
-
-        async function fetchContent() {
-
-            const content = await get_lb()
-            exists = content.hasOwnProperty(preUser)
-            usernameApply.disabled = false
-            usernameApply.textContent = "Confirm"
-            
-            if (preUser.length >= 3 && preUser != null && exists == false && preUser.length <= 15 && preUser.includes(" ") != true){
-                username = String(usernameInput.value)
-                undisplay.textContent = `username: ${username}`
-                save()
-                document.body.removeChild(overlay)
-                localStorage.setItem("username", username)
-                usernameScreen.style.transform= "translate(-50%, -50%) scale(1)"
-                usernameScreen.style.opacity="0"
-                usernameScreen.style.pointerEvents="none"
-                usernameScreen.style.visibility="hidden"
-                document.body.removeChild(usernameScreen)
-                saveto_lb()
-        }else{
-            try{
-                placeholderStyle.remove()
-            }catch{
-                null
-            }
-            const placeholderStyle = document.createElement("style")
-            usernameInput.value = ""
-            placeholderStyle.innerHTML = `
-                #usernameInput::placeholder {
-                    color:rgb(255, 0, 0);
-                }`
-            document.head.appendChild(placeholderStyle)
-            if (exists == true){
-            usernameInput.placeholder = "Username already in use."
-        }else{
-            usernameInput.placeholder = "There's an error with the given username."
-        }
-    }
-
-        }
-        fetchContent()
-    }
-
-    const usernameApply = document.createElement("button")
-    usernameApply.textContent = "Confirm"
-    usernameApply.id = "usernameApply"
-    usernameApply.onclick = setUser
-
-    usernameScreen.appendChild(usernameInfo)
-    usernameScreen.appendChild(usernameInput)
-    usernameScreen.appendChild(usernameApply)
-	toggleOverlay
-}else{
-    saveto_lb()
-}
-
 setInterval(() => {
     if (rebirths >= 1){diamond.style.filter = "hue-rotate(150deg) saturate(200%) brightness(0.9)"}
     if (rebirths >= 5) {diamond.style.filter = "hue-rotate(-60deg)"}
@@ -357,10 +264,6 @@ function toggleMusic(){
         mutebtn.innerHTML = '<span class="material-symbols-outlined"> music_note </span>'
     }
 }
-
-mutebtn.addEventListener("click", function(){
-    playbgm()
-})
 
 setInterval(function(){
 	localStorage.setItem("totalClicks", totalClicks)
@@ -736,4 +639,113 @@ function toggleStats(){
         stats.style.visibility="hidden"
         openStats.innerHTML = '<span class="material-symbols-outlined">query_stats</span>'
     }
+}
+
+if (username == null || undefined || JSON.stringify(shopitems).includes("realm.png") == false){
+    promtUsername()
+    save()
+    function promtUsername(){
+	toggleOverlay()
+    usernameScreen = document.getElementById("usernameScreen")
+    usernameScreen.style.transform= "translate(-50%, -50%) scale(1)"
+    usernameScreen.style.opacity="1"
+    usernameScreen.style.pointerEvents="auto"
+    usernameScreen.style.visibility="visible"
+
+    usernameInput = document.createElement("input")
+    usernameInput.type = "text"
+    usernameInput.id = "usernameInput"
+    usernameInput.placeholder = "Username..."
+
+    usernameInput.addEventListener("input", function(){
+        usernameInput.placeholder = "Username..."
+        try{
+            placeholderStyle.remove()
+        }catch{
+            null
+        }
+        const placeholderStyle = document.createElement("style")
+        placeholderStyle.innerHTML = `
+            #usernameInput::placeholder {
+                color: #bfbfbf;
+            }`
+        document.head.appendChild(placeholderStyle)
+    })
+
+    usernameInfo = document.createElement("h4")
+    if (JSON.stringify(shopitems).includes("realm.png") == false){
+        usernameInfo.textContent = "You can now choose a new username."
+        const reloadPage = true
+    }else{
+        usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard."
+    }
+    usernameInfo.id = "usernameInfo"
+
+    function setUser(){
+        usernameApply.disabled = true
+        usernameApply.textContent = "Loading..."
+        preUser = String(usernameInput.value)
+
+        async function fetchContent() {
+
+            if (JSON.stringify(shopitems).includes("realm.png") == false){
+                reloadPage = true
+            }
+
+            const content = await get_lb()
+            exists = content.hasOwnProperty(preUser)
+            usernameApply.disabled = false
+            usernameApply.textContent = "Confirm"
+            
+            if (preUser.length >= 3 && preUser != null && exists == false && preUser.length <= 15 && preUser.includes(" ") != true){
+                username = String(usernameInput.value)
+                undisplay.textContent = `username: ${username}`
+                shopitems = [{"img":"assets/icons/pickaxe.png","desc":"+1 diamond per click","price":50,"reward":"dpc+=1","amount":0,"type":0},{"img":"assets/icons/minecart.png","desc":"+1 diamond per second","price":100,"reward":"dps+=1","amount":0,"type":1},{"img":"assets/icons/drill.png","desc":"+5 diamonds per click","price":200,"reward":"dpc+=5","amount":0,"type":0},{"img":"assets/icons/excavator.webp","desc":"+5 diamonds per second","price":450,"reward":"dps+=5","amount":0,"type":1},{"img":"assets/icons/chest.png","desc":"+25 diamonds per click","price":1100,"reward":"dpc+=25","amount":0,"type":0},{"img":"assets/icons/rain.png","desc":"+25 diamonds per second","price":2300,"reward":"dps+=25","amount":0,"type":1},{"img":"assets/icons/ship.png","desc":"+100 diamonds per click","price":4500,"reward":"dpc+=100","amount":0,"type":0},{"img":"assets/icons/mine.png","desc":"+100 diamonds per second","price":9000,"reward":"dps+=100","amount":0,"type":1},{"img":"assets/icons/planet.png","desc":"+1000 diamonds per click","price":45000,"reward":"dpc+=1000","amount":0,"type":0},{"img":"assets/icons/realm.png","desc":"+10000 diamonds per second","price":1000000,"reward":"dps+=10000","amount":0,"type":1},{"img":"assets/icons/diamondGod.png","desc":"+100000 diamonds per click","price":6000000,"reward":"dpc+=100000","amount":0,"type":0}]
+                save()
+                document.body.removeChild(overlay)
+                localStorage.setItem("username", username)
+                usernameScreen.style.transform= "translate(-50%, -50%) scale(1)"
+                usernameScreen.style.opacity="0"
+                usernameScreen.style.pointerEvents="none"
+                usernameScreen.style.visibility="hidden"
+                document.body.removeChild(usernameScreen)
+                saveto_lb()
+                console.log(reloadPage)
+                if (reloadPage == true){
+                    location.reload()
+                }
+        }else{
+            try{
+                placeholderStyle.remove()
+            }catch{
+                null
+            }
+            const placeholderStyle = document.createElement("style")
+            usernameInput.value = ""
+            placeholderStyle.innerHTML = `
+                #usernameInput::placeholder {
+                    color:rgb(255, 0, 0);
+                }`
+            document.head.appendChild(placeholderStyle)
+            if (exists == true){
+            usernameInput.placeholder = "Username already in use."
+        }else{
+            usernameInput.placeholder = "There's an error with the given username."
+        }
+    }
+
+        }
+        fetchContent()
+    }
+
+    const usernameApply = document.createElement("button")
+    usernameApply.textContent = "Confirm"
+    usernameApply.id = "usernameApply"
+    usernameApply.onclick = setUser
+
+    usernameScreen.appendChild(usernameInfo)
+    usernameScreen.appendChild(usernameInput)
+    usernameScreen.appendChild(usernameApply)
+}}else{
+    saveto_lb()
 }
