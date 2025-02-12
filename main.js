@@ -11,6 +11,7 @@ let totalTimeSeconds = (localStorage.getItem("totalTimeSeconds") || 0)
 const totalTimeDisplay = document.getElementById("totalTime")
 
 setInterval(function(){
+    console.log("TIME")
 	totalTimeSeconds++
 	const days = Math.floor(totalTimeSeconds / (24 * 3600))
     const hours = Math.floor((totalTimeSeconds % (24 * 3600)) / 3600)
@@ -21,6 +22,8 @@ setInterval(function(){
 	dpsdisplay.textContent = `diamonds per second: ${dps}`
 
 	localStorage.setItem("totalTimeSeconds", totalTimeSeconds)
+    currentTimeStamp = Math.floor(Date.now() / 1000)
+    localStorage.setItem("currentTimeStamp", currentTimeStamp)
 }, 1000)
 
 let synced = true
@@ -287,9 +290,16 @@ function save(saveCount=true) {
 }
 
 function init(){
+    console.log("INIT")
     counter = parseInt(localStorage.getItem("counter")) || 0
     dps = parseInt(localStorage.getItem("dps")) || 0
     dpc = parseInt(localStorage.getItem("dpc")) || 1
+
+    let currentTimeStamp = Math.floor(Date.now() / 1000)
+    oldTimeStamp = localStorage.getItem("currentTimeStamp")
+    let difference = currentTimeStamp - parseInt(oldTimeStamp)
+    console.log(difference)
+    counter+=difference*dps
 
     shopitems = JSON.parse(localStorage.getItem("shopitems")) || [{img: "assets/icons/pickaxe.png", desc: "+1 diamond per click", price: 50, reward: "dpc+=1", amount: 0, type: 0},{img: "assets/icons/minecart.png", desc: "+1 diamond per second", price: 100, reward: "dps+=1", amount: 0, type: 1},{img: "assets/icons/drill.png", desc: "+5 diamonds per click", price: 200, reward: "dpc+=5", amount: 0, type: 0},{img: "assets/icons/excavator.webp", desc: "+5 diamonds per second", price: 450, reward: "dps+=5", amount: 0, type: 1},{img: "assets/icons/chest.png", desc: "+25 diamonds per click", price: 1100, reward: "dpc+=25", amount: 0, type: 0},{img: "assets/icons/rain.png", desc: "+25 diamonds per second", price: 2300, reward: "dps+=25", amount: 0, type: 1},{img: "assets/icons/ship.png", desc: "+100 diamonds per click", price: 4500, reward: "dpc+=100", amount: 0, type: 0},{img: "assets/icons/mine.png", desc: "+100 diamonds per second", price: 9000, reward: "dps+=100", amount: 0, type: 1},{img: "assets/icons/planet.png", desc: "+1000 diamonds per click", price: 45000, reward: "dpc+=1000", amount: 0, type: 0}, {img: "assets/icons/realm.png", desc: "+10000 diamonds per second", price: 1000000, reward: "dps+=10000", amount: 0, type: 1}, {img: "assets/icons/diamondGod.png", desc: "+100000 diamonds per click", price: 6000000, reward: "dpc+=100000", amount: 0, type: 0}]
     updatediamonds()
