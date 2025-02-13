@@ -285,7 +285,7 @@ function save(saveCount=true) {
     }else{
         if (shopitems[11].count != 0){
             console.log("Nice")
-            localStorage.setItem("shopitems", JSON.stringify([{"img":"assets/icons/pickaxe.png","desc":"+1 diamond per click","price":50,"reward":"dpc+=1","amount":0,"type":0},{"img":"assets/icons/minecart.png","desc":"+1 diamond per second","price":100,"reward":"dps+=1","amount":0,"type":1},{"img":"assets/icons/drill.png","desc":"+5 diamonds per click","price":200,"reward":"dpc+=5","amount":0,"type":0},{"img":"assets/icons/excavator.webp","desc":"+5 diamonds per second","price":450,"reward":"dps+=5","amount":0,"type":1},{"img":"assets/icons/chest.png","desc":"+25 diamonds per click","price":1100,"reward":"dpc+=25","amount":0,"type":0},{"img":"assets/icons/rain.png","desc":"+25 diamonds per second","price":2300,"reward":"dps+=25","amount":0,"type":1},{"img":"assets/icons/ship.png","desc":"+100 diamonds per click","price":4500,"reward":"dpc+=100","amount":0,"type":0},{"img":"assets/icons/mine.png","desc":"+100 diamonds per second","price":9000,"reward":"dps+=100","amount":0,"type":1},{"img":"assets/icons/planet.png","desc":"+1000 diamonds per click","price":45000,"reward":"dpc+=1000","amount":0,"type":0},{"img":"assets/icons/realm.png","desc":"+10000 diamonds per second","price":1000000,"reward":"dps+=10000","amount":0,"type":1},{"img":"assets/icons/diamondGod.png","desc":"+100000 diamonds per click","price":6000000,"reward":"dpc+=100000","amount":0,"type":0},{"img":"assets/icons/offline.png","desc":"Keep getting income while you're away!","price":1000000000,"reward":"oflineIncome = true","amount":1,"type":2}]))
+            localStorage.setItem("shopitems", JSON.stringify([{"img":"assets/icons/pickaxe.png","desc":"+1 diamond per click","price":50,"reward":"dpc+=1","amount":0,"type":0},{"img":"assets/icons/minecart.png","desc":"+1 diamond per second","price":100,"reward":"dps+=1","amount":0,"type":1},{"img":"assets/icons/drill.png","desc":"+5 diamonds per click","price":200,"reward":"dpc+=5","amount":0,"type":0},{"img":"assets/icons/excavator.webp","desc":"+5 diamonds per second","price":450,"reward":"dps+=5","amount":0,"type":1},{"img":"assets/icons/chest.png","desc":"+25 diamonds per click","price":1100,"reward":"dpc+=25","amount":0,"type":0},{"img":"assets/icons/rain.png","desc":"+25 diamonds per second","price":2300,"reward":"dps+=25","amount":0,"type":1},{"img":"assets/icons/ship.png","desc":"+100 diamonds per click","price":4500,"reward":"dpc+=100","amount":0,"type":0},{"img":"assets/icons/mine.png","desc":"+100 diamonds per second","price":9000,"reward":"dps+=100","amount":0,"type":1},{"img":"assets/icons/planet.png","desc":"+1000 diamonds per click","price":45000,"reward":"dpc+=1000","amount":0,"type":0},{"img":"assets/icons/realm.png","desc":"+10000 diamonds per second","price":1000000,"reward":"dps+=10000","amount":0,"type":1},{"img":"assets/icons/diamondGod.png","desc":"+100000 diamonds per click","price":6000000,"reward":"dpc+=100000","amount":0,"type":0},{"img":"assets/icons/offline.png","desc":"Keep getting income while you're away! (Saves on rebirth)","price":1000000000,"reward":"oflineIncome = true","amount":1,"type":2}]))
         }else{
         localStorage.setItem("shopitems", null)
         shopwindow.innerHTML = ""
@@ -320,12 +320,12 @@ function init(){
         {img: "assets/icons/planet.png", desc: "+1000 diamonds per click", price: 45000, reward: "dpc+=1000", amount: 0, type: 0},
         {img: "assets/icons/realm.png", desc: "+10000 diamonds per second", price: 1000000, reward: "dps+=10000", amount: 0, type: 1},
         {img: "assets/icons/diamondGod.png", desc: "+100000 diamonds per click", price: 6000000, reward: "dpc+=100000", amount: 0, type: 0},
-        {img: "assets/icons/offline.png", desc: "Keep getting income while you're away!", price: 1000000000, reward: "oflineIncome = true", amount: 0, type: 2}
+        {img: "assets/icons/offline.png", desc: "Keep getting income while you're away! (Saves on rebirth)", price: 1000000000, reward: "oflineIncome = true", amount: 0, type: 2}
       ]
       
     console.log(shopitems.length)
     if (shopitems.length < 12){
-        shopitems.push({img: "assets/icons/offline.png", desc: "Keep getting income while you're away!", price: 1000000000, reward: "oflineIncome = true", amount: 0, type: 2})
+        shopitems.push({img: "assets/icons/offline.png", desc: "Keep getting income while you're away! (Saves on rebirth)", price: 1000000000, reward: "oflineIncome = true", amount: 0, type: 2})
     }
 
     updatediamonds()
@@ -795,7 +795,7 @@ if (username == null || undefined || JSON.stringify(shopitems).includes("realm.p
                     {img: "assets/icons/planet.png", desc: "+1000 diamonds per click", price: 45000, reward: "dpc+=1000", amount: 0, type: 0},
                     {img: "assets/icons/realm.png", desc: "+10000 diamonds per second", price: 1000000, reward: "dps+=10000", amount: 0, type: 1},
                     {img: "assets/icons/diamondGod.png", desc: "+100000 diamonds per click", price: 6000000, reward: "dpc+=100000", amount: 0, type: 0},
-                    {img: "assets/icons/offline.png", desc: "Keep getting income while you're away!", price: 1000000000, reward: "oflineIncome = true", amount: 0, type: 2}
+                    {img: "assets/icons/offline.png", desc: "Keep getting income while you're away! (Saves on rebirth)", price: 1000000000, reward: "oflineIncome = true", amount: 0, type: 2}
                   ]
                 save()
                 document.body.removeChild(overlay)
