@@ -372,7 +372,6 @@ function init(){
             if (counter>shopitems[i].price-1){
                 
                 if (shopitems[i].price == 1000000000){
-                    console.log(shopitems[i].amount, "VAPE")
                     if (shopitems[i].amount < 1){
                         buysound.currentTime = 0
                         buysound.play()
