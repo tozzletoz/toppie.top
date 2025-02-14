@@ -306,6 +306,7 @@ let offlineIncome = localStorage.getItem("offlineIncome") || false
 if (offlineIncome == "true"){
     counter+=(difference*dps)*multiplier
 }
+const shopTitle = document.getElementById("shopTitle")
 
 function init(){
     shopitems = JSON.parse(localStorage.getItem("shopitems")) || [
@@ -327,9 +328,9 @@ function init(){
     if (shopitems.length < 12){
         shopitems.push({img: "assets/icons/offline.png", desc: "Keep getting income while you're away! (Saves on rebirth)", price: 1000000000, reward: "oflineIncome = true", amount: 0, type: 2})
     }
-
     updatediamonds()
-
+    shopwindow.innerHTML = ""
+    shopwindow.appendChild(shopTitle)
     for (let i = 0; i < shopitems.length; i++) {
         const separator = document.createElement("hr")
         separator.id = "separator"
@@ -469,6 +470,7 @@ rebnow.addEventListener("click", function(){
             saveto_lb()
         }
         save(saveCount=false)
+        init()
     }else{
         msg(`You need ${price - Math.round(counter)} more diamonds.`)
     }
@@ -544,16 +546,16 @@ async function load_lb() {
     if (leaderboarddata) {
         sorted.forEach(([key, value]) => {
             let leaderboard_i = document.createElement("div")
+            leaderboard_i.style.opacity = 0
             leaderboard_i.innerHTML = `<i>${key}</i> - ${value} rebirths`
             leaderboard_i.id = "datainlb"
 
             leaderboardholder.appendChild(leaderboard_i)
+            leaderboard_i.style.transition = "0.5s ease"
+            setTimeout(() => {
+                leaderboard_i.style.opacity = 1
+            }, 100);
         })
-    } else {
-        let leaderboard_i = document.createElement("div")
-        leaderboard_i.id = "datainlb"
-        leaderboard_i.textContent = "Loading..."
-        leaderboardholder.appendChild(leaderboard_i)
     }
 }
 
