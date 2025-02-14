@@ -82,7 +82,7 @@ body {
   #shop,
   #mute,
   #openStats {
-    box-shadow: 0 0 0 rgba(165, 209, 255, 0.5);
+    box-shadow: 0px 3px 0 rgba(0, 2, 37, 0.5);
     display: flex;
     bottom: 0.5vh;
     height: 5vh;
@@ -156,7 +156,8 @@ body {
   #mute:hover,
   #openStats:hover {
     background-color: rgba(68, 75, 213, 0.87);
-    transform: scale(1.05);
+    box-shadow: 0px 0px 0 rgba(0, 2, 37, 0.5);
+    transform: translateY(3px);
   }
   
   #leaderboardholder,
@@ -192,6 +193,7 @@ body {
   #yes,
   #rebnow,
   .shopbutton {
+    box-shadow: 0px 3px 0 rgba(0, 0, 0, 0.5);
     width: 95%;
     height: 55px;
     font-size: 15px;
@@ -211,7 +213,8 @@ body {
     #yes:hover,
     #usernameInput:hover,
     #usernameApply:hover {
-    transform: translateY(5%);
+      box-shadow: 0px 0px 0 rgba(0, 2, 37, 0.5);
+      transform: translateY(3px);
   }
   
   .shopbutton .shopicons {
@@ -354,10 +357,6 @@ body {
   height: 1vh;
 }
 
-#rebnow:hover {
-  box-shadow: 0 0 15px 5px rgba(255, 234, 47, 0.507);
-}
-
 #usernameInfo{
   font-weight: 400;
 }
@@ -463,4 +462,38 @@ body {
   left: 50%;
   transform: translateX(-50%);
   gap: 10px;
+}
+
+#shopTitle {
+	top: 5px;
+	color: rgb(0, 0, 0);
+	font-size: 40px;
+	background-color: rgb(238, 227, 127);
+	text-align: center;
+	width: 85%;
+	height: 50px;
+	line-height: 50px;
+	border-radius: 12px;
+	border: solid 2px rgb(209, 199, 112);
+	margin-bottom: 5px;
+  font-weight: 300;
+  justify-content: center;
+}
+
+#shopwindow{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#shopwindow > * {
+  margin-top: 0;
+  padding-top: 0;
+  display: flex;
+}
+
+
+#separator {
+  border: 1.5px solid rgb(177, 177, 177);
+  width: 98%;
 }
