@@ -57,8 +57,10 @@ function toggleOverlay(){
 setInterval(() => {
     if (rebirths >= 1){diamond.style.filter = "hue-rotate(150deg) saturate(200%) brightness(0.9)"}
     if (rebirths >= 5) {diamond.style.filter = "hue-rotate(-60deg)"}
-    if (rebirths >= 10) {diamond.style.filter = "brightness(170%) grayscale(100%)"}
-    if (rebirths >= 20) {diamond.style.filter = "hue-rotate(205deg) saturate(80%) brightness(130%)"}
+    if (rebirths >= 10) {diamond.style.filter = "hue-rotate(205deg) saturate(80%) brightness(130%)"}
+    if (rebirths >= 20) {
+        diamond.style.filter = "brightness(170%) grayscale(100%) drop-shadow(0 0 30px rgb(255, 255, 255))"
+    }
 }, 100)
 
 const undisplay = document.getElementById("undisplay")
