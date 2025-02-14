@@ -331,37 +331,19 @@ function init(){
     updatediamonds()
 
     for (let i = 0; i < shopitems.length; i++) {
+        const separator = document.createElement("hr")
+        separator.id = "separator"
         let newbutton = document.createElement("div")
         if (shopitems[i].type==0){
             newbutton.style.backgroundColor = "rgb(255, 84, 84)"
-            newbutton.addEventListener("mouseenter", () => {
-                newbutton.style.boxShadow = "0 0 15px 5px rgba(255, 47, 47, 0.35)";shopitems
-              })
-              
-              newbutton.addEventListener("mouseleave", () => {
-                newbutton.style.boxShadow = "none";
-              })
         } 
         if (shopitems[i].type == 1){
             newbutton.style.backgroundColor = "rgb(84, 127, 255)"
-            newbutton.addEventListener("mouseenter", () => {
-                newbutton.style.boxShadow = "0 0 15px 5px rgba(47, 82, 255, 0.35)";
-              })
-              
-              newbutton.addEventListener("mouseleave", () => {
-                newbutton.style.boxShadow = "none";
-              })
         }
         if (shopitems[i].type == 2){
             newbutton.style.backgroundColor = "rgb(201, 84, 255)"
-            newbutton.addEventListener("mouseenter", () => {
-                newbutton.style.boxShadow = "0 0 15px 5px rgba(231, 47, 255, 0.35)";
-              })
-              
-              newbutton.addEventListener("mouseleave", () => {
-                newbutton.style.boxShadow = "none";
-              })
         }
+
         newbutton.className = "shopbutton"
         newbutton.innerHTML = `${shopitems[i].desc} <br>price: 💎${shopitems[i].price}, owned: ${shopitems[i].amount}`
         let icon = document.createElement("img")
@@ -411,6 +393,7 @@ function init(){
         })
 
         shopwindow.appendChild(newbutton)
+        if (shopitems[i].price == 6000000){shopwindow.appendChild(separator)}
     }
     
 }
@@ -418,6 +401,7 @@ function init(){
 init()
 
 var rebopen = false
+const rebbtn = document.getElementById("rebirth")
 //rebirths
 function openrebs(){
     let price = parseInt(1000000 * Math.pow(rebirths, 3) + 1000000)
@@ -437,7 +421,6 @@ function openrebs(){
     shopsound.currentTime = 0
     shopsound.play()
     const opacity = window.getComputedStyle(rebirthwind).opacity
-    const rebbtn = document.getElementById("rebirth")
     if (opacity=="0"){
         rebopen = true
         rebirthwind.style.transform= "translate(-50%, -50%) scale(1)"
@@ -456,9 +439,8 @@ function openrebs(){
     }
 }
 
-
 rebnow.addEventListener("click", function(){
-    let price = parseInt(1000000 * Math.pow(rebirths, 3) + 1000000)
+    price = parseInt(1000000 * Math.pow(rebirths, 3) + 1000000)
     rebnow.textContent = `rebirth now (costs 💎${price})`
 
     if (counter >= price){
@@ -755,9 +737,10 @@ if (username == null || undefined || JSON.stringify(shopitems).includes("realm.p
     })
 
     usernameInfo = document.createElement("h4")
+    reloadPage = false
     if (JSON.stringify(shopitems).includes("realm.png") == false){
         usernameInfo.textContent = "You can now choose a new username."
-        const reloadPage = true
+        reloadPage = true
         remvUsername(oldUsername)
     }else{
         usernameInfo.textContent = "Enter a username, it will be visible for others on the leaderboard."
