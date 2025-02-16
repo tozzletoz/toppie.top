@@ -7,24 +7,24 @@
 </head>
 <style>
   body {
-    background-color: black;
-    font-family: "JetBrains Mono", serif;
+    background-color: black
+    font-family: "JetBrains Mono", serif
 }
 
 .content {
-    color: aliceblue;
+    color: aliceblue
 }
 
 a:link {
-  color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255)
 }
 
 a:visited {
-  color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255)
 }
 
 h1 {
-  color: white;
+  color: white
 }
 </style>
 <body>
@@ -32,31 +32,31 @@ h1 {
     <p class="content">[toppietop@archlinux ~]$ </p>
 </body>
 <script>
-  const terminal = document.getElementsByClassName("content")[0];
+  const terminal = document.getElementsByClassName("content")[0]
 
   function execute(command, output, directory, callback) {
     for (let i = 0; i < command.length; i++) {
         setTimeout(() => {
-            terminal.innerHTML += command[i];
-        }, i * 100);
+            terminal.innerHTML += command[i]
+        }, i * 100)
     }
     setTimeout(() => {
-        terminal.innerHTML += "<br>" + output + `<br>[toppietop@archlinux ${directory}]$ `;
-        setTimeout(() => { if (callback) callback(); }, 1000);
-    }, command.length * 100 + 200);
+        terminal.innerHTML += "<br>" + output + `<br>[toppietop@archlinux ${directory}]$ `
+        setTimeout(() => { if (callback) callback() }, 1000)
+    }, command.length * 100 + 200)
   }
 
   const projectshtml = `
     <a href='https://toppie.top/projects/diamondclicker'>Diamond Clicker</a><br>
     <a href='https://toppie.top/projects/chat'>Chat App</a>
-  `;
+  `
 
   execute("echo $WELCOMEMESSAGE", "Hello, welcome to toppie.top, a website we made to share our projects on.", "~", () => {
     execute("whoami", "<a href='https://github.com/hcr5'>hcr5</a> and <a href='https://github.com/tozzletoz'>tozzletoz</a>, we're programmers from the Netherlands. We like building fun projects and reverse engineering websites.", "~", () => {
         execute("cd projects", "", "projects", () => {
-            execute("ls", projectshtml, "projects", () => {});
-        });
-    });
-  });
+            execute("ls", projectshtml, "projects", () => {})
+        })
+    })
+  })
 </script>
 </html>
