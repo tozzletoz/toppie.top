@@ -51,10 +51,29 @@ const projectshtml = `
 <a href='https://toppie.top/projects/chat'>Chat App</a>
 `
 
-execute("whoami", "<a href='https://github.com/hcr5'>hcr5</a> and <a href='https://github.com/tozzletoz'>tozzletoz</a>, we're programmers from the Netherlands. We like building fun projects and reverse engineering websites.", "~", () => {
-    execute("cd projects", "", "projects", () => {
-        execute("ls", projectshtml, "projects", () => {})
+const terminal = document.getElementsByClassName("content")[0]
+
+function execute(command, output, directory, callback) {
+    for (let i = 0; i < command.length; i++) {
+        setTimeout(() => {
+            terminal.innerHTML += command[i]
+        }, i * 100)
+    }
+    setTimeout(() => {
+        terminal.innerHTML += "<br>" + output + `<br>[toppietop@archlinux ${directory}]$ `
+        setTimeout(() => {if (callback) callback()}, 1000)
+    }, command.length * 100 + 200)
+}
+
+const projectshtml = `
+<a href='https://toppie.top/projects/diamondclicker'>Diamond Clicker</a><br>
+<a href='https://toppie.top/projects/chat'>Chat App</a>
+`
+execute("echo $WELCOMEMESSAGE", "Hello, welcome to toppie.top, a website we made to share our projects on.", "~", () => {
+    execute("whoami", "<a href='https://github.com/hcr5'>hcr5</a> and <a href='https://github.com/tozzletoz'>tozzletoz</a>, we're programmers from the Netherlands. We like building fun projects and reverse engineering websites.", "~", () => {
+        execute("cd projects", "", "projects", () => {
+            execute("ls", projectshtml, "projects", () => {})
     })
-})
+})})
 </script>
 </html>
