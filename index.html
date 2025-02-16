@@ -41,7 +41,7 @@
             }, i * 100)
         }
         setTimeout(() => {
-            terminal.innerHTML += "<br>" + output + `<br>[toppietop@archlinux ${directory}]$ `
+            terminal.innerHTML += "<br>" + output + (output !== "" ? "<br>" : "") + `[toppietop@archlinux ${directory}]$ `;
             setTimeout(() => {if (callback) callback()}, 1000)
         }, command.length * 100 + 200)
     }
