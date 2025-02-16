@@ -39,20 +39,20 @@
         for (let i = 0; i < command.length; i++) {
             setTimeout(() => {
                 terminal.innerHTML += command[i]
-            }, i * 100)
+            }, i * 50)
         }
         setTimeout(() => {
             terminal.innerHTML += "<br>" + output + (output !== "" ? "<br>" : "") + `[toppietop@archlinux ${directory}]$ `;
-            setTimeout(() => {if (callback) callback()}, 1000)
-        }, command.length * 100 + 200)
+            setTimeout(() => {if (callback) callback()}, 500)
+        }, command.length * 50 + 100)
     }
 
     const projectshtml = `
-    <a href='https://toppie.top/projects/diamondclicker'>Diamond Clicker</a><br>
-    <a href='https://toppie.top/projects/chat'>Chat App</a>
+    <a href='https://toppie.top/projects/diamondclicker' target='_blank'>Diamond Clicker</a><br>
+    <a href='https://toppie.top/projects/chat' target='_blank'>Chat App</a>
     `
     execute("echo $WELCOMEMESSAGE", "Hello, welcome to toppie.top, a website we made to share our projects on.", "~", () => {
-        execute("whoami", "<a href='https://github.com/hcr5'>hcr5</a> and <a href='https://github.com/tozzletoz'>tozzletoz</a>, we're programmers from the Netherlands. We like building fun projects and reverse engineering websites.", "~", () => {
+        execute("whoami", "<a href='https://github.com/hcr5' target='_blank'>hcr5</a> and <a href='https://github.com/tozzletoz' target='_blank'>tozzletoz</a>, we're programmers from the Netherlands. We like building fun projects and reverse engineering websites.", "~", () => {
             execute("cd projects", "", "projects", () => {
                 execute("ls", projectshtml, "projects", () => {})
         })
