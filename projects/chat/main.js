@@ -6,6 +6,7 @@ const recipient = document.getElementById("recipient")
 const username = document.getElementById("username")
 const messages = document.getElementById("messages")
 const container = document.getElementById("container")
+const notification = new Audio("notification.mp3")
 
 let usernameText = localStorage.getItem("username") || null
 username.value = usernameText
@@ -14,7 +15,7 @@ send.addEventListener("click", sendMsg)
 function sendMsg() {
 	if  (message.value.trim() != "" && username.value.trim() != ""){
 		const newMessage = document.createElement("div")
-		newMessage.style.backgroundColor = "rgba(60, 255, 0, 0.4)"
+		newMessage.style.backgroundColor = "rgba(255, 251, 0, 0.4)"
 		newMessage.className = "message sent"
 		newMessage.textContent = `You: ${message.value}`
 		messages.appendChild(newMessage)
@@ -26,8 +27,8 @@ function sendMsg() {
 		socket.send(JSON.stringify({
 			"method": "set",
 			"user": "player",
-			"project_id": "1133733472",
-			"name": "☁ hruhoqf",
+			"project_id": "1135226211",
+			"name": "☁ main",
 			"value": encode(`[${msg[0]}, ${msg[1]}]`)
 		}))}
 	message.value = ""
@@ -55,6 +56,8 @@ socket.addEventListener("message", (resp) => {
 		let msgarray = decode(JSON.parse(resp.data).value).replace(/[^\w:,\s]/g, '').split(',').map(item => item.split(':').map(i => i.trim()))
 		newMessage.textContent = `${msgarray[0][0]}: ${msgarray[0][1]}`
 		if (msgarray[1] == username.value || msgarray[1] == "") {
+			notification.currentTime = 0
+			notification.play()
 			messages.appendChild(newMessage)
 			container.scrollTo({
 				top: messages.scrollHeight,
