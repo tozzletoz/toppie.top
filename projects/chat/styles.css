@@ -6,7 +6,7 @@ body {
 	top: 50%;
 	transform: translate(-50%, -50%);
 	font-family: Arial, Helvetica, sans-serif;
-	background-color: rgb(200, 255, 188);
+	background-color: rgb(254, 255, 188);
 }
 
 input {
@@ -14,21 +14,22 @@ input {
 	border: 1px solid black;
 	border-radius: 3px;
 	height: 30px;
+	background-color: rgba(255, 255, 255, 0.521);
 }
 
 button {
 	margin: 2px;
-	background-color: rgb(9, 255, 0);
+	background-color: rgb(253, 251, 134);
 	border: 1px solid black;
 	border-radius: 3px;
 	height: 30px;
-	transition: all 0.2s ease;
-	box-shadow: 0px 5px rgba(0, 114, 6, 0.377);
+	transition: all 0.1s ease;
+	box-shadow: 0px 5px rgba(114, 112, 0, 0.377);
 }
 
 button:hover{
 	transform: translateY(4px);
-	box-shadow: 0px 0px rgba(0, 114, 6, 0.377);
+	box-shadow: 0px 0px rgba(114, 112, 0, 0.377);
 }
 
 #container {
@@ -71,6 +72,7 @@ button:hover{
 	align-self: flex-end;
 	background-color: #dcf8c6;
 	border-bottom-right-radius: 0;
+	border: 1px solid #6a7500;
 }
 
 .received {
@@ -82,4 +84,22 @@ button:hover{
 
 .message p {
 	margin: 0;
+}
+
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+  
+::-webkit-scrollbar-track {
+    background-color: #f0f0d0;
+}
+  
+::-webkit-scrollbar-thumb {
+    background: #d4d4bd;
+    border-radius: 10px;
+}
+  
+::-webkit-scrollbar-thumb:hover {
+    background: #c9c9b4;
 }
