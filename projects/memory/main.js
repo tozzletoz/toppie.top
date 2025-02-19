@@ -89,7 +89,7 @@ function init() {
 
 	function checkcompletes() {
 		const check = setInterval(() => {
-			if (completes == 2) {
+			if (completes == gridsize**2) {
 				menu()
 				if (skip) {
 					table.style.opacity = 0
@@ -111,7 +111,7 @@ function init() {
 					table.style.opacity = 0
 					const againbutton = document.createElement("button")
 					againbutton.id = "againbutton"
-					againbutton.innerText = "Play again"
+					againbutton.innerText = "Back to menu"
 					clearInterval(check)
 					gamecontainer.appendChild(againbutton)
 					setTimeout(() => {
