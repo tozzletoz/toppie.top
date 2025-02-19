@@ -1,0 +1,163 @@
+body {
+    background-color: rgb(241, 241, 241);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+	overflow: hidden;
+}
+
+.container {
+	opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+	transition: 0.4s ease;
+	width: 20%;
+}
+
+table, th, td {
+    border: 0px solid rgb(255, 255, 255);
+    margin: 0px;
+    border-collapse: separate;
+}
+
+table {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: 0.4s ease;
+    background-color: rgba(0, 153, 255, 0.075);
+    padding: 20px;
+    border-radius: 10px;
+	font-size: 25px;
+}
+
+.buttons,
+.completedbuttons {
+    position: relative;
+    border-radius: 10%;
+    border: solid 0px rgba(0, 0, 0, 0.068);
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    transition: 0.2s ease;
+    background-color: #a6c5ff;
+    margin: 2px;
+    font-weight: 700;
+    font-size: xx-large;
+    color: rgb(25, 0, 66);
+}
+
+.buttons:hover,
+.completedbuttons:hover {
+    transform: scale(1.025);
+    background-color: #93b7df;
+}
+
+#againbutton {
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.4s ease, background-color 0.2s ease, outline 0.2s ease-in-out;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 60px;
+    background-color: #a6beff;
+    padding: 10px;
+    outline: solid 2px #a6dbff80;
+    border-radius: 10px;
+	border: none;
+	font-size: 30px;
+}
+
+#againbutton:hover {
+    outline: solid 5px #a6caff80;
+}
+
+* {
+	font-family: "Mouse Memoirs", serif;
+    font-weight: 400;
+}
+
+.title {
+    font-size: 70px;
+    margin-bottom: 20px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100px;
+    background: #a6c2ff4b;
+    display: block;
+	border-radius: 10px;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #a6d7ff;
+	border-radius: 10px;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background-color: #93b4df;
+}
+
+#playbutton,
+#menubutton {
+	opacity: 0;
+    transition: opacity 0.4s ease, background-color 0.2s ease, outline 0.2s ease-in-out;
+    background-color: #a6c5ff;
+    padding: 10px;
+	padding-left: 40px;
+	padding-right: 40px;
+    border: none;
+    outline: solid 2px #a6dbff80;
+    border-radius: 10px;
+	font-size: 30px;
+}
+
+#playbutton:hover,
+#menubutton:hover {
+    outline: solid 5px #a6caff80;
+}
+
+.gamecontainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#menubutton {
+	position: fixed;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width: 10%;
+	margin: 0;
+	bottom: 1vh;
+	left: 1vh;
+}
+
+#gridsizedisplay {
+	font-size: 25px;
+}
