@@ -29,14 +29,6 @@ const displaysynced = document.getElementById("synced")
 displaysynced.textContent = `synced: ${synced}`
 
 let username = (localStorage.getItem("username") || null)
-if (username == "LucasBot") {
-    localStorage.setItem("totalClicks", 10000)
-    localStorage.setItem("rebirths", 20)
-    localStorage.setItem("counter", 1000000000)
-    localStorage.setItem("dps", 0)
-    localStorage.setItem("dpc", 0)
-    location.reload()
-}
 
 const overlay = document.createElement("div")
 overlay.style.position = "fixed"
