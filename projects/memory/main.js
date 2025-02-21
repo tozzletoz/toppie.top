@@ -3,6 +3,10 @@ let opened = []
 let completes = 0
 let starttime
 let skip = false
+let icons
+let icons2 = []
+let checkopened = []
+const cardturn = new Audio("card.wav")
 function init() {
 	skip = false
 	const gamecontainer = document.createElement("div")
@@ -29,12 +33,15 @@ function init() {
 	for (let i = 0; i<gridsize**2/2; i+=0.5) {
 		numberarray.push(Math.floor(i))
 	}
-	
+
+	icons = ['icons/typescript.svg', 'icons/debian.svg', 'icons/ruby.svg', 'icons/vuedotjs.svg', 'icons/archlinux.svg', 'icons/flathub.svg', 'icons/sql.png', 'icons/nodedotjs.svg', 'icons/javascript.svg', 'icons/apachegroovy.svg', 'icons/linux.svg', 'icons/sas.svg', 'icons/dart.svg', 'icons/rust.png', 'icons/sas.png', 'icons/django.svg', 'icons/java.svg', 'icons/swift.svg', 'icons/scala.svg', 'icons/golang.svg', 'icons/gnubash.svg', 'icons/jupyter.svg', 'icons/elixir.svg', 'icons/json.svg', 'icons/stackoverflow.svg', 'icons/csharp.svg', 'icons/lua.svg', 'icons/php.svg', 'icons/vsc.svg', 'icons/kotlin.svg', 'icons/vim.svg', 'icons/jquery.svg', 'icons/python.svg', 'icons/hyprland.svg', 'icons/kde.svg', 'icons/centos.svg', 'icons/jetbrains.svg', 'icons/linuxmint.svg', 'icons/git.svg', 'icons/pypi.svg', 'icons/fedora.svg', 'icons/perl.svg', 'icons/react.svg', 'icons/fsharp.svg', 'icons/github.svg', 'icons/ubuntu.svg', 'icons/haskell.svg', 'icons/r.svg', 'icons/cpp.svg', 'icons/html.svg']
+	console.log(icons.length)
 	let matches = shuffle(numberarray)
 	item = 0
 	completes = 0
 	opened = []
-	table.style.scale = (1.2/gridsize) * 3
+	checkopened = []
+	table.style.scale = (1.5/gridsize) * 3
 	checkcompletes()
 	for (let x = 0; x<gridsize; x++){
 		const row = document.createElement("tr")
@@ -45,9 +52,12 @@ function init() {
 			button.className = "buttons"
 			button.innerText = ""
 			button.dataset.id = matches[item]
+			button.dataset.uniqueid = Math.random()
 			cell.appendChild(button)
 			row.appendChild(cell)
+
 			item++
+
 			button.addEventListener("click", () => {
 				if (button.innerText == "") {
 					if (opened.length <= 1) {
@@ -57,23 +67,30 @@ function init() {
 							button.innerText = ""
 						})
 						opened = []
+						checkopened = []
 						opencard()
 					}
 				
 				}
 				function opencard() {
-					opened.push(button.dataset.id)
-					button.innerText = opened[opened.length-1]
-
-					if (opened[0] == opened[1]) {
-						document.querySelectorAll(".buttons").forEach(button => {
-							if (button.innerText == opened[0]) {
-								button.style.backgroundColor = "#99df93"
-								button.className = "completedbuttons"
-								completes++
-							}
-					})
-				}
+					cardturn.currentTime = 0
+					cardturn.play()
+					console.log(icons[button.dataset.id])
+					button.innerHTML = `<img src='${icons[button.dataset.id]}' width='50' height='50'></img>`
+					opened.push(button.innerHTML)
+					checkopened.push(button.dataset.uniqueid)
+					console.log(button.dataset.uniqueid)
+					if (checkopened[0] != checkopened[1]) {
+						if (opened[0] == opened[1]) {
+							document.querySelectorAll(".buttons").forEach(button => {
+								if (button.innerHTML == opened[1]) {
+									button.style.backgroundColor = "#99df93"
+									button.className = "completedbuttons"
+									completes++
+								}
+						})
+					}
+					}
 				}
 			})
 		}
@@ -86,7 +103,6 @@ function init() {
 		}
 		return array
 	}
-
 	function checkcompletes() {
 		const check = setInterval(() => {
 			if (completes == gridsize**2) {
@@ -117,6 +133,7 @@ function init() {
 					setTimeout(() => {
 						table.innerHTML = `You completed this set in ${(Date.now() - starttime)/1000} seconds.`
 						table.style.backgroundColor ='rgba(255, 255, 255, 0)'
+						table.style.scale = 1
 						table.style.opacity = 1
 						againbutton.style.opacity = 1
 						againbutton.addEventListener("click", () => {
@@ -161,7 +178,7 @@ function initmenu() {
     gridsizeinput.className = "slider"
     gridsizeinput.value = 4
 	gridsizeinput.min = 2
-	gridsizeinput.max = 12
+	gridsizeinput.max = 8
 	gridsizeinput.step = 2
 	gridsize = 4
 
