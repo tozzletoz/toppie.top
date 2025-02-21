@@ -77,7 +77,6 @@ function init() {
 					cardturn.play()
 					console.log(icons[button.dataset.id])
 					button.innerHTML = `<img src='${icons[button.dataset.id]}' width='50' height='50'></img>`
-					imagec
 					opened.push(button.innerHTML)
 					checkopened.push(button.dataset.uniqueid)
 					console.log(button.dataset.uniqueid)
