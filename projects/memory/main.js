@@ -199,6 +199,7 @@ function initmenu() {
 	})
 
 	function startgame() {
+		playbutton.disabled = true
 		container.style.opacity = 0
 		setTimeout(() => {
 			container.remove()
