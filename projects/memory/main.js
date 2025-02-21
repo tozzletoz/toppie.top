@@ -34,7 +34,7 @@ function init() {
 		numberarray.push(Math.floor(i))
 	}
 
-	icons = ['icons/typescript.svg', 'icons/debian.svg', 'icons/ruby.svg', 'icons/vuedotjs.svg', 'icons/archlinux.svg', 'icons/flathub.svg', 'icons/sql.png', 'icons/nodedotjs.svg', 'icons/javascript.svg', 'icons/apachegroovy.svg', 'icons/linux.svg', 'icons/sas.svg', 'icons/dart.svg', 'icons/rust.png', 'icons/sas.png', 'icons/django.svg', 'icons/java.svg', 'icons/swift.svg', 'icons/scala.svg', 'icons/golang.svg', 'icons/gnubash.svg', 'icons/jupyter.svg', 'icons/elixir.svg', 'icons/json.svg', 'icons/stackoverflow.svg', 'icons/csharp.svg', 'icons/lua.svg', 'icons/php.svg', 'icons/vsc.svg', 'icons/kotlin.svg', 'icons/vim.svg', 'icons/jquery.svg', 'icons/python.svg', 'icons/hyprland.svg', 'icons/kde.svg', 'icons/centos.svg', 'icons/jetbrains.svg', 'icons/linuxmint.svg', 'icons/git.svg', 'icons/pypi.svg', 'icons/fedora.svg', 'icons/perl.svg', 'icons/react.svg', 'icons/fsharp.svg', 'icons/github.svg', 'icons/ubuntu.svg', 'icons/haskell.svg', 'icons/r.svg', 'icons/cpp.svg', 'icons/html.svg']
+	icons = ['icons/typescript.svg', 'icons/debian.svg', 'icons/ruby.svg', 'icons/vuedotjs.svg', 'icons/archlinux.svg', 'icons/flathub.svg', 'icons/sql.png', 'icons/nodedotjs.svg', 'icons/javascript.svg', 'icons/apachegroovy.svg', 'icons/linux.svg', 'icons/sas.svg', 'icons/dart.svg', 'icons/rust.png', 'icons/gnome.svg', 'icons/django.svg', 'icons/java.svg', 'icons/swift.svg', 'icons/scala.svg', 'icons/golang.svg', 'icons/gnubash.svg', 'icons/jupyter.svg', 'icons/elixir.svg', 'icons/json.svg', 'icons/stackoverflow.svg', 'icons/csharp.svg', 'icons/lua.svg', 'icons/php.svg', 'icons/vsc.svg', 'icons/kotlin.svg', 'icons/vim.svg', 'icons/jquery.svg', 'icons/python.svg', 'icons/hyprland.svg', 'icons/kde.svg', 'icons/centos.svg', 'icons/jetbrains.svg', 'icons/linuxmint.svg', 'icons/git.svg', 'icons/pypi.svg', 'icons/fedora.svg', 'icons/perl.svg', 'icons/react.svg', 'icons/fsharp.svg', 'icons/github.svg', 'icons/ubuntu.svg', 'icons/haskell.svg', 'icons/r.svg', 'icons/cpp.svg', 'icons/html.svg']
 	console.log(icons.length)
 	let matches = shuffle(numberarray)
 	item = 0
@@ -77,6 +77,7 @@ function init() {
 					cardturn.play()
 					console.log(icons[button.dataset.id])
 					button.innerHTML = `<img src='${icons[button.dataset.id]}' width='50' height='50'></img>`
+					imagec
 					opened.push(button.innerHTML)
 					checkopened.push(button.dataset.uniqueid)
 					console.log(button.dataset.uniqueid)
