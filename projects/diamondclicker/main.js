@@ -259,10 +259,22 @@ let muted = true
 function toggleMusic(){
     if (muted == false){
         bgm.pause()
+	clicksound.volume = 0
+	buysound.volume = 0
+	shopsound.volume = 0
+	cantbuy.volume = 0
+	goldenfx.volume = 0
+	rebirthsound.volume = 0
         muted = true
         mutebtn.innerHTML = '<span class="material-symbols-outlined"> music_off </span>'
     }else{
         bgm.play()
+	clicksound.volume = 1
+	buysound.volume = 1
+	shopsound.volume = 1
+	cantbuy.volume = 1
+	goldenfx.volume = 1
+	rebirthsound.volume = 1
         muted = false
         mutebtn.innerHTML = '<span class="material-symbols-outlined"> music_note </span>'
     }
