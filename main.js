@@ -27,7 +27,9 @@ function loadingbar() {
 	}
 }
 
-loadingbar()
+setTimeout(() => {
+	loadingbar()
+}, 200);
 
 homebutton.addEventListener("click", () => {
 	open("https://toppie.top/", "_self")
