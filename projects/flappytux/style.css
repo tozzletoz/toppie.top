@@ -1,0 +1,109 @@
+body {
+    background-color: rgb(166, 237, 255);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat", serif;
+    user-select: none;
+}
+
+#object {
+    filter: drop-shadow(10px 10px 3px #00000028);
+    position: absolute;
+    left: 10%;
+    width: 80px;
+    height: auto;
+}
+
+.pipe {
+    filter: drop-shadow(10px 10px 3px #00000028);
+    position: absolute;
+    right: -10%;
+    width: 75px;
+    background: rgb(0, 143, 31);
+    animation-name: pipemove;
+    animation-timing-function: linear;
+    animation-duration: 4s;
+}
+
+#menu {
+    background-color: rgba(255, 255, 255, 0.315);
+    margin: auto;
+    width: 100%;
+    border: 3px solid rgb(0, 0, 0);
+    padding: 10px;
+    justify-items: center;
+}
+
+button {
+    font-family: inherit;
+    font-size: 20px;
+    text-align: center;
+    width: 100px;
+    height: 30px;
+    border: 3px solid black;
+    background-color: rgb(0, 255, 55);
+    font-weight: bold;
+    margin: 10px;
+    transition: background-color 0.3s ease, scale 0.3s ease;
+    position: relative;
+}
+
+button:hover {
+    scale: 1.2;
+}
+
+#menutux {
+    width: 50px;
+    height: auto;
+}
+
+@keyframes pipemove {
+    from {
+        right: -10%;
+    }
+
+    to {
+        right: 100%;
+    }
+}
+
+#scorecounter {
+    position: absolute;
+    margin: 10px;
+    font-weight: bold;
+    font-size: 30px;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    user-select: none;
+}
+
+@media (max-width: 600px) {
+    #menu {
+        width: 80%;
+        padding: 10px;
+    }
+
+    button {
+        width: 80px;
+        font-size: 16px;
+    }
+
+    #object {
+        width: 60px;
+        left: 5%;
+    }
+
+    .pipe {
+        width: 50px;
+    }
+
+    #scorecounter {
+        font-size: 24px;
+    }
+}
