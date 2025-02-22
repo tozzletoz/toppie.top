@@ -123,6 +123,13 @@ const goldenfx = new Audio("assets/sounds/golden.wav")
 const bgm = new Audio("assets/sounds/msc.mp3")
 const rebirthsound = new Audio("assets/sounds/lvlup.mp3")
 
+clicksound.volume = 0
+buysound.volume = 0
+shopsound.volume = 0
+cantbuy.volume = 0
+goldenfx.volume = 0
+rebirthsound.volume = 0
+
 bgm.volume = 0.7
 bgm.loop = true
 var shopopen = false
