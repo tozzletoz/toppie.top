@@ -24,13 +24,19 @@ playbtn.addEventListener("click", () => {
     play()
 })
 
+function flap() {
+    flapsound.currentTime = 0
+    flapsound.play()
+    velocity = window.innerHeight / -150
+    player.style.transform = "rotateZ(50deg)"
+    setTimeout(() => player.style.transform = "rotateZ(0deg)", 100)
+}
+
 document.addEventListener("keydown", (event) => {
     if (inmenu) return
     if ((event.key === "ArrowUp" || event.key === " ") && canpress) {
         canpress = false
-        flapsound.currentTime = 0
-        flapsound.play()
-        velocity = -3
+        flap()
     }
 })
 
@@ -42,9 +48,7 @@ document.addEventListener("keyup", (event) => {
 
 document.addEventListener("click", () => {
     if (inmenu || !canclick) return
-    flapsound.currentTime = 0
-    flapsound.play()
-    velocity = -3
+    flap()
 })
 
 function touches(span, btn) {
@@ -79,14 +83,14 @@ function spawnpipe() {
         pipebottom.style.borderTopLeftRadius = "10px"
         pipebottom.style.borderTopRightRadius = "10px"
         pipebottom.className = "pipe"
-        pipebottom.style.height = pipeheight + "%"
+        pipebottom.style.height = pipeheight + "vh"
         pipebottom.style.bottom = "0"
 
         let pipetop = document.createElement("div")
         pipetop.style.borderBottomLeftRadius = "10px"
         pipetop.style.borderBottomRightRadius = "10px"
         pipetop.className = "pipe"
-        pipetop.style.height = (100 - pipeheight - 30) + "%"
+        pipetop.style.height = (100 - pipeheight - 35) + "vh"
         pipetop.style.top = "0"
 
         document.body.appendChild(pipebottom)
@@ -111,7 +115,7 @@ function spawnpipe() {
 function move() {
     let current_top = parseInt(getComputedStyle(player).top, 10)
     player.style.top = (current_top + velocity) + "px"
-    velocity += 0.1
+    velocity += window.innerHeight / 5000
 
     for (let i = pipes.length - 1; i >= 0; i--) {
         if (touches(player, pipes[i])) {
@@ -146,8 +150,7 @@ function play() {
 }
 
 function die() {
-    flapsound.pause()
-    flapsound.currentTime = 0
+    gameoversound.volume = 0.1
     scorecounter.innerHTML = "HIGHSCORE: " + highscore
     pipes.forEach(pipe => pipe.remove())
     gameoversound.currentTime = 0
