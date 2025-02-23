@@ -1,10 +1,10 @@
 body {
-	background-color: rgb(19, 19, 19);
 	margin: 0px;
 	display: flex;
 	flex-direction: row;
 	overflow-y: hidden;
-	transition: 0.3s ease;
+	background: radial-gradient(circle at bottom right, #300057, #0c0016);
+	background-position: 100% 100%;
 }
 
 .sidebar {
@@ -13,7 +13,7 @@ body {
 	align-items: center;
 	width: 6vw;
 	line-height: 0px;
-	height: 1000%;
+	height: 100vh;
 	background-color: rgba(255, 255, 255, 0.062);
 	user-select: none;
 }
@@ -25,7 +25,6 @@ body {
 }
 
 .sidebuttons {
-	color: #ffffff91;
 	background-color: rgba(56, 56, 56, 0.459);
 	border: none;
 	height: 5vw;
@@ -58,7 +57,7 @@ body {
 	color: #ffffffde;
 	.material-symbols-outlined {
 		color: #ffffffde;
-		scale: 0.9;
+		scale: 0.85;
 	}
 
 }
@@ -69,7 +68,6 @@ body {
 
 .material-symbols-outlined {
 	transition: 0.2s ease;
-	color: #ffffff91;
 }
 
 .window {
@@ -88,11 +86,18 @@ body {
 
 .links,
 .about {
-	color: #ffffff91;
 	font-size: 18.72px;
 }
 
 #separator {
 	border: 1.5px solid #ffffff91;
 	width: 100%;
+}
+
+.open_in_new_tab_icons {
+	font-size: 18.72px;
+}
+
+* {
+	color: rgba(255, 255, 255, 0.788) !important;
 }
