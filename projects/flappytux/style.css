@@ -113,3 +113,11 @@ button:hover {
         font-size: 24px;
     }
 }
+
+#landscape-warning {
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+}
