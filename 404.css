@@ -17,3 +17,7 @@ h1 {
     font-weight: bold;
     transition: 0.3s ease;
 }
+
+a {
+    color: #ffffff91;
+}
