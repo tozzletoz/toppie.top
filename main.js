@@ -35,5 +35,5 @@ projectsbutton.addEventListener("click", () => {
 })
 
 aboutbutton.addEventListener("click", () => {
-	open("https://toppie.top/about/", "_self")
+	open("https://toppie.top/about", "_self")
 })
