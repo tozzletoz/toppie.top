@@ -60,32 +60,6 @@ function randomnumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function spawnpipe() {
-    if (!inmenu) {
-        let pipebottom = document.createElement("div")
-        pipebottom.style.borderTopLeftRadius = "10px"
-        pipebottom.style.borderTopRightRadius = "10px"
-        pipebottom.className = "pipe"
-        pipebottom.style.height = randomnumber(200, 340)
-        pipebottom.style.bottom = 0
-
-        let pipetop = document.createElement("div")
-        pipetop.style.borderBottomLeftRadius = "10px"
-        pipetop.style.borderBottomRightRadius = "10px"
-        pipetop.className = "pipe"
-        pipetop.style.height = randomnumber(200, 340)
-        pipetop.style.top = 0
-
-        document.body.appendChild(pipebottom)
-        document.body.appendChild(pipetop)
-        pipes.push(pipebottom, pipetop)
-
-        if (!inmenu) {
-            spawntimeout = setTimeout(spawnpipe, 1000)
-        }
-    }
-}
-
 function countscore() {
     if (inmenu) return
     scorecounter.innerHTML = "HIGHSCORE: " + highscore + "<br>SCORE: " + score
@@ -98,22 +72,61 @@ function countscore() {
     }
 }
 
+function spawnpipe() {
+    if (!inmenu) {
+        let pipebottom = document.createElement("div")
+        pipebottom.style.borderTopLeftRadius = "10px"
+        pipebottom.style.borderTopRightRadius = "10px"
+        pipebottom.className = "pipe"
+        pipebottom.style.height = randomnumber(200, 340) + "px"
+        pipebottom.style.bottom = "0"
+
+        let pipetop = document.createElement("div")
+        pipetop.style.borderBottomLeftRadius = "10px"
+        pipetop.style.borderBottomRightRadius = "10px"
+        pipetop.className = "pipe"
+        pipetop.style.height = randomnumber(200, 340) + "px"
+        pipetop.style.top = "0"
+
+        document.body.appendChild(pipebottom)
+        document.body.appendChild(pipetop)
+        pipes.push(pipebottom, pipetop)
+
+        pipebottom.addEventListener("animationend", () => {
+            console.log(1)
+            pipebottom.remove()
+            pipes = pipes.filter(pipe => pipe !== pipebottom)
+        })
+
+        pipetop.addEventListener("animationend", () => {
+            pipetop.remove()
+            pipes = pipes.filter(pipe => pipe !== pipetop)
+        })
+
+        spawntimeout = setTimeout(spawnpipe, 1000)
+    }
+}
+
 function move() {
     let current_top = parseInt(getComputedStyle(player).top, 10)
     player.style.top = (current_top + velocity) + "px"
     velocity += 0.1
-    for (let pipe of pipes) {
-        if (touches(player, pipe)) {
+
+    for (let i = pipes.length - 1; i >= 0; i--) {
+        if (touches(player, pipes[i])) {
             die()
             return
         }
     }
+
     if (current_top > window.innerHeight || current_top < 0) {
         die()
         return
     }
+
     setTimeout(move, 5)
 }
+
 
 function play() {
     canclick = false
