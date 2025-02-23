@@ -90,7 +90,7 @@ function spawnpipe() {
         pipetop.style.borderBottomLeftRadius = "10px"
         pipetop.style.borderBottomRightRadius = "10px"
         pipetop.className = "pipe"
-        pipetop.style.height = (100 - pipeheight - 35) + "vh"
+        pipetop.style.height = (100 - pipeheight - 40) + "vh"
         pipetop.style.top = "0"
 
         document.body.appendChild(pipebottom)
