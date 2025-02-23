@@ -2,11 +2,6 @@ const homebutton = document.getElementById("home")
 const projectsbutton = document.getElementById("projects")
 const aboutbutton = document.getElementById("about")
 
-document.body.style.opacity = 0
-setTimeout(() => {
-	document.body.style.opacity = 1
-}, 10)
-
 function loadingbar() {
 	const bar = document.createElement("hr")
 	bar.style.border = "2px solid #ffffff91"
