@@ -74,18 +74,19 @@ function countscore() {
 
 function spawnpipe() {
     if (!inmenu) {
+        let pipeheight = randomnumber(30, 70)
         let pipebottom = document.createElement("div")
         pipebottom.style.borderTopLeftRadius = "10px"
         pipebottom.style.borderTopRightRadius = "10px"
         pipebottom.className = "pipe"
-        pipebottom.style.height = randomnumber(200, 340) + "px"
+        pipebottom.style.height = pipeheight + "%"
         pipebottom.style.bottom = "0"
 
         let pipetop = document.createElement("div")
         pipetop.style.borderBottomLeftRadius = "10px"
         pipetop.style.borderBottomRightRadius = "10px"
         pipetop.className = "pipe"
-        pipetop.style.height = randomnumber(200, 340) + "px"
+        pipetop.style.height = (100 - pipeheight - 30) + "%"
         pipetop.style.top = "0"
 
         document.body.appendChild(pipebottom)
