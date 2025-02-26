@@ -1,0 +1,134 @@
+body {
+	margin: 0;
+	overflow: hidden;
+	background-color: black;
+	user-select: none;
+}
+
+#canvas {
+	z-index: 100;
+}
+
+.game {
+	position: absolute;
+	z-index: 2;
+	background-color: rgba(255, 255, 255, 0.11);
+	top: 0px;
+	width: 100vw;
+	height: 60px;
+}
+
+#score {
+	line-height: 0px;
+	position: absolute;
+	z-index: 1;
+	top: 15px;
+	font-size: 24px;
+	left: 10px;
+	color: #ffffffb9;
+}
+
+.material-symbols-outlined {
+	color: #ff0000;
+	filter: drop-shadow(0 0 10px red);
+}
+
+.lives {
+	position: absolute;
+	left: 50vw;
+	top: 18px;
+	font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+#playicon {
+	color: white;
+	font-size: 40px;
+	line-height: 0;
+	top: 50%;
+	filter: none;
+}
+
+#background {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+	z-index: -1;
+	filter: brightness(50%);
+}
+
+
+.menu {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+	background-color: rgba(255, 255, 255, 0.082);
+	width: min(100vw, 100vh);
+	height: 50vh;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	box-shadow: 0px 0px 40px #00ffff;
+	border: solid 3px #00ffff;
+}
+
+#gametitle {
+	position: absolute;
+	font-size: min(10vw, 10vh);
+	color: white;
+	top: 5%;
+	line-height: 0;
+	letter-spacing: 1px;
+}
+
+#playbutton {
+	position: absolute;
+	display: flex;
+	top: 40%;
+	width: calc(min(30vw, 30vh) + 6vw);
+	height: 50px;
+	font-size: 40px;
+	background-color: #00ffff00;
+	border: solid 3px #00ffff;
+	color: white;
+	border-radius: 2px;
+	justify-content: center;
+	align-items: center;
+}
+
+#playbutton:hover {
+	background-color: #00ffff25;
+	border: solid 3px #00ffff;
+}
+
+#gametitle {
+  color: #ffffff;
+}
+
+#highscore {
+	font-size: min(5vw, 5vh);
+	position: absolute;
+	color: white;
+	top: 75%;
+	line-height: 0;
+}
+
+#prevscore {
+	position: absolute;
+	font-size: min(5vw, 5vh);
+	color: white;
+	top: 60%;
+	line-height: 0;
+}
+
+* {
+	font-family: "Sarpanch", serif;
+	font-weight: 300;
+}
