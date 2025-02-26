@@ -44,7 +44,7 @@ body {
   'opsz' 24
 }
 
-#playicon {
+#playicon, #backicon {
 	color: white;
 	font-size: 40px;
 	line-height: 0;
@@ -62,7 +62,8 @@ body {
 }
 
 
-.menu {
+.menu,
+.credits {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -79,8 +80,8 @@ body {
 	border: solid 3px #00ffff;
 }
 
-#gametitle {
-	position: absolute;
+#gametitle, #creditstitle {
+	top: 10px;
 	font-size: min(10vw, 10vh);
 	color: white;
 	top: 5%;
@@ -88,10 +89,10 @@ body {
 	letter-spacing: 1px;
 }
 
-#playbutton {
-	position: absolute;
+#playbutton,
+#creditsbutton,
+#backbutton {
 	display: flex;
-	top: 40%;
 	width: calc(min(30vw, 30vh) + 6vw);
 	height: 50px;
 	font-size: 40px;
@@ -101,34 +102,29 @@ body {
 	border-radius: 2px;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 10px;
 }
 
-#playbutton:hover {
+#playbutton:hover,
+#creditsbutton:hover,
+#backbutton:hover {
 	background-color: #00ffff25;
 	border: solid 3px #00ffff;
 }
 
-#gametitle {
-  color: #ffffff;
-}
-
-#highscore {
-	font-size: min(5vw, 5vh);
-	position: absolute;
-	color: white;
-	top: 75%;
-	line-height: 0;
-}
-
-#prevscore {
-	position: absolute;
+#highscore,
+#prevscore,
+.creditstext {
 	font-size: min(5vw, 5vh);
 	color: white;
-	top: 60%;
 	line-height: 0;
 }
 
 * {
 	font-family: "Sarpanch", serif;
 	font-weight: 300;
+}
+
+.creditstext {
+	font-size: min(4vw, 4vh);
 }
