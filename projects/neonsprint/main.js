@@ -1,6 +1,6 @@
 const diesound = new Audio("life.wav")
 const jumpsound = new Audio("jump.wav")
-const bgm = new Audio("bgm.mp3")
+const bgm = new Audio("bgm4.mp3")
 bgm.loop = true
 let animationid
 function main() {
@@ -176,7 +176,7 @@ function main() {
 		object.position.y = -0.6
 
 		if (colors[colors.length - 1] !== 0) {
-    		object.danger = Math.round(Math.random() * 1)
+    		object.danger = Math.round(Math.random() * 1.6)
 			object.posx = Math.round(Math.random() * 4)
 		} else {
 			object.danger = 1
@@ -250,7 +250,7 @@ function main() {
 							object.position.x = 0
 							break
 					}
-					if (object.position.z > 2.5 && object.position.z < 3.1 && player.position.x < object.position.x + 0.3 && player.position.x > object.position.x - 0.3 && player.position.y < 0.3) {
+					if (object.position.z > 2.5 && object.position.z < 3.1 && player.position.x < object.position.x + 0.3 && player.position.x > object.position.x - 0.3 && player.position.y < 0.15) {
 						if (!death) {
 							diesound.currentTime = 0
 							diesound.play()
@@ -287,6 +287,15 @@ function menu() {
 
 	highscore = localStorage.getItem("highscoreneonrun") || 0
 	prevscore = localStorage.getItem("prevscoreneonrun") || 0
+	creditsbutton.addEventListener("click", () => {
+		document.querySelector(".menu").remove()
+		document.body.appendChild(creditscontainer)
+	})
+	backbutton.addEventListener("click", () => {
+		document.querySelector(".credits").remove()
+		document.body.appendChild(menucontainer)
+	})
+
 	try {
 		document.querySelector(".game").remove()
 		document.querySelector(".menu").remove()
@@ -309,6 +318,10 @@ function menu() {
 
 const menucontainer = document.querySelector(".menu")
 const gameinfocontainer = document.querySelector(".game")
+const creditscontainer = document.querySelector(".credits")
+const creditsbutton = document.getElementById("creditsbutton")
+const backbutton = document.getElementById("backbutton")
+document.querySelector(".credits").remove()
 const highscoredisplay = document.getElementById("highscore")
 const prevscoredisplay = document.getElementById("prevscore")
 let highscore
