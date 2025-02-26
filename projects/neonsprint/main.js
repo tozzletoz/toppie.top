@@ -5,6 +5,8 @@ bgm.loop = true
 let animationid
 function main() {
 	bgm.volume = 1
+	diesound.volume = 1
+	jumpsound.volume = 1
 	let score = 0
 	let death = false
 	let lives = 3
@@ -20,6 +22,8 @@ function main() {
 			cancelAnimationFrame(animationid)
 			renderer.domElement.remove()
 			livescontainer.innerHTML = ""
+			diesound.volume = 0
+			jumpsound.volume = 0
 			return
 		}colors[colors.length - 1] !== 0
 	}, 100)
