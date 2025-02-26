@@ -1,6 +1,6 @@
 const diesound = new Audio("life.wav")
 const jumpsound = new Audio("jump.wav")
-const bgm = new Audio("bgm4.mp3")
+const bgm = new Audio("bgm.mp3")
 bgm.loop = true
 let animationid
 function main() {
