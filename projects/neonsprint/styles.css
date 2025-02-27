@@ -44,7 +44,7 @@ body {
   'opsz' 24
 }
 
-#playicon, #backicon {
+#playicon, #backicon, #leaderboardicon {
 	color: white;
 	font-size: 40px;
 	line-height: 0;
@@ -63,7 +63,8 @@ body {
 
 
 .menu,
-.credits {
+.credits,
+.leaderboard {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -72,7 +73,7 @@ body {
     transform: translate(-50%, -50%) scale(0.5);
 	background-color: rgba(255, 255, 255, 0.082);
 	width: min(100vw, 100vh);
-	height: 50vh;
+	height: 60vh;
 	justify-content: center;
 	align-items: center;
 	border-radius: 10px;
@@ -80,7 +81,7 @@ body {
 	border: solid 3px #00ffff;
 }
 
-#gametitle, #creditstitle {
+#gametitle, #creditstitle, #leaderboardtitle {
 	top: 10px;
 	font-size: min(10vw, 10vh);
 	color: white;
@@ -91,25 +92,28 @@ body {
 
 #playbutton,
 #creditsbutton,
-#backbutton {
+#leaderboardbutton,
+.accountbuttons,
+.backbutton {
 	display: flex;
-	width: calc(min(30vw, 30vh) + 6vw);
+	width: 70%;
 	height: 50px;
-	font-size: 40px;
+	font-size: min(5vw, 5vh);
 	background-color: #00ffff00;
 	border: solid 3px #00ffff;
 	color: white;
 	border-radius: 2px;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 #playbutton:hover,
 #creditsbutton:hover,
-#backbutton:hover {
+#leaderboardbutton:hover,
+.backbutton:hover,
+.accountbuttons:hover {
 	background-color: #00ffff25;
-	border: solid 3px #00ffff;
 }
 
 #highscore,
@@ -131,4 +135,40 @@ body {
 
 a {
 	color: white;
+}
+
+#playbutton {
+	margin-bottom: 0px;
+	width: 69%;
+}
+
+.backbutton {
+	position: fixed;
+	top: 5px;
+	left: 5px;
+	width: min(25vw, 25vh)
+}
+
+.leaderboard {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.accountbuttonsholder {
+	display: flex;
+	flex-direction: row;
+	width: 71%;
+	justify-content: center;
+	align-items: center;
+}
+
+.accountbuttons {
+	width: 100%;
+	margin: 5px;
+}
+
+p {
+    font-size: min(5vw, 5vh);
+    color: white;
+    line-height: 0;
 }
