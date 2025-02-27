@@ -1,8 +1,48 @@
 const diesound = new Audio("life.wav")
 const jumpsound = new Audio("jump.wav")
 const bgm = new Audio("bgm.mp3")
+let highscore
 bgm.loop = true
 let animationid
+
+async function get_user() {
+    const response = await fetch("https://api.toppie.top/neonsprint/get_user", {
+        method: 'GET',
+        credentials: 'include'
+    })
+    const data = await response.json()
+    console.log(data)
+
+    if (data.message == "NOT LOGGED IN") {
+        return
+    } else {
+        highscore = data.highscore
+        highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
+        accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
+    }
+}
+
+async function leaderboard() {
+    const response = await fetch("https://api.toppie.top/neonsprint/leaderboard")
+    const data = await response.json()
+
+    const leaderboardcontainer = document.getElementById("lbcontent")
+    leaderboardcontainer.innerHTML = ""
+
+    data.highscores.forEach((item) => {
+        let lbitem = document.createElement("p")
+        lbitem.innerText = `${data.highscores.indexOf(item) + 1}.${item.username}: ${item.highscore}`
+        if (data.highscores.indexOf(item) + 1 == 1) {
+            lbitem.style.color = "rgb(255, 238, 0)"
+        } else if (data.highscores.indexOf(item) + 1 == 2) {
+            lbitem.style.color = "rgb(212, 212, 212)"
+        } else if (data.highscores.indexOf(item) + 1 == 3) {
+            lbitem.style.color = "rgb(160, 85, 0)"
+        }
+        leaderboardcontainer.appendChild(lbitem)
+    })
+}
+
 function main() {
 	bgm.volume = 1
 	diesound.volume = 1
@@ -11,11 +51,22 @@ function main() {
 	let death = false
 	let lives = 3
 	let counter = 0
-	const gameover = setInterval(() => {
+    const gameover = setInterval(() => {
 		if (lives === 0) {
 			if (score > highscore) {
-				localStorage.setItem("highscoreneonrun", score)
-			}
+                fetch("https://api.toppie.top/neonsprint/savescore", {
+                    method: "POST",
+                    credentials: 'include',
+                    body: JSON.stringify({ "highscore": score }),
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(() => {
+                    highscore = score
+                    highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
+                })
+            }
 			localStorage.setItem("prevscoreneonrun", score)
 			menu()
 			clearInterval(gameover)
@@ -41,6 +92,7 @@ function main() {
 	livescontainer.appendChild(life1)
 
 	const renderer = new THREE.WebGLRenderer()
+
 	renderer.setSize(window.innerWidth, window.innerHeight)
 	document.body.appendChild(renderer.domElement)
 	renderer.domElement.id = "canvas"
@@ -48,7 +100,7 @@ function main() {
 	const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500)
 	setInterval(() => {
 		renderer.setSize(window.innerWidth, window.innerHeight)
-		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.aspect = window.innerWidth / window.innerHeight
     	camera.updateProjectionMatrix()
 	}, 100)
 	
@@ -59,26 +111,34 @@ function main() {
 	scene.background = null
 	renderer.setClearColor(0x000000, 0)
 
+	renderer.shadowMap.enabled = true
+	renderer.shadowMap.type = THREE.PCFSoftShadowMap
+
+	const light = new THREE.DirectionalLight("#ffffff", 3)
+	light.position.set(1.5, 1.5, 0.7)
+	light.castShadow = true
+	scene.add(light)
+
+	light.shadow.mapSize.width = 1024
+	light.shadow.mapSize.height = 1024
+	light.shadow.camera.near = 0.5
+	light.shadow.camera.far = 500
+
 	let objects1 = []
-	let objectsoutlines = []
 	let colors = []
 	let i = 0
 
 	const playergeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3)
-	const playermaterial = new THREE.MeshBasicMaterial({color: "cyan"})
+	const playermaterial = new THREE.MeshStandardMaterial({color: "cyan"})
 	const player = new THREE.Mesh(playergeometry, playermaterial)
-
-	const outlinegeometry = new THREE.EdgesGeometry(playergeometry)
-	const linematerial = new THREE.LineBasicMaterial({color: "black", linewidth: 10})
-	const outline = new THREE.LineSegments(outlinegeometry, linematerial)
+	//player.castShadow = true
+	player.receiveShadow = true
 
 	player.material.transparent = true
-	player.material.opacity = 0.75
+	player.material.opacity = 1
 	player.position.set(0, -0.4, 0)
 	player.position.z = 3
-	outline.position.copy(player.position)
 	scene.add(player)
-	scene.add(outline)
 
 	camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 
@@ -141,12 +201,10 @@ function main() {
 	setInterval(() => {
 		if (leftpressed && player.position.x > -0.66 || mousedown == true && mouseposx < window.innerWidth/2 && player.position.x > -0.66) {
 			player.position.x-=0.01
-			outline.position.copy(player.position)
 			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 		}
 		if (rightpressed && player.position.x < 0.66 || mousedown == true && mouseposx > window.innerWidth/2 && player.position.x < 0.66) {
 			player.position.x+=0.01
-			outline.position.copy(player.position)
 			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 		}
 	}, 10)
@@ -157,27 +215,37 @@ function main() {
 		if (counter > 0.46 && counter < 0.47) {
 			counter = 0
 			canjump = true
-			outline.position.copy(player.position)
 			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 		} else {
-			outline.position.copy(player.position)
 			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 			requestAnimationFrame(jump)
 			canjump = false
 		}
 	}
+	let counter2 = 0
+	let increment = 0.01
 	setInterval(() => {
-		const geometry = new THREE.BoxGeometry(1.7, 0, 1.2)
-		const material = new THREE.MeshBasicMaterial({color: "white"})
+		const geometry = new THREE.BoxGeometry(1.7, 0.1, 0.8)
+		const material = new THREE.MeshStandardMaterial({color: "white"})
 		const object = new THREE.Mesh(geometry, material)
-
-		const dangeroutlinegeometry = new THREE.EdgesGeometry(playergeometry)
-		const dangerlinematerial = new THREE.LineBasicMaterial({color: "black", linewidth: 10})
-		const dangeroutline = new THREE.LineSegments(dangeroutlinegeometry, dangerlinematerial)
 
 		object.material.transparent = true
 		object.position.z = -8
 		object.position.y = -0.6
+		//object.castShadow = true
+		object.receiveShadow = true
+
+		counter2+=0.1
+
+		switch (Math.round(Math.random())) {
+			case 0:
+				increment = -0.01
+				break
+		
+			case 1:
+				increment = 0.01
+				break
+		}
 
 		if (colors[colors.length - 1] !== 0) {
     		object.danger = Math.round(Math.random() * 1.6)
@@ -185,13 +253,9 @@ function main() {
 		} else {
 			object.danger = 1
 		}
-		dangeroutline.position.copy(object.position)
 		colors.push(object.danger)
 		scene.add(object)
-		scene.add(dangeroutline)
 		objects1.push(object)
-		objectsoutlines.push(dangeroutline)
-
 
 		let opacity = 0
 		function appear() {
@@ -227,13 +291,9 @@ function main() {
 					object.material.color.set("red")
 					object.geometry = new THREE.BoxGeometry(0.3, 0.3, 0.38)
 					let objectindex = objects1.indexOf(object)
-					const outline = objectsoutlines[objectindex]
-					let outlineindex = objectsoutlines.indexOf(outline)
-					outline.position.copy(object.position)
 
 					if (object.position.z > 10) {
 						objects1.splice(objectindex, 1)
-						objectsoutlines.splice(outlineindex, 1)
 					}
 
 					object.position.y = -0.4
@@ -264,7 +324,7 @@ function main() {
 							adjustlives()
 							setTimeout(() => {
 								death = false
-								player.material.opacity = 0.75
+								player.material.opacity = 1
 							}, 1500)
 						}
 					}
@@ -285,28 +345,50 @@ function main() {
 }
 
 function menu() {
+    get_user()
 	if (hasplayed) {
 			bgm.volume = 0.4
 	}
 
-	highscore = localStorage.getItem("highscoreneonrun") || 0
 	prevscore = localStorage.getItem("prevscoreneonrun") || 0
+
 	creditsbutton.addEventListener("click", () => {
 		document.querySelector(".menu").remove()
 		document.body.appendChild(creditscontainer)
+		detectback()
 	})
-	backbutton.addEventListener("click", () => {
-		document.querySelector(".credits").remove()
+
+	leaderboardbutton.addEventListener("click", () => {
+		document.querySelector(".menu").remove()
+        document.body.appendChild(leaderboardcontainer)
+        leaderboard()
+		detectback()
+	})
+
+	function detectback() {
+		document.querySelectorAll(".backbutton").forEach(button => {
+		button.addEventListener("click", () => {
+		try {
+			document.querySelector(".leaderboard").remove()
+		} catch {
+			null
+		}
+		try {
+			document.querySelector(".credits").remove()
+		} catch {
+			null
+		}
 		document.body.appendChild(menucontainer)
-	})
+	})})
+	}
 
 	try {
 		document.querySelector(".game").remove()
 		document.querySelector(".menu").remove()
 	} catch {
 		null
-	}
-	highscoredisplay.innerHTML= `HIGHSCORE: <u>${highscore}</u>`
+    }
+
 	prevscoredisplay.innerHTML= `LATEST SCORE: <u>${prevscore}</u>`
 	document.body.appendChild(menucontainer)
 	document.getElementById("playbutton").addEventListener("click", () => {
@@ -323,14 +405,17 @@ function menu() {
 const menucontainer = document.querySelector(".menu")
 const gameinfocontainer = document.querySelector(".game")
 const creditscontainer = document.querySelector(".credits")
+const leaderboardcontainer = document.querySelector(".leaderboard")
 const creditsbutton = document.getElementById("creditsbutton")
-const backbutton = document.getElementById("backbutton")
-document.querySelector(".credits").remove()
+const leaderboardbutton = document.getElementById("leaderboardbutton")
+const accountbuttonsholder = document.querySelector(".accountbuttonsholder")
 const highscoredisplay = document.getElementById("highscore")
 const prevscoredisplay = document.getElementById("prevscore")
-let highscore
 let prevscore
 let hasplayed = false
+const backbutton = document.querySelectorAll(".backbutton")
 document.querySelector(".game").remove()
 document.querySelector(".menu").remove()
+document.querySelector(".credits").remove()
+document.querySelector(".leaderboard").remove()
 menu()
