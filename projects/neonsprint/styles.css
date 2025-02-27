@@ -93,6 +93,7 @@ body {
 #playbutton,
 #creditsbutton,
 #leaderboardbutton,
+#logoutbutton,
 .accountbuttons,
 .backbutton {
 	display: flex;
@@ -111,6 +112,7 @@ body {
 #playbutton:hover,
 #creditsbutton:hover,
 #leaderboardbutton:hover,
+#logoutbutton:hover,
 .backbutton:hover,
 .accountbuttons:hover {
 	background-color: #00ffff25;
