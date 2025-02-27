@@ -31,7 +31,7 @@ async function leaderboard() {
 
     data.highscores.forEach((item) => {
         let lbitem = document.createElement("p")
-        lbitem.innerText = `${data.highscores.indexOf(item) + 1}.${item.username}: ${item.highscore}`
+        lbitem.innerText = `${data.highscores.indexOf(item) + 1}. ${item.username}: ${item.highscore}`
         if (data.highscores.indexOf(item) + 1 == 1) {
             lbitem.style.color = "rgb(255, 238, 0)"
         } else if (data.highscores.indexOf(item) + 1 == 2) {
