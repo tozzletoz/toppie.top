@@ -53,9 +53,11 @@ async function leaderboard() {
 }
 
 function main() {
-	bgm.volume = 1
-	diesound.volume = 1
-	jumpsound.volume = 1
+	if (!muted) {
+		bgm.volume = 1
+		diesound.volume = 1
+		jumpsound.volume = 1
+	}
 	let score = 0
 	let death = false
 	let lives = 3
@@ -363,7 +365,7 @@ function main() {
 function menu() {
 	mutebutton.style.visibility = "visible"
     get_user()
-	if (hasplayed) {
+	if (hasplayed && !muted) {
 			bgm.volume = 0.4
 	}
 
