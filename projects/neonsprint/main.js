@@ -361,6 +361,7 @@ function main() {
 }
 
 function menu() {
+	mutebutton.style.visibility = "visible"
     get_user()
 	if (hasplayed) {
 			bgm.volume = 0.4
@@ -418,6 +419,7 @@ function menu() {
 		hasplayed = true
 		document.querySelector(".menu").remove()
 		document.body.appendChild(gameinfocontainer)
+		mutebutton.style.visibility = "hidden"
 		main()
 	})
 }
@@ -429,6 +431,7 @@ const leaderboardcontainer = document.querySelector(".leaderboard")
 const creditsbutton = document.getElementById("creditsbutton")
 const leaderboardbutton = document.getElementById("leaderboardbutton")
 const logoutbutton = document.getElementById("logoutbutton")
+const mutebutton = document.getElementById("mutebutton")
 const accountbuttonsholder = document.querySelector(".accountbuttonsholder")
 const highscoredisplay = document.getElementById("highscore")
 const prevscoredisplay = document.getElementById("prevscore")
@@ -440,3 +443,21 @@ document.querySelector(".menu").remove()
 document.querySelector(".credits").remove()
 document.querySelector(".leaderboard").remove()
 menu()
+let muted = false
+mutebutton.addEventListener("click", () => {
+	if (muted) {
+		bgm.volume = 0.4
+		bgm.play()
+		diesound.volume = 1
+		jumpsound.volume = 1
+		muted = false
+		mutebutton.innerHTML = '<span id="muteicon" class="material-symbols-outlined">volume_up</span>'
+	} else {
+		bgm.volume = 0
+		bgm.pause()
+		diesound.volume = 0
+		jumpsound.volume = 0
+		muted = true
+		mutebutton.innerHTML = '<span id="muteicon" class="material-symbols-outlined">volume_mute</span>'
+	}
+})
