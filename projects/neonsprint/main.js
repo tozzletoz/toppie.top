@@ -22,6 +22,15 @@ async function get_user() {
     }
 }
 
+async function logout() {
+    const response = await fetch("https://api.toppie.top/neonsprint/logout", {
+        method: 'POST',
+        credentials: 'include'
+    })
+    await response.json()
+    location.reload()
+}
+
 async function leaderboard() {
     const response = await fetch("https://api.toppie.top/neonsprint/leaderboard")
     const data = await response.json()
@@ -372,6 +381,10 @@ function menu() {
 		detectback()
 	})
 
+	logoutbutton.addEventListener("click", () => {
+		logout()
+	})
+
 	function detectback() {
 		document.querySelectorAll(".backbutton").forEach(button => {
 		button.addEventListener("click", () => {
@@ -415,6 +428,7 @@ const creditscontainer = document.querySelector(".credits")
 const leaderboardcontainer = document.querySelector(".leaderboard")
 const creditsbutton = document.getElementById("creditsbutton")
 const leaderboardbutton = document.getElementById("leaderboardbutton")
+const logoutbutton = document.getElementById("logoutbutton")
 const accountbuttonsholder = document.querySelector(".accountbuttonsholder")
 const highscoredisplay = document.getElementById("highscore")
 const prevscoredisplay = document.getElementById("prevscore")
