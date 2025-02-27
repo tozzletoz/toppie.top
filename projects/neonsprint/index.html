@@ -5,22 +5,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>NEON SPRINT</title>
 	<link rel="stylesheet" href="styles.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back_ios_new,favorite,play_arrow"/>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back_ios_new,favorite,leaderboard,play_arrow"/>
 	<link href="https://fonts.googleapis.com/css2?family=Sarpanch:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-	<link rel="icon" type="image/x-icon" href="neonsprint.png">
 </head>
 
 <body>
 	<div class="game">
 		<h1 id="score"></h1>
-		<div class="lives">
-	</div>
+		<div class="lives"></div>
 	</div>
 	<div class="menu">
 		<h1 id="gametitle">NEON SPRINT</h1>
 		<div id="playbutton"><span class="material-symbols-outlined" id="playicon">play_arrow</span>PLAY</div>
+		<div class="accountbuttonsholder">
+            <button class="accountbuttons" onclick="location.href='https://test.toppie.top/neonsprint/login.html'">LOG IN</button>
+            <button class="accountbuttons" onclick="location.href='https://test.toppie.top/neonsprint/signup.html'">SIGN UP</button>
+		</div>
+		<button id="leaderboardbutton"><span id="leaderboardicon" class="material-symbols-outlined">leaderboard</span>LEADERBOARD</button>
 		<button id="creditsbutton">© CREDITS</button>
 		<h1 id="prevscore"></h1>
 		<h1 id="highscore"></h1>
@@ -29,7 +30,11 @@
 		<h1 id="creditstitle">CREDITS</h1>
 		<h1 class="creditstext" >BACKGROUND MUSIC: LUNAR TIDES - TOP FLOW</h1>
 		<h1 class="creditstext">SCRIPTING: <a href="https://github.com/hankdh">HANK</a> & <a href="https://github.com/tozzletoz">TOZZLETOZ</a></h1>
-		<button id="backbutton"><span id="backicon" class="material-symbols-outlined">arrow_back_ios_new</span>BACK</button>
+		<button class="backbutton"><span id="backicon" class="material-symbols-outlined">arrow_back_ios_new</span>BACK</button>
+	</div>
+	<div class="leaderboard">
+        <div id="lbcontent"></div>
+		<button class="backbutton"><span id="backicon" class="material-symbols-outlined">arrow_back_ios_new</span>BACK</button>
 	</div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
