@@ -13,7 +13,7 @@ async function get_user() {
     const data = await response.json()
     console.log(data)
 
-    if (data.message == "NOT LOGGED IN") {
+    if (data.message == "not logged in") {
         return
     } else {
         highscore = data.highscore
