@@ -149,9 +149,16 @@ function main() {
 	let mouseposx
 	let mouseposy
 	let mousedown
-	document.addEventListener('mousemove', function(event) {
-		mouseposx = event.clientX
-		mouseposy = event.clientY
+	document.addEventListener("touchstart", function(event) {
+		mouseposx = event.touches[0].clientX
+		mouseposy = event.touches[0].clientY
+		console.log(mouseposx)
+	})
+
+	document.addEventListener("touchmove", function(event) {
+		mouseposx = event.touches[0].clientX
+		mouseposy = event.touches[0].clientY
+		console.log(mouseposx)
 	})
 
 	window.addEventListener("keydown", event => {
@@ -181,7 +188,7 @@ function main() {
 		}
 	})
 
-	window.addEventListener("mousedown", event => {
+	window.addEventListener("touchstart", event => {
 		mousedown = true
 		if (canjump && !spacebar) {
 			if (mouseposy < window.innerHeight / 2) {
@@ -193,7 +200,7 @@ function main() {
 		}
 	})
 
-	window.addEventListener("mouseup", event => {
+	window.addEventListener("touchend", event => {
 		mousedown = false
 		spacebar = false
 	})
@@ -208,7 +215,7 @@ function main() {
 			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 		}
 	}, 10)
-
+	
 	function jump() {
 		player.position.y = Math.abs(Math.sin(counter * 7) * 1) - 0.4
 		counter+=0.01
