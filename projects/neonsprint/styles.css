@@ -128,3 +128,7 @@ body {
 .creditstext {
 	font-size: min(4vw, 4vh);
 }
+
+a {
+	color: white;
+}
