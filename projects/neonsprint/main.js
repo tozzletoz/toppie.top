@@ -24,6 +24,7 @@ async function get_user() {
 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 	accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
 	coins = data.coins
+	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
     }
 }
 
@@ -515,12 +516,13 @@ async function shop() {
 						coins-=5
 						jumppower+=1
 						jumppowerowned+=1
+						updvalues()
 					}
 				}
 			} else {
 				jumppower+=1
+				updvalues()
 			}
-			updvalues()
 		}
 	)
 	minmove.addEventListener("click", () => {
@@ -537,12 +539,13 @@ async function shop() {
 						coins-=5
 						movepower+=1
 						movepowerowned+=1
+						updvalues()
 					}
 				}
 			} else {
 				movepower+=1
+				updvalues()
 			}
-			updvalues()
 		}
 	)
 }
