@@ -14,11 +14,13 @@ async function get_user() {
     console.log(data)
 
     if (data.message == "not logged in") {
-        return
+        logoutbutton.style.display = "none"
+	return
     } else {
-        highscore = data.highscore
-        highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
-        accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
+        logoutbutton.style.display = "flex"
+	highscore = data.highscore
+	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
+	accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
     }
 }
 
