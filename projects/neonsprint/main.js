@@ -477,7 +477,7 @@ async function shop() {
 	const plusmove = document.getElementById("plusmove")
 	const movevalue = document.getElementById("movevalue")
 
-	coinsdisplay.innerText = "-"
+	coinsdisplay.innerText = "LOADING"
 	jumpvalue.innerText = "-"
 	movevalue.innerText = "-"
 
@@ -490,6 +490,7 @@ async function shop() {
 	})
 	const data = await response.json()
 	
+	await get_user()
 
 	jumppower = data.upgrades.jumpheight
 	movepower = data.upgrades.movespeed
