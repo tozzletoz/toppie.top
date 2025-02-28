@@ -469,7 +469,7 @@ let jumppowerowned
 let movepower
 let movepowerowned
 
-async function shop(save=true) {
+async function shop() {
 	coinsound.play()
 	const minjump = document.getElementById("minjump")
 	const plusjump = document.getElementById("plusjump")
@@ -478,23 +478,23 @@ async function shop(save=true) {
 	const plusmove = document.getElementById("plusmove")
 	const movevalue = document.getElementById("movevalue")
 
-	fetch("https://api.toppie.top/neonsprint/upgrades", {
+	const response = await fetch("https://api.toppie.top/neonsprint/upgrades", {
 		method: "GET",
 		credentials: "include",
 		headers: {
 			"content-type": "application/json"
 		},
-	}).then(response => response.json()).then(data => {
-		jumppower = data.upgrades.jumpheight
-		movepower = data.upgrades.movespeed
-		jumppowerowned = data.upgrades.jumpheightowned
-		movepowerowned = data.upgrades.movespeedowned
 	})
+	const data = await response.json()
+
+	jumppower = data.upgrades.jumpheight
+	movepower = data.upgrades.movespeed
+	jumppowerowned = data.upgrades.jumpheightowned
+	movepowerowned = data.upgrades.movespeedowned
 
 	console.log(jumppower, movepower, jumppowerowned, movepowerowned)
-	await new Promise(resolve => setTimeout(resolve, 500))
 
-	function updvalues() {
+	function updvalues(save=true) {
 		console.log(coins)
 		jumpvalue.innerText = jumppower
 		movevalue.innerText = movepower
