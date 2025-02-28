@@ -478,6 +478,10 @@ async function shop() {
 	const plusmove = document.getElementById("plusmove")
 	const movevalue = document.getElementById("movevalue")
 
+	coinsdisplay.innerText = "-"
+	jumpvalue.innerText = "-"
+	movevalue.innerText = "-"
+
 	const response = await fetch("https://api.toppie.top/neonsprint/upgrades", {
 		method: "GET",
 		credentials: "include",
