@@ -24,6 +24,7 @@ async function get_user() {
 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 	accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
 	coins = data.coins
+	console.log(coins)
 	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
     }
 }
@@ -74,7 +75,7 @@ function main() {
                 fetch("https://api.toppie.top/neonsprint/save", {
                     method: "POST",
                     credentials: 'include',
-                    body: JSON.stringify({"highscore": score, "coins": coins}),
+                    body: JSON.stringify({"highscore": score, "coins": Math.round(coins)}),
 
                     headers: {
                         "Content-Type": "application/json"
@@ -169,13 +170,11 @@ function main() {
 	document.addEventListener("touchstart", function(event) {
 		mouseposx = event.touches[0].clientX
 		mouseposy = event.touches[0].clientY
-		console.log(mouseposx)
 	})
 
 	document.addEventListener("touchmove", function(event) {
 		mouseposx = event.touches[0].clientX
 		mouseposy = event.touches[0].clientY
-		console.log(mouseposx)
 	})
 
 	window.addEventListener("keydown", event => {
@@ -275,7 +274,6 @@ function main() {
     		object.danger = Math.round(Math.random() * 1.6)
 			if (object.danger == 0) {
 				object.coin = Math.round(Math.random() * 20)
-				console.log(object.coin)
 				if (object.danger == 0) {
 					object.geometry = new THREE.BoxGeometry(0.3, 0.3, 0.38)
 				}
@@ -466,12 +464,12 @@ function menu() {
 	})
 }
 
-let jumppower = 1
-let jumppowerowned = 0
-let movepower = 1
-let movepowerowned = 0
+let jumppower
+let jumppowerowned
+let movepower
+let movepowerowned
 
-async function shop() {
+async function shop(save=true) {
 	coinsound.play()
 	const minjump = document.getElementById("minjump")
 	const plusjump = document.getElementById("plusjump")
@@ -479,6 +477,20 @@ async function shop() {
 	const minmove = document.getElementById("minmove")
 	const plusmove = document.getElementById("plusmove")
 	const movevalue = document.getElementById("movevalue")
+
+	fetch("https://api.toppie.top/neonsprint/upgrades", {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"content-type": "application/json"
+		},
+		body: JSON.stringify({jumpheight: jumppower, movespeed: movepower})
+	}).then(response => response.json()).then(data => {
+		jumppower = data.upgrades.jumpheight
+		movepower = data.upgrades.movespeed
+		jumppowerowned = data.upgrades.jumpheightowned
+		movepowerowned = data.upgrades.movespeedowned
+	})
 
 	function updvalues() {
 		console.log(coins)
@@ -490,18 +502,20 @@ async function shop() {
             headers: {
                 "content-type": "application/json"
             },
-			body: JSON.stringify({jumpheight: jumppower, movespeed: movepower})
+			body: JSON.stringify({jumpheight: jumppower, jumpheightowned: jumppowerowned, movespeed: movepower, movespeedowned: movepowerowned})
 		})
-		fetch("https://api.toppie.top/neonsprint/save", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "content-type": "application/json"
-            },
-			body: JSON.stringify({coins: Math.round(coins)})
-		}).then(response => response.json()).then(data => {coinsdisplay.innerHTML= `COINS: <u>${Math.round(data.coins)}</u>`; coins = data.coins})
+		if (save) {
+			fetch("https://api.toppie.top/neonsprint/save", {
+				method: "POST",
+				credentials: "include",
+				headers: {
+					"content-type": "application/json"
+				},
+				body: JSON.stringify({coins: Math.round(coins)})
+			}).then(response => response.json()).then(data => {coinsdisplay.innerHTML= `COINS: <u>${Math.round(data.coins)}</u>`; coins = data.coins})
+		}
 	}
-	updvalues()
+	updvalues(save=false)
 	minjump.addEventListener("click", () => {
 		if (jumppower > 1) {
 			jumppower-=1
