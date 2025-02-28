@@ -497,6 +497,7 @@ async function shop() {
 	movepowerowned = data.upgrades.movespeedowned
 
 	console.log(jumppower, movepower, jumppowerowned, movepowerowned)
+	coinsdisplay.innerHTML= `COINS: <u>${Math.round(data.coins)}</u>`
 
 	function updvalues(save=true) {
 		console.log(coins)
