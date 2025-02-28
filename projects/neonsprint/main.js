@@ -72,19 +72,18 @@ function main() {
     const gameover = setInterval(() => {
 		if (lives === 0) {
 			if (score > highscore) {
-                fetch("https://api.toppie.top/neonsprint/save", {
-                    method: "POST",
-                    credentials: 'include',
-                    body: JSON.stringify({"highscore": score, "coins": Math.round(coins)}),
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }).then(() => {
-                    highscore = score
-                    highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
-                })
+				highscore = score
             }
+			fetch("https://api.toppie.top/neonsprint/save", {
+				method: "POST",
+				credentials: 'include',
+				body: JSON.stringify({"highscore": highscore, "coins": Math.round(coins)}),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(() => {
+				highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
+            })
 			localStorage.setItem("prevscoreneonrun", score)
 			menu()
 			clearInterval(gameover)
@@ -490,6 +489,7 @@ async function shop() {
 		},
 	})
 	const data = await response.json()
+	
 
 	jumppower = data.upgrades.jumpheight
 	movepower = data.upgrades.movespeed
