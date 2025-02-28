@@ -484,7 +484,7 @@ async function shop(save=true) {
 		headers: {
 			"content-type": "application/json"
 		},
-		body: JSON.stringify({jumpheight: jumppower, movespeed: movepower})
+		body: JSON.stringify({jumpheight: jumppower, jumpheightowned: jumppowerowned, movespeed: movepower, movespeedowned: movepowerowned})
 	}).then(response => response.json()).then(data => {
 		jumppower = data.upgrades.jumpheight
 		movepower = data.upgrades.movespeed
