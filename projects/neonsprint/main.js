@@ -473,6 +473,52 @@ let jumppowerowned
 let movepower
 let movepowerowned
 
+function decreasejump() {
+	if (jumppower > 1) {
+		jumppower-=1
+		updvalues()
+	}
+}
+
+function increasejump() {
+	if (jumppowerowned < jumppower) {
+		if (coins > 4) {
+			if (jumppower < 5) {
+				coins-=5
+				jumppower+=1
+				jumppowerowned+=1
+				updvalues()
+			}
+		}
+	} else {
+		jumppower+=1
+		updvalues()
+	}
+}
+
+function decreasemove() {
+	if (movepower > 1) {
+		movepower-=1
+		updvalues()
+	}
+}
+
+function increasemove() {
+		if (movepowerowned < movepower) {
+			if (coins > 4) {
+				if (movepower < 5) {
+					coins-=5
+					movepower+=1
+					movepowerowned+=1
+					updvalues()
+				}
+			}
+		} else {
+			movepower+=1
+			updvalues()
+		}
+	}
+
 async function shop() {
 	coinsound.play()
 
@@ -523,51 +569,6 @@ async function shop() {
 		}
 	}
 	updvalues(save=false)
-	function decreasejump() {
-		if (jumppower > 1) {
-			jumppower-=1
-			updvalues()
-		}
-	}
-
-	function increasejump() {
-		if (jumppowerowned < jumppower) {
-			if (coins > 4) {
-				if (jumppower < 5) {
-					coins-=5
-					jumppower+=1
-					jumppowerowned+=1
-					updvalues()
-				}
-			}
-		} else {
-			jumppower+=1
-			updvalues()
-		}
-	}
-
-	function decreasemove() {
-		if (movepower > 1) {
-			movepower-=1
-			updvalues()
-		}
-	}
-
-	function increasemove() {
-			if (movepowerowned < movepower) {
-				if (coins > 4) {
-					if (movepower < 5) {
-						coins-=5
-						movepower+=1
-						movepowerowned+=1
-						updvalues()
-					}
-				}
-			} else {
-				movepower+=1
-				updvalues()
-			}
-		}
 
 	minjump.addEventListener("click", decreasejump)
 	plusjump.addEventListener("click", increasejump)
