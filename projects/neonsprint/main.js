@@ -222,11 +222,12 @@ function main() {
 
 	setInterval(() => {
 		if (leftpressed && player.position.x > -0.66 || mousedown == true && mouseposx < window.innerWidth/2 && player.position.x > -0.66) {
-			player.position.x-=0.01
+			player.position.x-=(movepower/100) - 0.003
 			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 		}
 		if (rightpressed && player.position.x < 0.66 || mousedown == true && mouseposx > window.innerWidth/2 && player.position.x < 0.66) {
-			player.position.x+=0.01
+			player.position.x+=(movepower/100) - 0.003
+			console.log(movepower)
 			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
 		}
 	}, 10)
@@ -437,6 +438,10 @@ function menu() {
 		} catch {
 			null
 		}
+		minjump.removeEventListener("click", decreasejump)
+		plusjump.removeEventListener("click", increasejump)
+		minmove.removeEventListener("click", decreasemove)
+		plusmove.removeEventListener("click", increasemove)
 		document.body.appendChild(menucontainer)
 	})})
 	}
@@ -470,12 +475,6 @@ let movepowerowned
 
 async function shop() {
 	coinsound.play()
-	const minjump = document.getElementById("minjump")
-	const plusjump = document.getElementById("plusjump")
-	const jumpvalue = document.getElementById("jumpvalue")
-	const minmove = document.getElementById("minmove")
-	const plusmove = document.getElementById("plusmove")
-	const movevalue = document.getElementById("movevalue")
 
 	coinsdisplay.innerText = "LOADING"
 	jumpvalue.innerText = "-"
@@ -524,37 +523,37 @@ async function shop() {
 		}
 	}
 	updvalues(save=false)
-	minjump.addEventListener("click", () => {
+	function decreasejump() {
 		if (jumppower > 1) {
 			jumppower-=1
 			updvalues()
 		}
-	})
+	}
 
-	plusjump.addEventListener("click", () => {
-			if (jumppowerowned < jumppower) {
-				if (coins > 4) {
-					if (jumppower < 5) {
-						coins-=5
-						jumppower+=1
-						jumppowerowned+=1
-						updvalues()
-					}
+	function increasejump() {
+		if (jumppowerowned < jumppower) {
+			if (coins > 4) {
+				if (jumppower < 5) {
+					coins-=5
+					jumppower+=1
+					jumppowerowned+=1
+					updvalues()
 				}
-			} else {
-				jumppower+=1
-				updvalues()
 			}
+		} else {
+			jumppower+=1
+			updvalues()
 		}
-	)
-	minmove.addEventListener("click", () => {
+	}
+
+	function decreasemove() {
 		if (movepower > 1) {
 			movepower-=1
 			updvalues()
 		}
-	})
+	}
 
-	plusmove.addEventListener("click", () => {
+	function increasemove() {
 			if (movepowerowned < movepower) {
 				if (coins > 4) {
 					if (movepower < 5) {
@@ -569,7 +568,11 @@ async function shop() {
 				updvalues()
 			}
 		}
-	)
+
+	minjump.addEventListener("click", decreasejump)
+	plusjump.addEventListener("click", increasejump)
+	minmove.addEventListener("click", decreasemove)
+	plusmove.addEventListener("click", increasemove)
 }
 
 const menucontainer = document.querySelector(".menu")
@@ -589,12 +592,19 @@ const coinsdisplay = document.getElementById("coinamount")
 let prevscore
 let hasplayed = false
 const backbutton = document.querySelectorAll(".backbutton")
+const minjump = document.getElementById("minjump")
+const plusjump = document.getElementById("plusjump")
+const jumpvalue = document.getElementById("jumpvalue")
+const minmove = document.getElementById("minmove")
+const plusmove = document.getElementById("plusmove")
+const movevalue = document.getElementById("movevalue")
 document.querySelector(".game").remove()
 document.querySelector(".shop").remove()
 document.querySelector(".menu").remove()
 document.querySelector(".credits").remove()
 document.querySelector(".leaderboard").remove()
 menu()
+shop()
 let muted = false
 mutebutton.addEventListener("click", () => {
 	if (muted) {
