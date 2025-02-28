@@ -491,6 +491,9 @@ async function shop(save=true) {
 		movepowerowned = data.upgrades.movespeedowned
 	})
 
+	console.log(jumppower, movepower, jumppowerowned, movepowerowned)
+	await new Promise(resolve => setTimeout(resolve, 500))
+
 	function updvalues() {
 		console.log(coins)
 		jumpvalue.innerText = jumppower
