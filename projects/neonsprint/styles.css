@@ -44,7 +44,7 @@ body {
   'opsz' 24
 }
 
-#playicon, #backicon, #leaderboardicon, #muteicon {
+#playicon, #backicon, #leaderboardicon, #muteicon, #shopicon, #coinicon {
 	color: white;
 	font-size: 40px;
 	line-height: 0;
@@ -64,7 +64,8 @@ body {
 
 .menu,
 .credits,
-.leaderboard {
+.leaderboard,
+.shop {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
@@ -73,7 +74,7 @@ body {
     transform: translate(-50%, -50%) scale(0.5);
 	background-color: rgba(255, 255, 255, 0.082);
 	width: min(100vw, 100vh);
-	height: 60vh;
+	height: 70vh;
 	justify-content: center;
 	align-items: center;
 	border-radius: 10px;
@@ -94,9 +95,12 @@ body {
 #creditsbutton,
 #leaderboardbutton,
 #logoutbutton,
+#shopbutton,
 #mutebutton,
 .accountbuttons,
-.backbutton {
+.backbutton,
+#jumpshop button,
+#moveshop button {
 	display: flex;
 	width: 70%;
 	height: 50px;
@@ -114,14 +118,18 @@ body {
 #creditsbutton:hover,
 #leaderboardbutton:hover,
 #logoutbutton:hover,
+#shopbutton:hover,
 #mutebutton:hover,
 .backbutton:hover,
-.accountbuttons:hover {
+.accountbuttons:hover,
+#jumpshop button:hover,
+#moveshop button:hover {
 	background-color: #00ffff25;
 }
 
 #highscore,
 #prevscore,
+#coinamount,
 .creditstext {
 	font-size: min(5vw, 5vh);
 	color: white;
@@ -184,4 +192,59 @@ p {
 	width: 50px;
 	height: 50px;
 	margin: 0;
+}
+
+.shopitems {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	height: 50%;
+	background-color: rgba(255, 255, 255, 0);
+}
+
+.jumppower,
+.movepower {
+	display: flex;
+	color: white;
+	font-size: 40px;
+	width: 95%;
+	height: 30%;
+	background-color: rgba(0, 255, 255, 0.192);
+	align-items: center;
+	padding-left: 10px;
+	margin-bottom: 5px;
+}
+
+.shoptypetitle {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: auto;
+	justify-content: flex-start;
+}
+
+#jumpshop,
+#moveshop {
+	display: flex;
+	flex-direction: row;
+	position: absolute;
+	width: 160px;
+	height: 60px;
+	right: min(15vw, 15vh);;
+	background-color: rgba(255, 255, 255, 0);
+	align-items: center;
+	justify-content: space-between;
+}
+
+#jumpshop button,
+#moveshop button {
+  	width: 40px;
+	height: 40px;
+  	margin: 0;
+}
+
+.shop h3 {
+	margin: 0;
+	line-height: 0;
+	font-size: min(5vw, 5vh);
 }
