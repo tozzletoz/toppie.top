@@ -479,12 +479,11 @@ async function shop(save=true) {
 	const movevalue = document.getElementById("movevalue")
 
 	fetch("https://api.toppie.top/neonsprint/upgrades", {
-		method: "POST",
+		method: "GET",
 		credentials: "include",
 		headers: {
 			"content-type": "application/json"
 		},
-		body: JSON.stringify({jumpheight: jumppower, jumpheightowned: jumppowerowned, movespeed: movepower, movespeedowned: movepowerowned})
 	}).then(response => response.json()).then(data => {
 		jumppower = data.upgrades.jumpheight
 		movepower = data.upgrades.movespeed
