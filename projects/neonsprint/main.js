@@ -1,9 +1,11 @@
 const diesound = new Audio("life.wav")
 const jumpsound = new Audio("jump.wav")
+const coinsound = new Audio("coin.wav")
 const bgm = new Audio("bgm.mp3")
 let highscore
 bgm.loop = true
 let animationid
+let coins
 
 async function get_user() {
     const response = await fetch("https://api.toppie.top/neonsprint/get_user", {
@@ -21,6 +23,7 @@ async function get_user() {
 	highscore = data.highscore
 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 	accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
+	coins = data.coins
     }
 }
 
@@ -67,10 +70,10 @@ function main() {
     const gameover = setInterval(() => {
 		if (lives === 0) {
 			if (score > highscore) {
-                fetch("https://api.toppie.top/neonsprint/savescore", {
+                fetch("https://api.toppie.top/neonsprint/save", {
                     method: "POST",
                     credentials: 'include',
-                    body: JSON.stringify({ "highscore": score }),
+                    body: JSON.stringify({"highscore": score, "coins": coins}),
 
                     headers: {
                         "Content-Type": "application/json"
@@ -230,7 +233,7 @@ function main() {
 	}, 10)
 	
 	function jump() {
-		player.position.y = Math.abs(Math.sin(counter * 7) * 1) - 0.4
+		player.position.y = Math.abs(Math.sin(counter * 7) * (0.5+(jumppower/5))) - 0.4
 		counter+=0.01
 		if (counter > 0.46 && counter < 0.47) {
 			counter = 0
@@ -269,6 +272,16 @@ function main() {
 
 		if (colors[colors.length - 1] !== 0) {
     		object.danger = Math.round(Math.random() * 1.6)
+			if (object.danger == 0) {
+				object.coin = Math.round(Math.random() * 20)
+				console.log(object.coin)
+				if (object.danger == 0) {
+					object.geometry = new THREE.BoxGeometry(0.3, 0.3, 0.38)
+				}
+				if (object.coin == 0) {
+					object.geometry = new THREE.CylinderGeometry(0.15, 0.15, 0.03, 32)
+				}
+			}
 			object.posx = Math.round(Math.random() * 4)
 		} else {
 			object.danger = 1
@@ -309,7 +322,11 @@ function main() {
 			switch (object.danger) {
 				case 0:
 					object.material.color.set("red")
-					object.geometry = new THREE.BoxGeometry(0.3, 0.3, 0.38)
+					if (object.coin == 0) {
+						object.material.color.set("yellow")
+						object.rotation.x = Math.PI / 2
+						object.rotation.z+=0.1
+					}
 					let objectindex = objects1.indexOf(object)
 
 					if (object.position.z > 10) {
@@ -334,8 +351,8 @@ function main() {
 							object.position.x = 0
 							break
 					}
-					if (object.position.z > 2.5 && object.position.z < 3.1 && player.position.x < object.position.x + 0.3 && player.position.x > object.position.x - 0.3 && player.position.y < 0.15) {
-						if (!death) {
+					if (object.position.z > 2.5 && object.position.z < 3.1 && player.position.x < object.position.x + 0.3 && player.position.x > object.position.x - 0.3 && player.position.y < 0.05) {
+						if (!death && object.coin != 0) {
 							diesound.currentTime = 0
 							diesound.play()
 							death = true
@@ -346,6 +363,13 @@ function main() {
 								death = false
 								player.material.opacity = 1
 							}, 1500)
+						} else if (object.coin == 0) {
+							object.geometry.dispose()
+							object.material.dispose()
+							scene.remove(object)
+							coins+=(1/6)
+							coinsound.currentTime = 0
+							coinsound.play()
 						}
 					}
 					break
@@ -379,6 +403,13 @@ function menu() {
 		detectback()
 	})
 
+	shopbutton.addEventListener("click", () => {
+		document.querySelector(".menu").remove()
+		document.body.appendChild(shopcontainer)
+		shop()
+		detectback()
+	})
+
 	leaderboardbutton.addEventListener("click", () => {
 		document.querySelector(".menu").remove()
         document.body.appendChild(leaderboardcontainer)
@@ -403,6 +434,11 @@ function menu() {
 		} catch {
 			null
 		}
+		try {
+			document.querySelector(".shop").remove()
+		} catch {
+			null
+		}
 		document.body.appendChild(menucontainer)
 	})})
 	}
@@ -415,6 +451,7 @@ function menu() {
     }
 
 	prevscoredisplay.innerHTML= `LATEST SCORE: <u>${prevscore}</u>`
+	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
 	document.body.appendChild(menucontainer)
 	document.getElementById("playbutton").addEventListener("click", () => {
 		if (hasplayed == false) {
@@ -428,21 +465,107 @@ function menu() {
 	})
 }
 
+let jumppower = 1
+let jumppowerowned = 0
+let movepower = 1
+let movepowerowned = 0
+
+async function shop() {
+	coinsound.play()
+	const minjump = document.getElementById("minjump")
+	const plusjump = document.getElementById("plusjump")
+	const jumpvalue = document.getElementById("jumpvalue")
+	const minmove = document.getElementById("minmove")
+	const plusmove = document.getElementById("plusmove")
+	const movevalue = document.getElementById("movevalue")
+
+	function updvalues() {
+		console.log(coins)
+		jumpvalue.innerText = jumppower
+		movevalue.innerText = movepower
+		fetch("https://api.toppie.top/neonsprint/upgrades", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "content-type": "application/json"
+            },
+			body: JSON.stringify({jumpheight: jumppower, movespeed: movepower})
+		})
+		fetch("https://api.toppie.top/neonsprint/save", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "content-type": "application/json"
+            },
+			body: JSON.stringify({coins: Math.round(coins)})
+		}).then(response => response.json()).then(data => {coinsdisplay.innerHTML= `COINS: <u>${Math.round(data.coins)}</u>`; coins = data.coins})
+	}
+	updvalues()
+	minjump.addEventListener("click", () => {
+		if (jumppower > 1) {
+			jumppower-=1
+			updvalues()
+		}
+	})
+
+	plusjump.addEventListener("click", () => {
+			if (jumppowerowned < jumppower) {
+				if (coins > 4) {
+					if (jumppower < 5) {
+						coins-=5
+						jumppower+=1
+						jumppowerowned+=1
+					}
+				}
+			} else {
+				jumppower+=1
+			}
+			updvalues()
+		}
+	)
+	minmove.addEventListener("click", () => {
+		if (movepower > 1) {
+			movepower-=1
+			updvalues()
+		}
+	})
+
+	plusmove.addEventListener("click", () => {
+			if (movepowerowned < movepower) {
+				if (coins > 4) {
+					if (movepower < 5) {
+						coins-=5
+						movepower+=1
+						movepowerowned+=1
+					}
+				}
+			} else {
+				movepower+=1
+			}
+			updvalues()
+		}
+	)
+}
+
 const menucontainer = document.querySelector(".menu")
 const gameinfocontainer = document.querySelector(".game")
 const creditscontainer = document.querySelector(".credits")
 const leaderboardcontainer = document.querySelector(".leaderboard")
+const shopcontainer = document.querySelector(".shop")
 const creditsbutton = document.getElementById("creditsbutton")
 const leaderboardbutton = document.getElementById("leaderboardbutton")
+const shopbutton = document.getElementById("shopbutton")
 const logoutbutton = document.getElementById("logoutbutton")
 const mutebutton = document.getElementById("mutebutton")
 const accountbuttonsholder = document.querySelector(".accountbuttonsholder")
 const highscoredisplay = document.getElementById("highscore")
 const prevscoredisplay = document.getElementById("prevscore")
+const coinsdisplay = document.getElementById("coinamount")
 let prevscore
 let hasplayed = false
 const backbutton = document.querySelectorAll(".backbutton")
 document.querySelector(".game").remove()
+document.querySelector(".shop").remove()
 document.querySelector(".menu").remove()
 document.querySelector(".credits").remove()
 document.querySelector(".leaderboard").remove()
