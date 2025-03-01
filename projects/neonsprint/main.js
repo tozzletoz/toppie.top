@@ -387,9 +387,10 @@ function main() {
 	animationid = requestAnimationFrame(animation)
 }
 
-function menu() {
+async function menu() {
 	mutebutton.style.visibility = "visible"
-    get_user()
+    await get_user()
+	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 	if (hasplayed && !muted) {
 			bgm.volume = 0.4
 	}
