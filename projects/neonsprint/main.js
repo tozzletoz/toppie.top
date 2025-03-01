@@ -505,20 +505,44 @@ function decreasemove() {
 }
 
 function increasemove() {
-		if (movepowerowned < movepower) {
-			if (coins > 4) {
-				if (movepower < 5) {
-					coins-=5
-					movepower+=1
-					movepowerowned+=1
-					updvalues()
-				}
+	if (movepowerowned < movepower) {
+		if (coins > 4) {
+			if (movepower < 5) {
+				coins-=5
+				movepower+=1
+				movepowerowned+=1
+				updvalues()
 			}
-		} else {
-			movepower+=1
-			updvalues()
 		}
+	} else {
+		movepower+=1
+		updvalues()
 	}
+}
+
+function updvalues(save=true) {
+	console.log(coins)
+	jumpvalue.innerText = jumppower
+	movevalue.innerText = movepower
+	fetch("https://api.toppie.top/neonsprint/upgrades", {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"content-type": "application/json"
+		},
+		body: JSON.stringify({jumpheight: jumppower, jumpheightowned: jumppowerowned, movespeed: movepower, movespeedowned: movepowerowned})
+	})
+	if (save) {
+		fetch("https://api.toppie.top/neonsprint/save", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"content-type": "application/json"
+			},
+			body: JSON.stringify({coins: Math.round(coins)})
+		}).then(response => response.json()).then(data => {coinsdisplay.innerHTML= `COINS: <u>${Math.round(data.coins)}</u>`; coins = data.coins})
+	}
+}
 
 async function shop() {
 	coinsound.play()
@@ -546,29 +570,6 @@ async function shop() {
 	console.log(jumppower, movepower, jumppowerowned, movepowerowned)
 	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
 
-	function updvalues(save=true) {
-		console.log(coins)
-		jumpvalue.innerText = jumppower
-		movevalue.innerText = movepower
-		fetch("https://api.toppie.top/neonsprint/upgrades", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "content-type": "application/json"
-            },
-			body: JSON.stringify({jumpheight: jumppower, jumpheightowned: jumppowerowned, movespeed: movepower, movespeedowned: movepowerowned})
-		})
-		if (save) {
-			fetch("https://api.toppie.top/neonsprint/save", {
-				method: "POST",
-				credentials: "include",
-				headers: {
-					"content-type": "application/json"
-				},
-				body: JSON.stringify({coins: Math.round(coins)})
-			}).then(response => response.json()).then(data => {coinsdisplay.innerHTML= `COINS: <u>${Math.round(data.coins)}</u>`; coins = data.coins})
-		}
-	}
 	updvalues(save=false)
 
 	minjump.addEventListener("click", decreasejump)
