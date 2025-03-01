@@ -29,6 +29,7 @@ async function get_user() {
 	coins = data.coins
 	console.log(coins)
 	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
+	shop()
     }
 }
 
@@ -611,7 +612,6 @@ document.querySelector(".menu").remove()
 document.querySelector(".credits").remove()
 document.querySelector(".leaderboard").remove()
 menu()
-shop()
 let muted = false
 mutebutton.addEventListener("click", () => {
 	if (muted) {
