@@ -17,6 +17,9 @@ async function get_user() {
 
     if (data.message == "not logged in") {
         logoutbutton.style.display = "none"
+	shopbutton.style.display = "none"
+	jumppower = 1
+	movepower = 1
 	return
     } else {
         logoutbutton.style.display = "flex"
