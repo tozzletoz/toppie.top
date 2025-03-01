@@ -395,7 +395,7 @@ function main() {
 
 async function menu() {
 	mutebutton.style.visibility = "visible"
-    await get_user()
+    //await get_user()
 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 	if (hasplayed && !muted) {
 			bgm.volume = 0.4
@@ -566,7 +566,7 @@ async function shop() {
 	})
 	const data = await response.json()
 	
-	await get_user()
+	//await get_user()
 
 	jumppower = data.upgrades.jumpheight
 	movepower = data.upgrades.movespeed
