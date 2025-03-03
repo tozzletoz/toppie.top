@@ -78,12 +78,13 @@ function main() {
 	let death = false
 	let lives = 3
 	let counter = 0
-	const gameover = setInterval(() => {
+	const gameover = setInterval(async () => {
 		if (lives === 0) {
 			if (score > highscore) {
 				highscore = score
 			}
-			fetch("https://api.toppie.top/neonsprint/save", {
+
+			await fetch("https://api.toppie.top/neonsprint/save", {
 				method: "POST",
 				credentials: 'include',
 				body: JSON.stringify({ "highscore": highscore, "coins": Math.round(coins) }),
@@ -102,7 +103,7 @@ function main() {
 			diesound.volume = 0
 			jumpsound.volume = 0
 			return
-		} colors[colors.length - 1] !== 0
+		}
 	}, 100)
 
 	const scorecounter = document.getElementById("score")
