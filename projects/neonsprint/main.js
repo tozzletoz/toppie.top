@@ -30,7 +30,7 @@ async function get_user() {
 	coins = data.coins
 	console.log(coins)
 	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
-	shop()
+	//shop()
     }
 }
 
