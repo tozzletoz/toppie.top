@@ -80,15 +80,10 @@ function main() {
 	let counter = 0
 	const gameover = setInterval(async () => {
 		if (lives === 0) {
+			clearInterval(gameover)
 			if (score > highscore) {
 				highscore = score
 			}
-			clearInterval(gameover)
-			cancelAnimationFrame(animationid)
-			renderer.domElement.remove()
-			livescontainer.innerHTML = ""
-			diesound.volume = 0
-			jumpsound.volume = 0
 			await fetch("https://api.toppie.top/neonsprint/save", {
 				method: "POST",
 				credentials: 'include',
@@ -99,6 +94,11 @@ function main() {
 			}).then(() => {
 				highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 			})
+			cancelAnimationFrame(animationid)
+			renderer.domElement.remove()
+			livescontainer.innerHTML = ""
+			diesound.volume = 0
+			jumpsound.volume = 0
 			localStorage.setItem("prevscoreneonrun", score)
 			menu()
 			return
