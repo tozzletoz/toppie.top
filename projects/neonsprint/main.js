@@ -6,62 +6,66 @@ let highscore
 bgm.loop = true
 let animationid
 let coins
+let datafetched = false
 
 async function get_user() {
-    const response = await fetch("https://api.toppie.top/neonsprint/get_user", {
-        method: 'GET',
-        credentials: 'include'
-    })
-    const data = await response.json()
-    console.log(data)
+	const response = await fetch("https://api.toppie.top/neonsprint/get_user", {
+		method: 'GET',
+		credentials: 'include'
+	})
+	const data = await response.json()
+	console.log(data)
 
-    if (data.message == "not logged in") {
-        logoutbutton.style.display = "none"
-	shopbutton.style.display = "none"
-	highscoredisplay.style.display = "none"
-	jumppower = 1
-	movepower = 1
-	return
-    } else {
-        logoutbutton.style.display = "flex"
-	highscore = data.highscore
-	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
-	accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
-	coins = data.coins
-	console.log(coins)
-	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
-	//shop()
-    }
+	if (data.message == "not logged in") {
+		logoutbutton.style.display = "none"
+		shopbutton.style.display = "none"
+		highscoredisplay.style.display = "none"
+		jumppower = 1
+		movepower = 1
+		return
+	} else {
+		logoutbutton.style.display = "flex"
+		highscore = data.highscore
+		highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
+		accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
+		coins = data.coins
+		console.log(coins)
+		coinsdisplay.innerHTML = `COINS: <u>${Math.round(coins)}</u>`
+		if (!datafetched) {
+			shop()
+		}
+		datafetched = true
+	}
 }
 
 async function logout() {
-    const response = await fetch("https://api.toppie.top/neonsprint/logout", {
-        method: 'POST',
-        credentials: 'include'
-    })
-    await response.json()
-    location.reload()
+	const response = await fetch("https://api.toppie.top/neonsprint/logout", {
+		method: 'POST',
+		credentials: 'include'
+	})
+	await response.json()
+	location.reload()
 }
 
 async function leaderboard() {
-    const response = await fetch("https://api.toppie.top/neonsprint/leaderboard")
-    const data = await response.json()
+	const response = await fetch("https://api.toppie.top/neonsprint/leaderboard")
+	const data = await response.json()
 
-    const leaderboardcontainer = document.getElementById("lbcontent")
-    leaderboardcontainer.innerHTML = ""
+	const leaderboardcontainer = document.getElementById("lbcontent")
+	leaderboardcontainer.innerHTML = ""
 
-    data.highscores.forEach((item) => {
-        let lbitem = document.createElement("p")
-        lbitem.innerText = `${data.highscores.indexOf(item) + 1}. ${item.username}: ${item.highscore}`
-        if (data.highscores.indexOf(item) + 1 == 1) {
-            lbitem.style.color = "rgb(255, 238, 0)"
-        } else if (data.highscores.indexOf(item) + 1 == 2) {
-            lbitem.style.color = "rgb(212, 212, 212)"
-        } else if (data.highscores.indexOf(item) + 1 == 3) {
-            lbitem.style.color = "rgb(160, 85, 0)"
-        }
-        leaderboardcontainer.appendChild(lbitem)
-    })
+	data.highscores.forEach((item) => {
+		let lbitem = document.createElement("p")
+		lbitem.innerText = `${data.highscores.indexOf(item) + 1}. ${item.username}: ${item.highscore}`
+		if (data.highscores.indexOf(item) + 1 == 1) {
+			lbitem.style.color = "rgb(255, 238, 0)"
+		} else if (data.highscores.indexOf(item) + 1 == 2) {
+			lbitem.style.color = "rgb(212, 212, 212)"
+		} else if (data.highscores.indexOf(item) + 1 == 3) {
+			lbitem.style.color = "rgb(160, 85, 0)"
+		}
+		leaderboardcontainer.appendChild(lbitem)
+	})
 }
 
 function main() {
@@ -74,21 +78,21 @@ function main() {
 	let death = false
 	let lives = 3
 	let counter = 0
-    const gameover = setInterval(() => {
+	const gameover = setInterval(() => {
 		if (lives === 0) {
 			if (score > highscore) {
 				highscore = score
-            }
+			}
 			fetch("https://api.toppie.top/neonsprint/save", {
 				method: "POST",
 				credentials: 'include',
-				body: JSON.stringify({"highscore": highscore, "coins": Math.round(coins)}),
+				body: JSON.stringify({ "highscore": highscore, "coins": Math.round(coins) }),
 				headers: {
 					"Content-Type": "application/json"
 				}
 			}).then(() => {
 				highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
-            })
+			})
 			localStorage.setItem("prevscoreneonrun", score)
 			menu()
 			clearInterval(gameover)
@@ -98,9 +102,9 @@ function main() {
 			diesound.volume = 0
 			jumpsound.volume = 0
 			return
-		}colors[colors.length - 1] !== 0
+		} colors[colors.length - 1] !== 0
 	}, 100)
-	
+
 	const scorecounter = document.getElementById("score")
 	const livescontainer = document.querySelector(".lives")
 	const life1 = document.createElement("span")
@@ -123,9 +127,9 @@ function main() {
 	setInterval(() => {
 		renderer.setSize(window.innerWidth, window.innerHeight)
 		camera.aspect = window.innerWidth / window.innerHeight
-    	camera.updateProjectionMatrix()
+		camera.updateProjectionMatrix()
 	}, 100)
-	
+
 	camera.lookAt(0, 0, 0)
 
 	const imgloader = new THREE.TextureLoader()
@@ -151,7 +155,7 @@ function main() {
 	let i = 0
 
 	const playergeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3)
-	const playermaterial = new THREE.MeshStandardMaterial({color: "cyan"})
+	const playermaterial = new THREE.MeshStandardMaterial({ color: "cyan" })
 	const player = new THREE.Mesh(playergeometry, playermaterial)
 	//player.castShadow = true
 	player.receiveShadow = true
@@ -162,7 +166,7 @@ function main() {
 	player.position.z = 3
 	scene.add(player)
 
-	camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
+	camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 
 	let canjump = true
 	let spacebar = false
@@ -171,12 +175,12 @@ function main() {
 	let mouseposx
 	let mouseposy
 	let mousedown
-	document.addEventListener("touchstart", function(event) {
+	document.addEventListener("touchstart", function (event) {
 		mouseposx = event.touches[0].clientX
 		mouseposy = event.touches[0].clientY
 	})
 
-	document.addEventListener("touchmove", function(event) {
+	document.addEventListener("touchmove", function (event) {
 		mouseposx = event.touches[0].clientX
 		mouseposy = event.touches[0].clientY
 	})
@@ -226,26 +230,26 @@ function main() {
 	})
 
 	setInterval(() => {
-		if (leftpressed && player.position.x > -0.66 || mousedown == true && mouseposx < window.innerWidth/2 && player.position.x > -0.66) {
-			player.position.x-=(movepower/100) - 0.003
-			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
+		if (leftpressed && player.position.x > -0.66 || mousedown == true && mouseposx < window.innerWidth / 2 && player.position.x > -0.66) {
+			player.position.x -= (movepower / 100) - 0.003
+			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 		}
-		if (rightpressed && player.position.x < 0.66 || mousedown == true && mouseposx > window.innerWidth/2 && player.position.x < 0.66) {
-			player.position.x+=(movepower/100) - 0.003
+		if (rightpressed && player.position.x < 0.66 || mousedown == true && mouseposx > window.innerWidth / 2 && player.position.x < 0.66) {
+			player.position.x += (movepower / 100) - 0.003
 			console.log(movepower)
-			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
+			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 		}
 	}, 10)
-	
+
 	function jump() {
-		player.position.y = Math.abs(Math.sin(counter * 7) * (0.5+(jumppower/5))) - 0.4
-		counter+=0.01
+		player.position.y = Math.abs(Math.sin(counter * 7) * (0.5 + (jumppower / 5))) - 0.4
+		counter += 0.01
 		if (counter > 0.46 && counter < 0.47) {
 			counter = 0
 			canjump = true
-			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
+			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 		} else {
-			camera.position.set(player.position.x/3, (player.position.y+1.3)/3, player.position.z + 4)
+			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 			requestAnimationFrame(jump)
 			canjump = false
 		}
@@ -254,7 +258,7 @@ function main() {
 	let increment = 0.01
 	setInterval(() => {
 		const geometry = new THREE.BoxGeometry(1.7, 0.1, 0.8)
-		const material = new THREE.MeshStandardMaterial({color: "white"})
+		const material = new THREE.MeshStandardMaterial({ color: "white" })
 		const object = new THREE.Mesh(geometry, material)
 
 		object.material.transparent = true
@@ -263,20 +267,20 @@ function main() {
 		//object.castShadow = true
 		object.receiveShadow = true
 
-		counter2+=0.1
+		counter2 += 0.1
 
 		switch (Math.round(Math.random())) {
 			case 0:
 				increment = -0.01
 				break
-		
+
 			case 1:
 				increment = 0.01
 				break
 		}
 
 		if (colors[colors.length - 1] !== 0) {
-    		object.danger = Math.round(Math.random() * 1.6)
+			object.danger = Math.round(Math.random() * 1.6)
 			if (object.danger == 0) {
 				object.coin = Math.round(Math.random() * 20)
 				if (object.danger == 0) {
@@ -300,7 +304,8 @@ function main() {
 			object.material.opacity = opacity
 			if (opacity < 1) {
 				requestAnimationFrame(appear)
-			}}
+			}
+		}
 		appear()
 
 	}, 60)
@@ -320,7 +325,8 @@ function main() {
 		}
 	}
 
-	function animation() {-0.4
+	function animation() {
+		-0.4
 		if (lives === 0) return
 		objects1.forEach(object => {
 			switch (object.danger) {
@@ -329,7 +335,7 @@ function main() {
 					if (object.coin == 0) {
 						object.material.color.set("yellow")
 						object.rotation.x = Math.PI / 2
-						object.rotation.z+=0.1
+						object.rotation.z += 0.1
 					}
 					let objectindex = objects1.indexOf(object)
 
@@ -360,7 +366,7 @@ function main() {
 							diesound.currentTime = 0
 							diesound.play()
 							death = true
-							lives-=1
+							lives -= 1
 							player.material.opacity = 0.5
 							adjustlives()
 							setTimeout(() => {
@@ -371,20 +377,20 @@ function main() {
 							object.geometry.dispose()
 							object.material.dispose()
 							scene.remove(object)
-							coins+=(1/6)
+							coins += (1 / 6)
 							coinsound.currentTime = 0
 							coinsound.play()
 							console.log("YAAAY")
 						}
 					}
 					break
-			
+
 				default:
 					break
 			}
-			object.position.z+=0.10
+			object.position.z += 0.10
 		})
-		score+=1
+		score += 1
 		scorecounter.innerHTML = `SCORE: ${score}`
 		renderer.render(scene, camera)
 		animationid = requestAnimationFrame(animation)
@@ -395,10 +401,10 @@ function main() {
 
 async function menu() {
 	mutebutton.style.visibility = "visible"
-    	await get_user()
+	await get_user()
 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 	if (hasplayed && !muted) {
-			bgm.volume = 0.4
+		bgm.volume = 0.4
 	}
 
 	prevscore = localStorage.getItem("prevscoreneonrun") || 0
@@ -418,8 +424,8 @@ async function menu() {
 
 	leaderboardbutton.addEventListener("click", () => {
 		document.querySelector(".menu").remove()
-        document.body.appendChild(leaderboardcontainer)
-        leaderboard()
+		document.body.appendChild(leaderboardcontainer)
+		leaderboard()
 		detectback()
 	})
 
@@ -429,28 +435,29 @@ async function menu() {
 
 	function detectback() {
 		document.querySelectorAll(".backbutton").forEach(button => {
-		button.addEventListener("click", () => {
-		try {
-			document.querySelector(".leaderboard").remove()
-		} catch {
-			null
-		}
-		try {
-			document.querySelector(".credits").remove()
-		} catch {
-			null
-		}
-		try {
-			document.querySelector(".shop").remove()
-		} catch {
-			null
-		}
-		minjump.removeEventListener("click", decreasejump)
-		plusjump.removeEventListener("click", increasejump)
-		minmove.removeEventListener("click", decreasemove)
-		plusmove.removeEventListener("click", increasemove)
-		document.body.appendChild(menucontainer)
-	})})
+			button.addEventListener("click", () => {
+				try {
+					document.querySelector(".leaderboard").remove()
+				} catch {
+					null
+				}
+				try {
+					document.querySelector(".credits").remove()
+				} catch {
+					null
+				}
+				try {
+					document.querySelector(".shop").remove()
+				} catch {
+					null
+				}
+				minjump.removeEventListener("click", decreasejump)
+				plusjump.removeEventListener("click", increasejump)
+				minmove.removeEventListener("click", decreasemove)
+				plusmove.removeEventListener("click", increasemove)
+				document.body.appendChild(menucontainer)
+			})
+		})
 	}
 
 	try {
@@ -458,10 +465,10 @@ async function menu() {
 		document.querySelector(".menu").remove()
 	} catch {
 		null
-    }
+	}
 
-	prevscoredisplay.innerHTML= `LATEST SCORE: <u>${prevscore}</u>`
-	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
+	prevscoredisplay.innerHTML = `LATEST SCORE: <u>${prevscore}</u>`
+	coinsdisplay.innerHTML = `COINS: <u>${Math.round(coins)}</u>`
 	document.body.appendChild(menucontainer)
 	document.getElementById("playbutton").addEventListener("click", () => {
 		if (hasplayed == false) {
@@ -482,7 +489,7 @@ let movepowerowned
 
 function decreasejump() {
 	if (jumppower > 1) {
-		jumppower-=1
+		jumppower -= 1
 		updvalues()
 	}
 }
@@ -491,21 +498,21 @@ function increasejump() {
 	if (jumppowerowned < jumppower) {
 		if (coins > 4) {
 			if (jumppower < 5) {
-				coins-=5
-				jumppower+=1
-				jumppowerowned+=1
+				coins -= 5
+				jumppower += 1
+				jumppowerowned += 1
 				updvalues()
 			}
 		}
 	} else {
-		jumppower+=1
+		jumppower += 1
 		updvalues()
 	}
 }
 
 function decreasemove() {
 	if (movepower > 1) {
-		movepower-=1
+		movepower -= 1
 		updvalues()
 	}
 }
@@ -514,19 +521,19 @@ function increasemove() {
 	if (movepowerowned < movepower) {
 		if (coins > 4) {
 			if (movepower < 5) {
-				coins-=5
-				movepower+=1
-				movepowerowned+=1
+				coins -= 5
+				movepower += 1
+				movepowerowned += 1
 				updvalues()
 			}
 		}
 	} else {
-		movepower+=1
+		movepower += 1
 		updvalues()
 	}
 }
 
-function updvalues(save=true) {
+function updvalues(save = true) {
 	console.log(coins)
 	jumpvalue.innerText = jumppower
 	movevalue.innerText = movepower
@@ -536,7 +543,7 @@ function updvalues(save=true) {
 		headers: {
 			"content-type": "application/json"
 		},
-		body: JSON.stringify({jumpheight: jumppower, jumpheightowned: jumppowerowned, movespeed: movepower, movespeedowned: movepowerowned})
+		body: JSON.stringify({ jumpheight: jumppower, jumpheightowned: jumppowerowned, movespeed: movepower, movespeedowned: movepowerowned })
 	})
 	if (save) {
 		fetch("https://api.toppie.top/neonsprint/save", {
@@ -545,8 +552,8 @@ function updvalues(save=true) {
 			headers: {
 				"content-type": "application/json"
 			},
-			body: JSON.stringify({coins: Math.round(coins)})
-		}).then(response => response.json()).then(data => {coinsdisplay.innerHTML= `COINS: <u>${Math.round(data.coins)}</u>`; coins = data.coins})
+			body: JSON.stringify({ coins: Math.round(coins) })
+		}).then(response => response.json()).then(data => { coinsdisplay.innerHTML = `COINS: <u>${Math.round(data.coins)}</u>`; coins = data.coins })
 	}
 }
 
@@ -565,7 +572,7 @@ async function shop() {
 		},
 	})
 	const data = await response.json()
-	
+
 	await get_user()
 
 	jumppower = data.upgrades.jumpheight
@@ -574,9 +581,9 @@ async function shop() {
 	movepowerowned = data.upgrades.movespeedowned
 
 	console.log(jumppower, movepower, jumppowerowned, movepowerowned)
-	coinsdisplay.innerHTML= `COINS: <u>${Math.round(coins)}</u>`
+	coinsdisplay.innerHTML = `COINS: <u>${Math.round(coins)}</u>`
 
-	updvalues(save=false)
+	updvalues(save = false)
 
 	minjump.addEventListener("click", decreasejump)
 	plusjump.addEventListener("click", increasejump)
