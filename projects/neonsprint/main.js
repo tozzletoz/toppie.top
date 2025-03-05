@@ -11,6 +11,7 @@ let jumppower
 let jumppowerowned
 let movepower
 let movepowerowned
+let difficulty
 
 async function get_user() {
 	const response = await fetch("https://api.toppie.top/neonsprint/get_user", {
@@ -18,6 +19,7 @@ async function get_user() {
 		credentials: 'include'
 	})
 	const data = await response.json()
+	difficulty = 1.75
 
 	if (data.message == "not logged in") {
 		logoutbutton.style.display = "none"
@@ -86,6 +88,13 @@ function main() {
 			if (score > highscore) {
 				highscore = score
 			}
+			cancelAnimationFrame(animationid)
+			clearInterval(creation)
+			renderer.domElement.remove()
+			livescontainer.innerHTML = ""
+			diesound.volume = 0
+			jumpsound.volume = 0
+			localStorage.setItem("prevscoreneonrun", score)
 			await fetch("https://api.toppie.top/neonsprint/save", {
 				method: "POST",
 				credentials: 'include',
@@ -96,12 +105,6 @@ function main() {
 			}).then(() => {
 				highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 			})
-			cancelAnimationFrame(animationid)
-			renderer.domElement.remove()
-			livescontainer.innerHTML = ""
-			diesound.volume = 0
-			jumpsound.volume = 0
-			localStorage.setItem("prevscoreneonrun", score)
 			menu()
 			return
 		}
@@ -257,7 +260,7 @@ function main() {
 	}
 	let counter2 = 0
 	let increment = 0.01
-	setInterval(() => {
+	const creation = setInterval(() => {
 		const geometry = new THREE.BoxGeometry(1.7, 0.1, 0.8)
 		const material = new THREE.MeshStandardMaterial({ color: "white" })
 		const object = new THREE.Mesh(geometry, material)
@@ -281,9 +284,9 @@ function main() {
 		}
 
 		if (colors[colors.length - 1] !== 0) {
-			object.danger = Math.round(Math.random() * 1.6)
+			object.danger = Math.round(Math.random() * difficulty)
 			if (object.danger == 0) {
-				object.coin = Math.round(Math.random() * 20)
+				object.coin = Math.round(Math.random() * 30)
 				if (object.danger == 0) {
 					object.geometry = new THREE.BoxGeometry(0.3, 0.3, 0.38)
 				}
@@ -308,7 +311,10 @@ function main() {
 			}
 		}
 		appear()
-
+		if (difficulty >= 0) {
+			difficulty-=0.001
+			console.log("vp")
+		}
 	}, 60)
 
 	function adjustlives() {
