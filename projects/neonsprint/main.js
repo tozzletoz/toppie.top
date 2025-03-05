@@ -313,7 +313,6 @@ function main() {
 		appear()
 		if (difficulty >= 0) {
 			difficulty -= 0.001
-			console.log("vp")
 		}
 	}, 60)
 
