@@ -18,7 +18,6 @@ async function get_user() {
 		credentials: 'include'
 	})
 	const data = await response.json()
-	console.log(data)
 
 	if (data.message == "not logged in") {
 		logoutbutton.style.display = "none"
@@ -33,7 +32,6 @@ async function get_user() {
 		highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 		accountbuttonsholder.innerHTML = `<p>LOGGED IN AS ${data.username}</p>`
 		coins = data.coins
-		console.log(coins)
 		coinsdisplay.innerHTML = `COINS: <u>${Math.round(coins)}</u>`
 		if (!datafetched) {
 			shop()
@@ -240,7 +238,6 @@ function main() {
 		}
 		if (rightpressed && player.position.x < 0.66 || mousedown == true && mouseposx > window.innerWidth / 2 && player.position.x < 0.66) {
 			player.position.x += (movepower / 200) - 0.003
-			console.log(movepower)
 			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 		}
 	}, 10)
@@ -381,7 +378,6 @@ function main() {
 							coins += (1 / 6)
 							coinsound.currentTime = 0
 							coinsound.play()
-							console.log("YAAAY")
 						}
 					}
 					break
@@ -530,7 +526,6 @@ function increasemove() {
 }
 
 function updvalues(save = true) {
-	console.log(coins)
 	jumpvalue.innerText = jumppower
 	movevalue.innerText = movepower
 	fetch("https://api.toppie.top/neonsprint/upgrades", {
@@ -574,7 +569,6 @@ async function shop() {
 	jumppowerowned = data.upgrades.jumpheightowned
 	movepowerowned = data.upgrades.movespeedowned
 
-	console.log(jumppower, movepower, jumppowerowned, movepowerowned)
 	coinsdisplay.innerHTML = `COINS: <u>${Math.round(coins)}</u>`
 
 	updvalues(save = false)
