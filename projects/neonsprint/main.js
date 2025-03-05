@@ -239,7 +239,7 @@ function main() {
 			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 		}
 		if (rightpressed && player.position.x < 0.66 || mousedown == true && mouseposx > window.innerWidth / 2 && player.position.x < 0.66) {
-			player.position.x += (movepower / 150) - 0.003
+			player.position.x += (movepower / 200) - 0.003
 			console.log(movepower)
 			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 		}
