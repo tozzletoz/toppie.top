@@ -84,16 +84,16 @@ function main() {
 			if (score > highscore) {
 				highscore = score
 			}
-			// await fetch("https://api.toppie.top/neonsprint/save", {
-			// 	method: "POST",
-			// 	credentials: 'include',
-			// 	body: JSON.stringify({ "highscore": highscore, "coins": Math.round(coins) }),
-			// 	headers: {
-			// 		"Content-Type": "application/json"
-			// 	}
-			// }).then(() => {
-			// 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
-			// })
+			await fetch("https://api.toppie.top/neonsprint/save", {
+				method: "POST",
+				credentials: 'include',
+				body: JSON.stringify({ "highscore": highscore, "coins": Math.round(coins) }),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(() => {
+				highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
+			})
 			cancelAnimationFrame(animationid)
 			renderer.domElement.remove()
 			livescontainer.innerHTML = ""
@@ -231,7 +231,7 @@ function main() {
 
 	setInterval(() => {
 		if (leftpressed && player.position.x > -0.66 || mousedown == true && mouseposx < window.innerWidth / 2 && player.position.x > -0.66) {
-			player.position.x -= (movepower / 150) - 0.003
+			player.position.x -= (movepower / 200) - 0.003
 			camera.position.set(player.position.x / 3, (player.position.y + 1.3) / 3, player.position.z + 4)
 		}
 		if (rightpressed && player.position.x < 0.66 || mousedown == true && mouseposx > window.innerWidth / 2 && player.position.x < 0.66) {
@@ -320,14 +320,11 @@ function main() {
 				break
 			case 0:
 				life3.style.visibility = "hidden"
-				menu()
 				break
 		}
 	}
 
 	function animation() {
-		-0.4
-		if (lives === 0) return
 		objects1.forEach(object => {
 			switch (object.danger) {
 				case 0:
