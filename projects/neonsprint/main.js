@@ -312,7 +312,7 @@ function main() {
 		}
 		appear()
 		if (difficulty >= 0) {
-			difficulty-=0.001
+			difficulty -= 0.001
 			console.log("vp")
 		}
 	}, 60)
@@ -404,11 +404,14 @@ function main() {
 
 async function menu() {
 	mutebutton.style.visibility = "visible"
+	loading.style.display = "flex"
 	await get_user()
 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
 	if (hasplayed && !muted) {
 		bgm.volume = 0.4
 	}
+
+	loading.style.display = "none"
 
 	prevscore = localStorage.getItem("prevscoreneonrun") || 0
 
@@ -585,6 +588,10 @@ async function shop() {
 	plusmove.addEventListener("click", increasemove)
 }
 
+const loading = document.createElement("h1")
+loading.innerText = "LOADING..."
+loading.id = "loading"
+document.body.appendChild(loading)
 const menucontainer = document.querySelector(".menu")
 const gameinfocontainer = document.querySelector(".game")
 const creditscontainer = document.querySelector(".credits")

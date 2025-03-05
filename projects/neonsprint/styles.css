@@ -38,13 +38,18 @@ body {
 	left: 50vw;
 	top: 18px;
 	font-variation-settings:
-  'FILL' 1,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+		'FILL' 1,
+		'wght' 400,
+		'GRAD' 0,
+		'opsz' 24
 }
 
-#playicon, #backicon, #leaderboardicon, #muteicon, #shopicon, #coinicon {
+#playicon,
+#backicon,
+#leaderboardicon,
+#muteicon,
+#shopicon,
+#coinicon {
 	color: white;
 	font-size: 40px;
 	line-height: 0;
@@ -53,10 +58,10 @@ body {
 }
 
 #background {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.5);
 	z-index: -1;
 	filter: brightness(50%);
 }
@@ -70,8 +75,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.5);
 	background-color: rgba(255, 255, 255, 0.082);
 	width: min(100vw, 100vh);
 	height: 70vh;
@@ -82,7 +87,9 @@ body {
 	border: solid 3px #00ffff;
 }
 
-#gametitle, #creditstitle, #leaderboardtitle {
+#gametitle,
+#creditstitle,
+#leaderboardtitle {
 	top: 10px;
 	font-size: min(10vw, 10vh);
 	color: white;
@@ -180,9 +187,9 @@ a {
 }
 
 p {
-    font-size: min(5vw, 5vh);
-    color: white;
-    line-height: 0;
+	font-size: min(5vw, 5vh);
+	color: white;
+	line-height: 0;
 }
 
 #mutebutton {
@@ -230,7 +237,7 @@ p {
 	position: absolute;
 	width: 160px;
 	height: 60px;
-	right: min(15vw, 15vh);;
+	right: min(15vw, 15vh);
 	background-color: rgba(255, 255, 255, 0);
 	align-items: center;
 	justify-content: space-between;
@@ -238,13 +245,23 @@ p {
 
 #jumpshop button,
 #moveshop button {
-  	width: 40px;
+	width: 40px;
 	height: 40px;
-  	margin: 0;
+	margin: 0;
 }
 
 .shop h3 {
 	margin: 0;
 	line-height: 0;
 	font-size: min(5vw, 5vh);
+}
+
+#loading {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	text-shadow: #00ffff 0 0 5px;
+	font-size: 50px;
 }
