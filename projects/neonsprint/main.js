@@ -7,6 +7,10 @@ bgm.loop = true
 let animationid
 let coins
 let datafetched = false
+let jumppower
+let jumppowerowned
+let movepower
+let movepowerowned
 
 async function get_user() {
 	const response = await fetch("https://api.toppie.top/neonsprint/get_user", {
@@ -479,11 +483,6 @@ async function menu() {
 	})
 }
 
-let jumppower
-let jumppowerowned
-let movepower
-let movepowerowned
-
 function decreasejump() {
 	if (jumppower > 1) {
 		jumppower -= 1
@@ -555,8 +554,6 @@ function updvalues(save = true) {
 }
 
 async function shop() {
-	coinsound.play()
-
 	coinsdisplay.innerText = "LOADING"
 	jumpvalue.innerText = "-"
 	movevalue.innerText = "-"
