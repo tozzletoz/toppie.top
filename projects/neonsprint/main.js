@@ -100,7 +100,7 @@ function main() {
 			diesound.volume = 0
 			jumpsound.volume = 0
 			localStorage.setItem("prevscoreneonrun", score)
-			menu()
+			//menu()
 			return
 		}
 	}, 100)
