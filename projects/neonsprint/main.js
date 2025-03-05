@@ -84,23 +84,23 @@ function main() {
 			if (score > highscore) {
 				highscore = score
 			}
-			await fetch("https://api.toppie.top/neonsprint/save", {
-				method: "POST",
-				credentials: 'include',
-				body: JSON.stringify({ "highscore": highscore, "coins": Math.round(coins) }),
-				headers: {
-					"Content-Type": "application/json"
-				}
-			}).then(() => {
-				highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
-			})
+			// await fetch("https://api.toppie.top/neonsprint/save", {
+			// 	method: "POST",
+			// 	credentials: 'include',
+			// 	body: JSON.stringify({ "highscore": highscore, "coins": Math.round(coins) }),
+			// 	headers: {
+			// 		"Content-Type": "application/json"
+			// 	}
+			// }).then(() => {
+			// 	highscoredisplay.innerHTML = `YOUR HIGHSCORE: <u>${highscore}</u>`
+			// })
 			cancelAnimationFrame(animationid)
 			renderer.domElement.remove()
 			livescontainer.innerHTML = ""
 			diesound.volume = 0
 			jumpsound.volume = 0
 			localStorage.setItem("prevscoreneonrun", score)
-			//menu()
+			menu()
 			return
 		}
 	}, 100)
