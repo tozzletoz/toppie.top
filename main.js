@@ -1,39 +1,37 @@
-const homebutton = document.getElementById("home")
-const projectsbutton = document.getElementById("projects")
-const aboutbutton = document.getElementById("about")
+const navbar = document.querySelector(".navbar")
+const iconmenu = document.querySelector("#iconmenu")
+let menuopen = false
 
-function loadingbar() {
-	const bar = document.createElement("hr")
-	bar.style.border = "2px solid #ffffff91"
-	bar.style.width = "0%"
-	bar.style.transition = "0.3s ease"
-	bar.style.position = "fixed"
-	bar.style.top = "-8px"
-	document.body.appendChild(bar)
+document.addEventListener("scroll", () => {
+	let scrollpos = ((window.scrollY * -1) * 0.2)
+	document.body.style.backgroundPosition = `center ${scrollpos}px`
+})
 
-	for (let i = 0; i<15000; i++){
-		setTimeout(() => {
-		bar.style.width = `${i/150}%`
-		bar.style.borderColor = "#ffffff91"
-		}, 10)
-		setTimeout(() => {
-			bar.style.opacity = 0
-		}, 500);
+iconmenu.addEventListener("touch", () => {
+	if (menuopen == false) {
+		navbar.style.left = 0
+		iconmenu.style.left = 130
+		iconmenu.style.transform = "rotateZ(-180deg)"
+		menuopen = true
+	} else {
+		iconmenu.style.left = 10
+		navbar.style.left = -120
+		menuopen = false
+		iconmenu.style.transform = "rotateZ(0deg)"
 	}
-}
-
-setTimeout(() => {
-	loadingbar()
-}, 200);
-
-homebutton.addEventListener("click", () => {
-	open("https://toppie.top/", "_self")
 })
 
-projectsbutton.addEventListener("click", () => {
-	open("https://toppie.top/projects/", "_self")
-})
-
-aboutbutton.addEventListener("click", () => {
-	open("https://toppie.top/about", "_self")
+document.addEventListener("mousemove", (event) => {
+	if (event.clientX < 120) {
+		navbar.style.left = 0
+		iconmenu.style.left = 130
+		iconmenu.style.transform = "rotateZ(-180deg)"
+		menuopen = true
+	} else {
+		menuopen = false
+		iconmenu.style.left = 10
+		navbar.style.left = -120
+		menuopen = false
+		iconmenu.style.transform = "rotateZ(0deg)"
+	}
 })
