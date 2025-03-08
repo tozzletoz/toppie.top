@@ -1,6 +1,6 @@
 body {
     width: 100vw;
-    height: 1000vh;
+    height: max-content;
     overflow-x: hidden;
     margin: 0;
     background-color: #ffffda;
