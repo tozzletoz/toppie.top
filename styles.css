@@ -59,7 +59,7 @@ li button:active {
     color: rgb(0, 0, 0);
     font-size: 100px;
     line-height: 0px;
-    text-align: center;
+    text-align: left;
 }
 
 .navbar {
