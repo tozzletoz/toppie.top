@@ -167,8 +167,14 @@ img {
     object-fit: cover;
     object-position: center;
     margin-right: 10px;
+    transition: 0.1s ease-out;
 }
 
 img:hover {
     filter: brightness(0.95);
+    scale: 1.02;
+}
+
+#flappytux {
+    object-position: left;
 }
