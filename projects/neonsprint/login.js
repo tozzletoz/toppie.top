@@ -16,6 +16,6 @@ submitbutton.addEventListener("click", async () => {
 	if (data.status == "incorrect credentials") {
 		statusp.innerText = "INCORRECT USERNAME/PASSWORD"
 	} else if (data.status == "success") {
-		window.location.replace("index.html")
+		window.location.replace("https://toppie.top/projects/neonsprint/")
 	}
 })
